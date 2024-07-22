@@ -1,11 +1,14 @@
 package kg.attractor.jobsearch.controller;
 
+import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,5 +34,11 @@ public class VacancyController {
     public ResponseEntity<Void> deleteVacancy(@PathVariable Long id) {
         service.deleteVacancy(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/{vacancyId}/applicants")
+    public ResponseEntity<List<UserDto>> getApplicantsForVacancy(@PathVariable Long vacancyId) {
+        List<UserDto> applicants = service.getApplicantsForVacancy(vacancyId);
+        return ResponseEntity.ok(applicants);
     }
 }
