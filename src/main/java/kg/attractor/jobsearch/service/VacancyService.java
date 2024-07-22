@@ -10,4 +10,8 @@ public interface VacancyService {
     VacancyDto editingVacancy(Long id, VacancyDto vacancyDto);
     void deleteVacancy(Long id);
     List<UserDto> getApplicantsForVacancy(Long vacancyId);
+
+    List<VacancyDto> getActiveVacancies();
+
+    List<VacancyDto> getVacanciesByCategory(Long categoryId);
 }

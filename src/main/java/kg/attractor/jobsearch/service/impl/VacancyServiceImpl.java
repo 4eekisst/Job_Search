@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -78,5 +79,76 @@ public class VacancyServiceImpl implements VacancyService {
                         .accType("applicant")
                         .build()
         );
+    }
+
+    @Override
+    public List<VacancyDto> getActiveVacancies() {
+        VacancyDto vacancy1 = VacancyDto.builder()
+                .id(1L)
+                .name("Java Developer")
+                .description("Looking for a skilled Java Developer.")
+                .categoryId(1L)
+                .authorId(2L)
+                .salary(50000.0)
+                .expFrom(2)
+                .expTo(5)
+                .isActive(true)
+                .createdDate(LocalDateTime.now().minusDays(10))
+                .updateTime(LocalDateTime.now())
+                .build();
+
+        VacancyDto vacancy2 = VacancyDto.builder()
+                .id(2L)
+                .name("Senior Java Developer")
+                .description("Experienced Java Developer needed.")
+                .categoryId(1L)
+                .authorId(3L)
+                .salary(70000.0)
+                .expFrom(5)
+                .expTo(10)
+                .isActive(true)
+                .createdDate(LocalDateTime.now().minusDays(5))
+                .updateTime(LocalDateTime.now())
+                .build();
+
+        return Arrays.asList(vacancy1, vacancy2).stream()
+                .filter(VacancyDto::getIsActive)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<VacancyDto> getVacanciesByCategory(Long categoryId) {
+        VacancyDto vacancy1 = VacancyDto.builder()
+                .id(1L)
+                .name("Java Developer")
+                .description("Looking for a skilled Java Developer.")
+                .categoryId(categoryId)
+                .authorId(2L)
+                .salary(50000.0)
+                .expFrom(2)
+                .expTo(5)
+                .isActive(true)
+                .createdDate(LocalDateTime.now().minusDays(10))
+                .updateTime(LocalDateTime.now())
+                .build();
+
+        VacancyDto vacancy2 = VacancyDto.builder()
+                .id(2L)
+                .name("Senior Java Developer")
+                .description("Experienced Java Developer needed.")
+                .categoryId(categoryId)
+                .authorId(3L)
+                .salary(70000.0)
+                .expFrom(5)
+                .expTo(10)
+                .isActive(true)
+                .createdDate(LocalDateTime.now().minusDays(5))
+                .updateTime(LocalDateTime.now())
+                .build();
+
+        return Arrays.asList(vacancy1, vacancy2).stream()
+                .filter(vacancy -> vacancy.getCategoryId().equals(categoryId))
+                .filter(VacancyDto::getIsActive)
+                .collect(Collectors.toList());
     }
 }

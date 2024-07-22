@@ -25,7 +25,7 @@ public class VacancyController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<VacancyDto> updateVacancy(@PathVariable Long id, @RequestBody VacancyDto vacancyDto) {
+    public ResponseEntity<VacancyDto> editVacancy(@PathVariable Long id, @RequestBody VacancyDto vacancyDto) {
         VacancyDto updatedVacancyDto = service.editingVacancy(id, vacancyDto);
         return ResponseEntity.status(HttpStatus.OK).body(updatedVacancyDto);
     }
@@ -40,5 +40,18 @@ public class VacancyController {
     public ResponseEntity<List<UserDto>> getApplicantsForVacancy(@PathVariable Long vacancyId) {
         List<UserDto> applicants = service.getApplicantsForVacancy(vacancyId);
         return ResponseEntity.ok(applicants);
+    }
+
+
+    @GetMapping("/active")
+    public ResponseEntity<List<VacancyDto>> getActiveVacancies() {
+        List<VacancyDto> activeVacancies = service.getActiveVacancies();
+        return ResponseEntity.status(HttpStatus.OK).body(activeVacancies);
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<VacancyDto>> getVacanciesByCategory(@PathVariable Long categoryId) {
+        List<VacancyDto> vacancies = service.getVacanciesByCategory(categoryId);
+        return ResponseEntity.status(HttpStatus.OK).body(vacancies);
     }
 }

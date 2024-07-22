@@ -63,4 +63,23 @@ public class ResumeServiceImpl implements ResumeService {
                 .filter(resume -> resume.getCategoryId().equals(categoryId))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ResumeDto editingResume(Long id, ResumeDto resumeDto) {
+        return ResumeDto.builder()
+                .id(id)
+                .name(resumeDto.getName())
+                .userId(resumeDto.getUserId())
+                .categoryId(resumeDto.getCategoryId())
+                .salary(resumeDto.getSalary())
+                .isActive(resumeDto.getIsActive())
+                .createdDate(resumeDto.getCreatedDate())
+                .updateTime(LocalDateTime.now())
+                .build();
+    }
+
+    @Override
+    public void deleteResume(Long id) {
+        log.info("Resume with id {} has been deleted.", id);
+    }
 }

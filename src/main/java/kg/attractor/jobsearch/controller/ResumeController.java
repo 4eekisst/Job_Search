@@ -34,4 +34,16 @@ public class ResumeController {
         List<ResumeDto> resumes = resumeService.getResumesByCategory(categoryId);
         return ResponseEntity.ok(resumes);
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ResumeDto> editResume(@PathVariable Long id, @RequestBody ResumeDto resumeDto) {
+        ResumeDto updatedResumeDto = resumeService.editingResume(id, resumeDto);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedResumeDto);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteResume(@PathVariable Long id) {
+        resumeService.deleteResume(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
