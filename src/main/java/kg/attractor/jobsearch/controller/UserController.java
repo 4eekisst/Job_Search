@@ -2,11 +2,13 @@ package kg.attractor.jobsearch.controller;
 
 import kg.attractor.jobsearch.dto.ApplicantDto;
 import kg.attractor.jobsearch.dto.UserDto;
+import kg.attractor.jobsearch.service.ImageService;
 import kg.attractor.jobsearch.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
