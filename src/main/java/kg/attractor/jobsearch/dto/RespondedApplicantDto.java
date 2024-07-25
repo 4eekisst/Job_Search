@@ -5,17 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApplicantDto {
+
+public class RespondedApplicantDto {
     private Long id;
-    private Long vacancyId;
-    private Long applicantId;
-    private String message;
-    private LocalDateTime appliedDate;
-    private Boolean isAccepted;
+    private Integer resumeId;
+    private Integer vacancyId;
+    private Boolean confirmation;
 }
