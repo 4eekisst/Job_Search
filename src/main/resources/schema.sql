@@ -1,107 +1,107 @@
 create table  if not exists Users
 (
     id          int auto_increment primary key,
-    name        VARCHAR(255),
-    surname     VARCHAR(255),
-    age         INT,
-    email       VARCHAR(255),
-    password    VARCHAR(255),
-    phoneNumber VARCHAR(20),
-    avatar      VARCHAR(255),
-    accountType VARCHAR(50)
+    name        varchar(45),
+    surname     varchar(45),
+    age         int,
+    email       varchar(55),
+    password    varchar(55),
+    phoneNumber varchar(20),
+    avatar      varchar(255),
+    accountType varchar(45)
 );
 
-create table  if not exists Category
+create table if not exists Category
 (
     id       int auto_increment primary key,
-    name     VARCHAR(255),
-    parentId BIGINT,
-    FOREIGN KEY (parentId) REFERENCES Category (id)
+    name     varchar(45),
+    parentId int,
+    foreign key (parentId) references Category (id)
 );
 
 create table  if not exists Resume
 (
     id          int auto_increment primary key,
-    applicantId BIGINT,
-    name        VARCHAR(255),
-    categoryId  BIGINT,
-    salary DOUBLE,
-    isActive    BOOLEAN,
-    createdDate DATE,
-    updateTime  DATE,
-    FOREIGN KEY (applicantId) REFERENCES Users (id),
-    FOREIGN KEY (categoryId) REFERENCES Category (id)
+    applicantId int,
+    name        varchar(45),
+    categoryId  int,
+    salary      double,
+    isActive    boolean,
+    createdDate date,
+    updateTime  date,
+    foreign key (applicantId) references Users (id),
+    foreign key (categoryId) references Category (id)
 );
 
 create table  if not exists Vacancy
 (
     id          int auto_increment primary key,
-    name        VARCHAR(255),
-    description TEXT,
-    categoryId  BIGINT,
-    salary DOUBLE,
-    expFrom     INT,
-    expTo       INT,
-    isActive    BOOLEAN,
-    authorId    BIGINT,
-    createdDate DATE,
-    updateTime  DATE,
-    FOREIGN KEY (categoryId) REFERENCES Category (id),
-    FOREIGN KEY (authorId) REFERENCES Users (id)
+    name        varchar(45),
+    description text,
+    categoryId  int,
+    salary      double,
+    expFrom     int,
+    expTo       int,
+    isActive    boolean,
+    authorId    int,
+    createdDate date,
+    updateTime  date,
+    foreign key (categoryId) references Category (id),
+    foreign key (authorId) references Users (id)
 );
 
 create table  if not exists ContactType
 (
     id int auto_increment primary key,
-    type VARCHAR(255)
+    type varchar(255)
 );
 
 create table  if not exists ContactInfo
 (
     id           int auto_increment primary key,
-    typeId       BIGINT,
-    resumeId     BIGINT,
-    contactValue VARCHAR(255),
-    FOREIGN KEY (typeId) REFERENCES ContactType (id),
-    FOREIGN KEY (resumeId) REFERENCES Resume (id)
+    typeId       int,
+    resumeId     int,
+    contactValue varchar(255),
+    foreign key  (typeId) references ContactType (id),
+    foreign key  (resumeId) references Resume (id)
 );
 
 create table  if not exists EducationInfo
 (
     id          int auto_increment primary key,
-    resumeId    BIGINT,
-    institution VARCHAR(255),
-    program     VARCHAR(255),
-    startDate   DATE,
-    endDate     DATE,
-    degree      VARCHAR(255),
-    FOREIGN KEY (resumeId) REFERENCES Resume (id)
+    resumeId    int,
+    institution varchar(255),
+    program     varchar(255),
+    startDate   date,
+    endDate     date,
+    degree      varchar(255),
+    foreign key (resumeId) references Resume (id)
 );
 
 create table  if not exists WorkExperienceInfo
 (
     id               int auto_increment primary key,
-    years            INT,
-    companyName      VARCHAR(255),
-    position         VARCHAR(255),
-    responsibilities TEXT
+    years            int,
+    companyName      varchar(255),
+    position         varchar(255),
+    responsibilities text
 );
 
 create table  if not exists RespondedApplicant
 (
     id           int auto_increment primary key,
-    resumeId     BIGINT,
-    vacancyId    BIGINT,
-    confirmation BOOLEAN,
-    FOREIGN KEY (resumeId) REFERENCES Resume (id),
-    FOREIGN KEY (vacancyId) REFERENCES Vacancy (id)
+    resumeId     int,
+    vacancyId    int,
+    confirmation boolean,
+    foreign key (resumeId) references Resume (id),
+    foreign key (vacancyId) references Vacancy (id)
 );
 
 create table  if not exists Message
 (
     id                 int auto_increment primary key,
-    respondedApplicant BIGINT,
-    text               TEXT,
-    timeStamp          DATE,
-    FOREIGN KEY (respondedApplicant) REFERENCES RespondedApplicant (id)
+    respondedApplicant int,
+    text               text,
+    timeStamp          date,
+    foreign key (respondedApplicant) references RespondedApplicant (id)
 );
