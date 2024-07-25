@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.service.impl;
 
+import kg.attractor.jobsearch.dao.VacancyDao;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.VacancyService;
@@ -16,139 +17,30 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 
 public class VacancyServiceImpl implements VacancyService {
+    private final VacancyDao vacancyDao;
+
     @Override
-    public VacancyDto createVacancy(VacancyDto vacancyDto) {
-        return VacancyDto.builder()
-                .id(1L)
-                .name(vacancyDto.getName())
-                .description(vacancyDto.getDescription())
-                .categoryId(vacancyDto.getCategoryId())
-                .authorId(vacancyDto.getAuthorId())
-                .salary(vacancyDto.getSalary())
-                .expFrom(vacancyDto.getExpFrom())
-                .expTo(vacancyDto.getExpTo())
-                .isActive(vacancyDto.getIsActive())
-                .createdDate(LocalDateTime.now())
-                .updateTime(LocalDateTime.now())
-                .build();
+    public void createVacancy(VacancyDto vacancyDto) {
+        vacancyDao.saveVacancy(vacancyDto);
     }
 
     @Override
-    public VacancyDto editingVacancy(Long id, VacancyDto vacancyDto) {
-        return VacancyDto.builder()
-                .id(id)
-                .name(vacancyDto.getName())
-                .description(vacancyDto.getDescription())
-                .categoryId(vacancyDto.getCategoryId())
-                .authorId(vacancyDto.getAuthorId())
-                .salary(vacancyDto.getSalary())
-                .expFrom(vacancyDto.getExpFrom())
-                .expTo(vacancyDto.getExpTo())
-                .isActive(vacancyDto.getIsActive())
-                .createdDate(vacancyDto.getCreatedDate())
-                .updateTime(LocalDateTime.now())
-                .build();
+    public void updateVacancy(VacancyDto vacancyDto) {
+        vacancyDao.updateVacancy(vacancyDto);
     }
 
     @Override
     public void deleteVacancy(Long id) {
-        log.info("Vacancy with id {} deleted", id);
-    }
-
-    @Override
-    public List<UserDto> getApplicantsForVacancy(Long vacancyId) {
-        return Arrays.asList(
-                UserDto.builder()
-                        .id(1L)
-                        .name("Александр")
-                        .surname("Крайнюков")
-                        .age((byte) 27)
-                        .email("alex@example.com")
-                        .phoneNumber("+996-551-100-100")
-                        .avatar("avatar1.jpg")
-                        .accType("applicant")
-                        .build(),
-                UserDto.builder()
-                        .id(2L)
-                        .name("Рамазан")
-                        .surname("Токошев")
-                        .age((byte) 26)
-                        .email("ramazan@example.com")
-                        .phoneNumber("+995-552-200-200")
-                        .avatar("avatar2.jpg")
-                        .accType("applicant")
-                        .build()
-        );
+        vacancyDao.deleteVacancy(id);
     }
 
     @Override
     public List<VacancyDto> getActiveVacancies() {
-        VacancyDto vacancy1 = VacancyDto.builder()
-                .id(1L)
-                .name("Java Developer")
-                .description("Looking for a skilled Java Developer.")
-                .categoryId(1L)
-                .authorId(2L)
-                .salary(50000.0)
-                .expFrom(2)
-                .expTo(5)
-                .isActive(true)
-                .createdDate(LocalDateTime.now().minusDays(10))
-                .updateTime(LocalDateTime.now())
-                .build();
-
-        VacancyDto vacancy2 = VacancyDto.builder()
-                .id(2L)
-                .name("Senior Java Developer")
-                .description("Experienced Java Developer needed.")
-                .categoryId(1L)
-                .authorId(3L)
-                .salary(70000.0)
-                .expFrom(5)
-                .expTo(10)
-                .isActive(true)
-                .createdDate(LocalDateTime.now().minusDays(5))
-                .updateTime(LocalDateTime.now())
-                .build();
-
-        return Arrays.asList(vacancy1, vacancy2).stream()
-                .filter(VacancyDto::getIsActive)
-                .collect(Collectors.toList());
+        return vacancyDao.findActiveVacancies();
     }
 
     @Override
     public List<VacancyDto> getVacanciesByCategory(Long categoryId) {
-        VacancyDto vacancy1 = VacancyDto.builder()
-                .id(1L)
-                .name("Java Developer")
-                .description("Looking for a skilled Java Developer.")
-                .categoryId(categoryId)
-                .authorId(2L)
-                .salary(50000.0)
-                .expFrom(2)
-                .expTo(5)
-                .isActive(true)
-                .createdDate(LocalDateTime.now().minusDays(10))
-                .updateTime(LocalDateTime.now())
-                .build();
-
-        VacancyDto vacancy2 = VacancyDto.builder()
-                .id(2L)
-                .name("Senior Java Developer")
-                .description("Experienced Java Developer needed.")
-                .categoryId(categoryId)
-                .authorId(3L)
-                .salary(70000.0)
-                .expFrom(5)
-                .expTo(10)
-                .isActive(true)
-                .createdDate(LocalDateTime.now().minusDays(5))
-                .updateTime(LocalDateTime.now())
-                .build();
-
-        return Arrays.asList(vacancy1, vacancy2).stream()
-                .filter(vacancy -> vacancy.getCategoryId().equals(categoryId))
-                .filter(VacancyDto::getIsActive)
-                .collect(Collectors.toList());
+        return vacancyDao.findVacanciesByCategory(categoryId);
     }
 }

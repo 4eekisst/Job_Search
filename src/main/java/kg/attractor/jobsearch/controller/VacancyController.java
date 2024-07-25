@@ -16,42 +16,35 @@ import java.util.List;
 
 
 public class VacancyController {
-    private final VacancyService service;
+    private final VacancyService vacancyService;
 
     @PostMapping("/create")
-    public ResponseEntity<VacancyDto> createVacancy(@RequestBody VacancyDto vacancyDto) {
-        VacancyDto createdVacancyDto = service.createVacancy(vacancyDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdVacancyDto);
+    public ResponseEntity<String> createVacancy(@RequestBody VacancyDto vacancyDto) {
+        vacancyService.createVacancy(vacancyDto);
+        return ResponseEntity.ok("Vacancy created successfully");
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<VacancyDto> editVacancy(@PathVariable Long id, @RequestBody VacancyDto vacancyDto) {
-        VacancyDto updatedVacancyDto = service.editingVacancy(id, vacancyDto);
-        return ResponseEntity.status(HttpStatus.OK).body(updatedVacancyDto);
+    @PutMapping("/update")
+    public ResponseEntity<String> updateVacancy(@RequestBody VacancyDto vacancyDto) {
+        vacancyService.updateVacancy(vacancyDto);
+        return ResponseEntity.ok("Vacancy updated successfully");
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteVacancy(@PathVariable Long id) {
-        service.deleteVacancy(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<String> deleteVacancy(@PathVariable Long id) {
+        vacancyService.deleteVacancy(id);
+        return ResponseEntity.ok("Vacancy deleted successfully");
     }
-
-    @GetMapping("/{vacancyId}/applicants")
-    public ResponseEntity<List<UserDto>> getApplicantsForVacancy(@PathVariable Long vacancyId) {
-        List<UserDto> applicants = service.getApplicantsForVacancy(vacancyId);
-        return ResponseEntity.ok(applicants);
-    }
-
 
     @GetMapping("/active")
     public ResponseEntity<List<VacancyDto>> getActiveVacancies() {
-        List<VacancyDto> activeVacancies = service.getActiveVacancies();
-        return ResponseEntity.status(HttpStatus.OK).body(activeVacancies);
+        List<VacancyDto> vacancies = vacancyService.getActiveVacancies();
+        return ResponseEntity.ok(vacancies);
     }
 
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<VacancyDto>> getVacanciesByCategory(@PathVariable Long categoryId) {
-        List<VacancyDto> vacancies = service.getVacanciesByCategory(categoryId);
-        return ResponseEntity.status(HttpStatus.OK).body(vacancies);
+        List<VacancyDto> vacancies = vacancyService.getVacanciesByCategory(categoryId);
+        return ResponseEntity.ok(vacancies);
     }
 }
