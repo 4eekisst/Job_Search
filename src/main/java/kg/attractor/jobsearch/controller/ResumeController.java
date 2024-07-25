@@ -18,9 +18,9 @@ public class ResumeController {
     private final ResumeService resumeService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResumeDto> createResume(@RequestBody ResumeDto resumeDto) {
-        ResumeDto createdResume = resumeService.createResume(resumeDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdResume);
+    public ResponseEntity<String> createResume(@RequestBody ResumeDto resumeDto) {
+        resumeService.createResume(resumeDto);
+        return ResponseEntity.ok("Resume created successfully");
     }
 
     @GetMapping("/all")
@@ -30,15 +30,15 @@ public class ResumeController {
     }
 
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<ResumeDto>> getResumesByCategory(@PathVariable Long categoryId) {
+    public ResponseEntity<List<ResumeDto>> getResumesByCategory(@PathVariable int categoryId) {
         List<ResumeDto> resumes = resumeService.getResumesByCategory(categoryId);
         return ResponseEntity.ok(resumes);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ResumeDto> editResume(@PathVariable Long id, @RequestBody ResumeDto resumeDto) {
-        ResumeDto updatedResumeDto = resumeService.editingResume(id, resumeDto);
-        return ResponseEntity.status(HttpStatus.OK).body(updatedResumeDto);
+    @PutMapping("/edit")
+    public ResponseEntity<String> updateResume(@RequestBody ResumeDto resumeDto) {
+        resumeService.updateResume(resumeDto);
+        return ResponseEntity.ok("Resume updated successfully");
     }
 
     @DeleteMapping("/delete/{id}")
