@@ -11,4 +11,5 @@ public interface UserService {
     List<UserDto> getUsersByEmail(String email);
     UserDto getApplicantById(Long userId);
     UserDto getEmployerById(Long userId);
+    boolean existsByEmail(String email);
 }

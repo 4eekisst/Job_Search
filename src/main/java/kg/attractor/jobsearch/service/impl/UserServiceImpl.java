@@ -57,4 +57,9 @@ public class UserServiceImpl implements UserService {
         }
         return employer;
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userDao.existsByEmail(email);
+    }
 }

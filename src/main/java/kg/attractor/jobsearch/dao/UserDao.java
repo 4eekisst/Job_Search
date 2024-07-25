@@ -42,4 +42,10 @@ public class UserDao {
         String sql = "SELECT * FROM Users WHERE id = ? AND ACCOUNTTYPE = 'applicant'";
         return jdbcTemplate.queryForObject(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(UserDto.class));
     }
+
+    public boolean existsByEmail(String email) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE email = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{email}, Integer.class);
+        return count != null && count > 0;
+    }
 }
