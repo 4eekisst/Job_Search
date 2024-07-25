@@ -1,6 +1,7 @@
 package kg.attractor.jobsearch.controller;
 
 import kg.attractor.jobsearch.dto.RespondedApplicantDto;
+import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.RespondedApplicantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +26,11 @@ public class RespondedApplicantController {
     public ResponseEntity<List<RespondedApplicantDto>> getApplicantsForVacancy(@PathVariable Long vacancyId) {
         List<RespondedApplicantDto> applicants = respondedApplicantService.getApplicantsForVacancy(vacancyId);
         return ResponseEntity.ok(applicants);
+    }
+
+    @GetMapping("/vacancies/{applicantId}")
+    public ResponseEntity<List<VacancyDto>> getVacanciesByApplicantId(@PathVariable Integer applicantId) {
+        List<VacancyDto> vacancies = respondedApplicantService.getVacanciesByApplicantId(applicantId);
+        return ResponseEntity.ok(vacancies);
     }
 }

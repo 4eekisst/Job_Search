@@ -7,7 +7,8 @@ import java.util.List;
 public interface ResumeService {
     void createResume(ResumeDto resumeDto);
     List<ResumeDto> getAllResumes();
-    List<ResumeDto> getResumesByCategory(int categoryId);
     void updateResume(ResumeDto resumeDto);
     void deleteResume(Long id);
+    List<ResumeDto> getResumesByCategory(Long categoryId);
+    List<ResumeDto> getResumesByApplicantId(Integer applicantId);
 }

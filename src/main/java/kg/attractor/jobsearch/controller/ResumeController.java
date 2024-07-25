@@ -30,7 +30,7 @@ public class ResumeController {
     }
 
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<ResumeDto>> getResumesByCategory(@PathVariable int categoryId) {
+    public ResponseEntity<List<ResumeDto>> getResumesByCategory(@PathVariable Long categoryId) {
         List<ResumeDto> resumes = resumeService.getResumesByCategory(categoryId);
         return ResponseEntity.ok(resumes);
     }
@@ -45,5 +45,11 @@ public class ResumeController {
     public ResponseEntity<Void> deleteResume(@PathVariable Long id) {
         resumeService.deleteResume(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/applicant/{applicantId}")
+    public ResponseEntity<List<ResumeDto>> getResumesByApplicantId(@PathVariable Integer applicantId) {
+        List<ResumeDto> resumes = resumeService.getResumesByApplicantId(applicantId);
+        return ResponseEntity.ok(resumes);
     }
 }

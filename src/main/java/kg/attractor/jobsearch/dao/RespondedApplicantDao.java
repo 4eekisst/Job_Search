@@ -1,10 +1,13 @@
 package kg.attractor.jobsearch.dao;
 
 import kg.attractor.jobsearch.dto.RespondedApplicantDto;
+import kg.attractor.jobsearch.dto.VacancyDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -29,5 +32,30 @@ public class RespondedApplicantDao {
                         .confirmation(rs.getBoolean("confirmation"))
                         .build()
         );
+    }
+
+    public List<VacancyDto> findVacanciesByApplicantId(Integer applicantId) {
+        String sql = "SELECT v.* " +
+                "FROM Vacancy v " +
+                "JOIN RespondedApplicant ra ON v.id = ra.vacancyId " +
+                "WHERE ra.resumeId IN (SELECT id FROM Resume WHERE applicantId = ?)";
+        return jdbcTemplate.query(sql, new Object[]{applicantId}, (rs, rowNum) -> mapRowToVacancyDto(rs));
+    }
+
+
+    private VacancyDto mapRowToVacancyDto(ResultSet rs) throws SQLException {
+        return VacancyDto.builder()
+                .id(rs.getLong("id"))
+                .name(rs.getString("name"))
+                .description(rs.getString("description"))
+                .categoryId(rs.getLong("categoryId"))
+                .authorId(rs.getLong("authorId"))
+                .salary(rs.getDouble("salary"))
+                .expFrom(rs.getInt("expFrom"))
+                .expTo(rs.getInt("expTo"))
+                .isActive(rs.getBoolean("isActive"))
+                .createdDate(rs.getTimestamp("createdDate").toLocalDateTime())
+                .updateTime(rs.getTimestamp("updateTime").toLocalDateTime())
+                .build();
     }
 }

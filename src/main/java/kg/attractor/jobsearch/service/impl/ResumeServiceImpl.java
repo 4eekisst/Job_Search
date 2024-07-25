@@ -27,11 +27,6 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<ResumeDto> getResumesByCategory(int categoryId) {
-        return resumeDao.findResumesByCategory(categoryId);
-    }
-
-    @Override
     public void updateResume(ResumeDto resumeDto) {
         resumeDao.updateResume(resumeDto);
     }
@@ -40,4 +35,11 @@ public class ResumeServiceImpl implements ResumeService {
     public void deleteResume(Long id) {
         resumeDao.deleteResume(id);
     }
+
+    @Override
+    public List<ResumeDto> getResumesByCategory(Long categoryId) {return resumeDao.findResumesByCategory(categoryId);}
+
+    @Override
+    public List<ResumeDto> getResumesByApplicantId(Integer applicantId) {return resumeDao.findResumesByApplicantId(applicantId);}
+
 }
