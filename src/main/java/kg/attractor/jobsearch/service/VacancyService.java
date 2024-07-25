@@ -11,4 +11,5 @@ public interface VacancyService {
     void deleteVacancy(Long id);
     List<VacancyDto> getActiveVacancies();
     List<VacancyDto> getVacanciesByCategory(Long categoryId);
+    List<VacancyDto> getAllVacancies();
 }

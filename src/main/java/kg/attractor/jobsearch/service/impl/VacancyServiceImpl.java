@@ -43,4 +43,9 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> getVacanciesByCategory(Long categoryId) {
         return vacancyDao.findVacanciesByCategory(categoryId);
     }
+
+    @Override
+    public List<VacancyDto> getAllVacancies() {
+        return vacancyDao.findAllVacancies();
+    }
 }

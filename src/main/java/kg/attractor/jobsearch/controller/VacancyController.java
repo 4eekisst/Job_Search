@@ -47,4 +47,10 @@ public class VacancyController {
         List<VacancyDto> vacancies = vacancyService.getVacanciesByCategory(categoryId);
         return ResponseEntity.ok(vacancies);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<VacancyDto>> getAllVacancies() {
+        List<VacancyDto> vacancies = vacancyService.getAllVacancies();
+        return ResponseEntity.ok(vacancies);
+    }
 }

@@ -64,6 +64,11 @@ public class VacancyDao {
         return jdbcTemplate.query(sql, new Object[]{categoryId}, (rs, rowNum) -> mapRowToVacancyDto(rs));
     }
 
+    public List<VacancyDto> findAllVacancies() {
+        String sql = "SELECT * FROM Vacancy";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> mapRowToVacancyDto(rs));
+    }
+
     private VacancyDto mapRowToVacancyDto(ResultSet rs) throws SQLException {
         return VacancyDto.builder()
                 .id(rs.getLong("id"))
