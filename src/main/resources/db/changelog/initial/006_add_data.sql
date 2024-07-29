@@ -31,5 +31,5 @@ VALUES ((SELECT id FROM CONTACT_TYPE WHERE type='Email' LIMIT 1), (SELECT id FRO
 INSERT INTO EDUCATION_INFO (RESUME_ID, institution, program, START_DATE, END_DATE, degree)
 VALUES ((SELECT id FROM Resume WHERE name='Developer Resume 1' LIMIT 1), 'IT University', 'Computer Science', '2015-09-01', '2019-06-30', 'Bachelor');
 
-INSERT INTO WORK_EXPERIENCE_INFO (years, COMPANY_NAME, position, responsibilities)
-VALUES (3, 'Tech Company', 'Junior Developer', 'Developing software applications');
+INSERT INTO WORK_EXPERIENCE_INFO (resume_id, years, COMPANY_NAME, position, responsibilities)
+VALUES (1, 3, 'Tech Company', 'Junior Developer', 'Developing software applications');

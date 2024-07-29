@@ -52,6 +52,13 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: resume_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_work_experience_info_resume_id
+                    references: resume(id)
+                    nullable: false
+              - column:
                   name: years
                   type: int
               - column:
