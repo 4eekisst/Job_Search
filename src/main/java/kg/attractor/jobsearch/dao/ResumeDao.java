@@ -16,7 +16,7 @@ public class ResumeDao {
     private final JdbcTemplate jdbcTemplate;
 
     public void saveResume(ResumeDto resumeDto) {
-        String sql = "INSERT INTO Resume (applicantId, name, categoryId, salary, isActive, createdDate, updateTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Resume (APPLICANT_ID, name, CATEGORY_ID, salary, IS_ACTIVE, CREATED_DATE, UPDATE_TIME) VALUES (?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, resumeDto.getApplicantId(), resumeDto.getName(), resumeDto.getCategoryId(), resumeDto.getSalary(), resumeDto.isActive(), resumeDto.getCreatedDate(), resumeDto.getUpdateTime());
     }
 
@@ -25,19 +25,19 @@ public class ResumeDao {
         return jdbcTemplate.query(sql, (rs, rowNum) ->
                 ResumeDto.builder()
                         .id(rs.getLong("id"))
-                        .applicantId(rs.getInt("applicantId"))
+                        .applicantId(rs.getInt("applicant_id"))
                         .name(rs.getString("name"))
-                        .categoryId(rs.getInt("categoryId"))
+                        .categoryId(rs.getInt("category_id"))
                         .salary(rs.getDouble("salary"))
-                        .isActive(rs.getBoolean("isActive"))
-                        .createdDate(rs.getDate("createdDate").toLocalDate())
-                        .updateTime(rs.getDate("updateTime").toLocalDate())
+                        .isActive(rs.getBoolean("is_active"))
+                        .createdDate(rs.getDate("created_date").toLocalDate())
+                        .updateTime(rs.getDate("update_time").toLocalDate())
                         .build()
         );
     }
 
     public void updateResume(ResumeDto resumeDto) {
-        String sql = "UPDATE Resume SET name = ?, categoryId = ?, salary = ?, isActive = ?, createdDate = ?, updateTime = ? WHERE id = ?";
+        String sql = "UPDATE Resume SET name = ?, CATEGORY_ID = ?, salary = ?, IS_ACTIVE = ?, CREATED_DATE = ?, UPDATE_TIME = ? WHERE id = ?";
         jdbcTemplate.update(sql, resumeDto.getName(), resumeDto.getCategoryId(), resumeDto.getSalary(), resumeDto.isActive(), resumeDto.getCreatedDate(), resumeDto.getUpdateTime(), resumeDto.getId());
     }
 
@@ -47,25 +47,25 @@ public class ResumeDao {
     }
 
     public List<ResumeDto> findResumesByCategory(Long categoryId) {
-        String sql = "SELECT * FROM Resume WHERE categoryId = ?";
+        String sql = "SELECT * FROM Resume WHERE CATEGORY_ID = ?";
         return jdbcTemplate.query(sql, new Object[]{categoryId}, (rs, rowNum) -> mapRowToResumeDto(rs));
     }
 
     public List<ResumeDto> findResumesByApplicantId(Integer applicantId) {
-        String sql = "SELECT * FROM Resume WHERE applicantId = ?";
+        String sql = "SELECT * FROM Resume WHERE APPLICANT_ID = ?";
         return jdbcTemplate.query(sql, new Object[]{applicantId}, (rs, rowNum) -> mapRowToResumeDto(rs));
     }
 
     private ResumeDto mapRowToResumeDto(ResultSet rs) throws SQLException {
         return ResumeDto.builder()
                 .id(rs.getLong("id"))
-                .applicantId(rs.getInt("applicantId"))
+                .applicantId(rs.getInt("applicant_id"))
                 .name(rs.getString("name"))
-                .categoryId(rs.getInt("categoryId"))
+                .categoryId(rs.getInt("category_id"))
                 .salary(rs.getDouble("salary"))
-                .isActive(rs.getBoolean("isActive"))
-                .createdDate(rs.getDate("createdDate").toLocalDate())
-                .updateTime(rs.getDate("updateTime").toLocalDate())
+                .isActive(rs.getBoolean("is_active"))
+                .createdDate(rs.getDate("created_date").toLocalDate())
+                .updateTime(rs.getDate("update_time").toLocalDate())
                 .build();
     }
 }

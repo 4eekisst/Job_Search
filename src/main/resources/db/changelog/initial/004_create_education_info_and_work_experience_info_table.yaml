@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: create education info table
+      author: Adil
+      changes:
+        - createTable:
+            tableName: education_info
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: resume_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_education_info_resume_id
+                    references: resume(id)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: institution
+                  type: varchar(255)
+              - column:
+                  name: program
+                  type: varchar(255)
+              - column:
+                  name: start_date
+                  type: date
+              - column:
+                  name: end_date
+                  type: date
+              - column:
+                  name: degree
+                  type: varchar(255)
+
+  - changeSet:
+      id: create work experience info table
+      author: Adil
+      changes:
+        - createTable:
+            tableName: work_experience_info
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: years
+                  type: int
+              - column:
+                  name: company_name
+                  type: varchar(255)
+              - column:
+                  name: position
+                  type: varchar(255)
+              - column:
+                  name: responsibilities
+                  type: text

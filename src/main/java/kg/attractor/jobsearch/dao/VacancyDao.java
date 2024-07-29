@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -17,7 +18,7 @@ public class VacancyDao {
     private final JdbcTemplate jdbcTemplate;
 
     public void saveVacancy(VacancyDto vacancyDto) {
-        String sql = "INSERT INTO Vacancy (name, description, categoryId, authorId, salary, expFrom, expTo, isActive, createdDate, updateTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Vacancy (name, description, CATEGORY_ID, AUTHOR_ID, salary, EXP_FROM, EXP_TO, IS_ACTIVE, CREATED_DATE, UPDATE_TIME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
                 vacancyDto.getName(),
                 vacancyDto.getDescription(),
@@ -33,7 +34,7 @@ public class VacancyDao {
     }
 
     public void updateVacancy(VacancyDto vacancyDto) {
-        String sql = "UPDATE Vacancy SET name = ?, description = ?, categoryId = ?, authorId = ?, salary = ?, expFrom = ?, expTo = ?, isActive = ?, createdDate = ?, updateTime = ? WHERE id = ?";
+        String sql = "UPDATE Vacancy SET name = ?, description = ?, CATEGORY_ID = ?, AUTHOR_ID = ?, salary = ?, EXP_FROM = ?, EXP_TO = ?, IS_ACTIVE = ?, CREATED_DATE = ?, UPDATE_TIME = ? WHERE id = ?";
         jdbcTemplate.update(sql,
                 vacancyDto.getName(),
                 vacancyDto.getDescription(),
@@ -55,12 +56,12 @@ public class VacancyDao {
     }
 
     public List<VacancyDto> findActiveVacancies() {
-        String sql = "SELECT * FROM Vacancy WHERE isActive = TRUE";
+        String sql = "SELECT * FROM Vacancy WHERE IS_ACTIVE = TRUE";
         return jdbcTemplate.query(sql, (rs, rowNum) -> mapRowToVacancyDto(rs));
     }
 
     public List<VacancyDto> findVacanciesByCategory(Long categoryId) {
-        String sql = "SELECT * FROM Vacancy WHERE categoryId = ?";
+        String sql = "SELECT * FROM Vacancy WHERE CATEGORY_ID = ?";
         return jdbcTemplate.query(sql, new Object[]{categoryId}, (rs, rowNum) -> mapRowToVacancyDto(rs));
     }
 
@@ -74,14 +75,14 @@ public class VacancyDao {
                 .id(rs.getLong("id"))
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
-                .categoryId(rs.getLong("categoryId"))
-                .authorId(rs.getLong("authorId"))
+                .categoryId(rs.getLong("CATEGORY_ID"))
+                .authorId(rs.getLong("AUTHOR_ID"))
                 .salary(rs.getDouble("salary"))
-                .expFrom(rs.getInt("expFrom"))
-                .expTo(rs.getInt("expTo"))
-                .isActive(rs.getBoolean("isActive"))
-                .createdDate(rs.getTimestamp("createdDate").toLocalDateTime())
-                .updateTime(rs.getTimestamp("updateTime").toLocalDateTime())
+                .expFrom(rs.getInt("EXP_FROM"))
+                .expTo(rs.getInt("EXP_TO"))
+                .isActive(rs.getBoolean("IS_ACTIVE"))
+                .createdDate(rs.getObject("CREATED_DATE", LocalDateTime.class))
+                .updateTime(rs.getObject("UPDATE_TIME", LocalDateTime.class))
                 .build();
     }
 }
