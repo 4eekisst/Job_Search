@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: create contact type table
+      author: Adil
+      changes:
+        - createTable:
+            tableName: contact_type
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(255)
+
+  - changeSet:
+      id: create contact info table
+      author: Adil
+      changes:
+        - createTable:
+            tableName: contact_info
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: type_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_contact_info_type_id
+                    references: contact_type(id)
+                    nullable: false
+              - column:
+                  name: resume_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_contact_info_resume_id
+                    references: resume(id)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: contact_value
+                  type: varchar(255)

@@ -1,0 +1,97 @@
+databaseChangeLog:
+  - changeSet:
+      id: create resume table
+      author: Adil
+      changes:
+        - createTable:
+            tableName: resume
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: applicant_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_resume_applicant_id
+                    references: users(id)
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(45)
+              - column:
+                  name: category_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_resume_category_id
+                    references: category(id)
+                    nullable: false
+              - column:
+                  name: salary
+                  type: double
+              - column:
+                  name: is_active
+                  type: boolean
+              - column:
+                  name: created_date
+                  type: date
+              - column:
+                  name: update_time
+                  type: date
+
+  - changeSet:
+      id: create vacancy table
+      author: Adil
+      changes:
+        - createTable:
+            tableName: vacancy
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: description
+                  type: varchar(255)
+              - column:
+                  name: category_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_vacancy_category_id
+                    references: category(id)
+                    nullable: false
+              - column:
+                  name: salary
+                  type: double
+              - column:
+                  name: exp_from
+                  type: int
+              - column:
+                  name: exp_to
+                  type: int
+              - column:
+                  name: is_active
+                  type: boolean
+              - column:
+                  name: author_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_vacancy_author_id
+                    references: users(id)
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: date
+              - column:
+                  name: update_time
+                  type: date

@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: create responded applicant table
+      author: Adil
+      changes:
+        - createTable:
+            tableName: responded_applicant
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: resume_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_responded_applicant_resume_id
+                    references: resume(id)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: vacancy_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_responded_applicant_vacancy_id
+                    references: vacancy(id)
+                    nullable: false
+              - column:
+                  name: confirmation
+                  type: boolean
+
+  - changeSet:
+      id: create message table
+      author: Adil
+      changes:
+        - createTable:
+            tableName: message
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: responded_applicant
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_message_responded_applicant
+                    references: responded_applicant(id)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: text
+                  type: text
+              - column:
+                  name: time_stamp
+                  type: date

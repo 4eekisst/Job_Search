@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: create users table
+      author: Adil
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(45)
+              - column:
+                  name: surname
+                  type: varchar(45)
+              - column:
+                   name: age
+                   type: int
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: password
+                  type: varchar(45)
+              - column:
+                  name: phoneNumber
+                  type: varchar(45)
+              - column:
+                  name: avatar
+                  type: varchar(255)
+              - column:
+                  name: accountType
+                  type: varchar(45)
+
+  - changeSet:
+      id: create category table
+      author: Adil
+      changes:
+        - createTable:
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(45)
+              - column:
+                  name: parent_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_category_parent_id
+                    references: category(id)
