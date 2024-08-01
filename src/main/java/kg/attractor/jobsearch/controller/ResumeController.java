@@ -19,10 +19,8 @@ import java.util.List;
 
 
 public class ResumeController {
+
     private final ResumeService resumeService;
-    private final EducationInfoService educationInfoService;
-    private final WorkExperienceInfoService workExperienceInfoService;
-    private final ContactInfoService contactInfoService;
 
     @PostMapping("/create")
     public ResponseEntity<String> createResume(@RequestBody ResumeCreatingDto request) {

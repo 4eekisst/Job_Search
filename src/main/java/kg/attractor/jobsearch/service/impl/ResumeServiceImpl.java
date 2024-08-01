@@ -6,6 +6,7 @@ import kg.attractor.jobsearch.dto.EducationInfoDto;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.WorkExperienceInfoDto;
 import kg.attractor.jobsearch.dto.customDto.ResumeCreatingDto;
+import kg.attractor.jobsearch.errors.CanNotFindResumeException;
 import kg.attractor.jobsearch.service.ContactInfoService;
 import kg.attractor.jobsearch.service.EducationInfoService;
 import kg.attractor.jobsearch.service.ResumeService;
@@ -26,7 +27,15 @@ public class ResumeServiceImpl implements ResumeService {
     private final WorkExperienceInfoService workExperienceInfoService;
     private final ContactInfoService contactInfoService;
 
-    @Override public int createResume(ResumeDto resumeDto) {return resumeDao.saveResume(resumeDto);}
+    @Override
+    public int createResume(ResumeDto resumeDto) {
+        try {
+            return resumeDao.saveResume(resumeDto);
+        } catch (Exception e) {
+            log.error("An error occurred while creating resume: {}", e.getMessage());
+            throw new CanNotFindResumeException("Unable to create resume");
+        }
+    }
 
     @Override
     public void createFullResume(ResumeCreatingDto request) {
@@ -35,38 +44,71 @@ public class ResumeServiceImpl implements ResumeService {
         List<WorkExperienceInfoDto> workExperienceInfoDtos = request.getWorkExperienceInfoDtos();
         List<ContactInfoDto> contactInfoDtos = request.getContactInfoDtos();
 
-        int resumeId = createResume(resumeDto);
+        int resumeId;
+        try {
+            resumeId = createResume(resumeDto);
+        } catch (Exception e) {
+            log.error("An error occurred while creating resume: {}", e.getMessage());
+            throw new CanNotFindResumeException("Unable to create resume");
+        }
         resumeDto.setId((long) resumeId);
 
         if (educationInfoDtos != null) {
             for (EducationInfoDto educationInfoDto : educationInfoDtos) {
                 educationInfoDto.setResumeId(resumeId);
-                educationInfoService.saveEducationInfo(educationInfoDto);
+                try {
+                    educationInfoService.saveEducationInfo(educationInfoDto);
+                } catch (Exception e) {
+                    log.error("An error occurred while saving education info: {}", e.getMessage());
+                    throw new CanNotFindResumeException("Unable to save education info for resume ID " + resumeId);
+                }
             }
         }
 
         if (workExperienceInfoDtos != null) {
             for (WorkExperienceInfoDto workExperienceInfoDto : workExperienceInfoDtos) {
                 workExperienceInfoDto.setResumeId(resumeId);
-                workExperienceInfoService.saveWorkExperienceInfo(workExperienceInfoDto);
+                try {
+                    workExperienceInfoService.saveWorkExperienceInfo(workExperienceInfoDto);
+                } catch (Exception e) {
+                    log.error("An error occurred while saving work experience info: {}", e.getMessage());
+                    throw new CanNotFindResumeException("Unable to save work experience info for resume ID " + resumeId);
+                }
             }
         }
 
         if (contactInfoDtos != null) {
             for (ContactInfoDto contactInfoDto : contactInfoDtos) {
                 contactInfoDto.setResumeId(resumeId);
-                contactInfoService.saveContactInfo(contactInfoDto);
+                try {
+                    contactInfoService.saveContactInfo(contactInfoDto);
+                } catch (Exception e) {
+                    log.error("An error occurred while saving contact info: {}", e.getMessage());
+                    throw new CanNotFindResumeException("Unable to save contact info for resume ID " + resumeId);
+                }
             }
         }
     }
 
     @Override
     public List<ResumeDto> getAllResumes() {
-        return resumeDao.findAllResumes();
+        try {
+            return resumeDao.findAllResumes();
+        } catch (Exception e) {
+            log.error("An error occurred while fetching all resumes: {}", e.getMessage());
+            throw new CanNotFindResumeException("Unable to fetch all resumes");
+        }
     }
 
     @Override
-    public void updateResume(ResumeDto resumeDto) {resumeDao.updateResume(resumeDto);}
+    public void updateResume(ResumeDto resumeDto) {
+        try {
+            resumeDao.updateResume(resumeDto);
+        } catch (Exception e) {
+            log.error("An error occurred while updating resume: {}", e.getMessage());
+            throw new CanNotFindResumeException("Unable to update resume");
+        }
+    }
 
     @Override
     public void updateFullResume(ResumeCreatingDto request) {
@@ -75,16 +117,27 @@ public class ResumeServiceImpl implements ResumeService {
         List<WorkExperienceInfoDto> workExperienceInfoDtos = request.getWorkExperienceInfoDtos();
         List<ContactInfoDto> contactInfoDtos = request.getContactInfoDtos();
 
-        updateResume(resumeDto);
+        try {
+            updateResume(resumeDto);
+        } catch (Exception e) {
+            log.error("An error occurred while updating resume: {}", e.getMessage());
+            throw new CanNotFindResumeException("Unable to update resume");
+        }
+
         Long resumeId = resumeDto.getId();
 
         if (educationInfoDtos != null) {
             for (EducationInfoDto educationInfoDto : educationInfoDtos) {
                 educationInfoDto.setResumeId(resumeId.intValue());
-                if (educationInfoDto.getId() == null) {
-                    educationInfoService.saveEducationInfo(educationInfoDto);
-                } else {
-                    educationInfoService.updateEducationInfo(educationInfoDto);
+                try {
+                    if (educationInfoDto.getId() == null) {
+                        educationInfoService.saveEducationInfo(educationInfoDto);
+                    } else {
+                        educationInfoService.updateEducationInfo(educationInfoDto);
+                    }
+                } catch (Exception e) {
+                    log.error("An error occurred while saving/updating education info: {}", e.getMessage());
+                    throw new CanNotFindResumeException("Unable to save/update education info for resume ID " + resumeId);
                 }
             }
         }
@@ -92,10 +145,15 @@ public class ResumeServiceImpl implements ResumeService {
         if (workExperienceInfoDtos != null) {
             for (WorkExperienceInfoDto workExperienceInfoDto : workExperienceInfoDtos) {
                 workExperienceInfoDto.setResumeId(resumeId.intValue());
-                if (workExperienceInfoDto.getId() == null) {
-                    workExperienceInfoService.saveWorkExperienceInfo(workExperienceInfoDto);
-                } else {
-                    workExperienceInfoService.updateWorkExperienceInfo(workExperienceInfoDto);
+                try {
+                    if (workExperienceInfoDto.getId() == null) {
+                        workExperienceInfoService.saveWorkExperienceInfo(workExperienceInfoDto);
+                    } else {
+                        workExperienceInfoService.updateWorkExperienceInfo(workExperienceInfoDto);
+                    }
+                } catch (Exception e) {
+                    log.error("An error occurred while saving/updating work experience info: {}", e.getMessage());
+                    throw new CanNotFindResumeException("Unable to save/update work experience info for resume ID " + resumeId);
                 }
             }
         }
@@ -103,22 +161,49 @@ public class ResumeServiceImpl implements ResumeService {
         if (contactInfoDtos != null) {
             for (ContactInfoDto contactInfoDto : contactInfoDtos) {
                 contactInfoDto.setResumeId(resumeId.intValue());
-                if (contactInfoDto.getId() == null) {
-                    contactInfoService.saveContactInfo(contactInfoDto);
-                } else {
-                    contactInfoService.updateContactInfo(contactInfoDto);
+                try {
+                    if (contactInfoDto.getId() == null) {
+                        contactInfoService.saveContactInfo(contactInfoDto);
+                    } else {
+                        contactInfoService.updateContactInfo(contactInfoDto);
+                    }
+                } catch (Exception e) {
+                    log.error("An error occurred while saving/updating contact info: {}", e.getMessage());
+                    throw new CanNotFindResumeException("Unable to save/update contact info for resume ID " + resumeId);
                 }
             }
         }
     }
+
     @Override
     public void deleteResume(Long id) {
-        resumeDao.deleteResume(id);
+        try {
+            resumeDao.deleteResume(id);
+        } catch (Exception e) {
+            log.error("An error occurred while deleting resume with ID {}: {}", id, e.getMessage());
+            throw new CanNotFindResumeException("Unable to delete resume with ID " + id);
+        }
     }
 
     @Override
-    public List<ResumeDto> getResumesByCategory(Long categoryId) {return resumeDao.findResumesByCategory(categoryId);}
+    public List<ResumeDto> getResumesByCategory(Long categoryId) {
+        try {
+            return resumeDao.findResumesByCategory(categoryId);
+        } catch (Exception e) {
+            log.error("An error occurred while fetching resumes by category: {}", e.getMessage());
+            throw new CanNotFindResumeException("Unable to fetch resumes by category ID " + categoryId);
+        }
+    }
 
     @Override
-    public List<ResumeDto> getResumesByApplicantId(Integer applicantId) {return resumeDao.findResumesByApplicantId(applicantId);}
+    public List<ResumeDto> getResumesByApplicantId(Integer applicantId) {
+        try {
+            return resumeDao.findResumesByApplicantId(applicantId);
+        } catch (Exception e) {
+            log.error("An error occurred while fetching resumes by applicant ID: {}", e.getMessage());
+            throw new CanNotFindResumeException("Unable to fetch resumes by applicant ID " + applicantId);
+        }
+    }
 }
+
+
