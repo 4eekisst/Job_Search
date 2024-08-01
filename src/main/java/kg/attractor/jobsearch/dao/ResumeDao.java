@@ -1,6 +1,7 @@
 package kg.attractor.jobsearch.dao;
 
 import kg.attractor.jobsearch.dto.ResumeDto;
+import kg.attractor.jobsearch.model.Resume;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -15,10 +16,11 @@ import java.util.List;
 public class ResumeDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public void saveResume(ResumeDto resumeDto) {
+    public int saveResume(ResumeDto resume) {
         String sql = "INSERT INTO Resume (APPLICANT_ID, name, CATEGORY_ID, salary, IS_ACTIVE, CREATED_DATE, UPDATE_TIME) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, resumeDto.getApplicantId(), resumeDto.getName(), resumeDto.getCategoryId(), resumeDto.getSalary(), resumeDto.isActive(), resumeDto.getCreatedDate(), resumeDto.getUpdateTime());
+        return jdbcTemplate.update(sql, resume.getApplicantId(), resume.getName(), resume.getCategoryId(), resume.getSalary(), resume.getIsActive(), resume.getCreatedDate(), resume.getUpdateTime());
     }
+
 
     public List<ResumeDto> findAllResumes() {
         String sql = "SELECT * FROM Resume";
@@ -38,7 +40,7 @@ public class ResumeDao {
 
     public void updateResume(ResumeDto resumeDto) {
         String sql = "UPDATE Resume SET name = ?, CATEGORY_ID = ?, salary = ?, IS_ACTIVE = ?, CREATED_DATE = ?, UPDATE_TIME = ? WHERE id = ?";
-        jdbcTemplate.update(sql, resumeDto.getName(), resumeDto.getCategoryId(), resumeDto.getSalary(), resumeDto.isActive(), resumeDto.getCreatedDate(), resumeDto.getUpdateTime(), resumeDto.getId());
+        jdbcTemplate.update(sql, resumeDto.getName(), resumeDto.getCategoryId(), resumeDto.getSalary(), resumeDto.getIsActive(), resumeDto.getCreatedDate(), resumeDto.getUpdateTime(), resumeDto.getId());
     }
 
     public void deleteResume(Long id) {

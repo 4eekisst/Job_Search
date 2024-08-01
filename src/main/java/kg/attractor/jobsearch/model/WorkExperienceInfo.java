@@ -6,6 +6,7 @@ import lombok.Data;
 
 public class WorkExperienceInfo {
     private Long id;
+    private Integer resumeId;
     private Integer years;
     private String companyName;
     private String position;

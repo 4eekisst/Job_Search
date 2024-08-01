@@ -16,10 +16,7 @@ import java.util.List;
 public class ResumeServiceImpl implements ResumeService {
     private final ResumeDao resumeDao;
 
-    @Override
-    public void createResume(ResumeDto resumeDto) {
-        resumeDao.saveResume(resumeDto);
-    }
+    @Override public int createResume(ResumeDto resumeDto) {return resumeDao.saveResume(resumeDto);}
 
     @Override
     public List<ResumeDto> getAllResumes() {
@@ -41,5 +38,4 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public List<ResumeDto> getResumesByApplicantId(Integer applicantId) {return resumeDao.findResumesByApplicantId(applicantId);}
-
 }

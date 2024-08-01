@@ -1,7 +1,11 @@
 package kg.attractor.jobsearch.controller;
 
-import kg.attractor.jobsearch.dto.ResumeDto;
+import kg.attractor.jobsearch.dto.*;
+import kg.attractor.jobsearch.dto.customDto.ResumeCreatingDto;
+import kg.attractor.jobsearch.service.ContactInfoService;
+import kg.attractor.jobsearch.service.EducationInfoService;
 import kg.attractor.jobsearch.service.ResumeService;
+import kg.attractor.jobsearch.service.WorkExperienceInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +20,37 @@ import java.util.List;
 
 public class ResumeController {
     private final ResumeService resumeService;
+    private final EducationInfoService educationInfoService;
+    private final WorkExperienceInfoService workExperienceInfoService;
+    private final ContactInfoService contactInfoService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createResume(@RequestBody ResumeDto resumeDto) {
-        resumeService.createResume(resumeDto);
+    public ResponseEntity<String> createResume(
+            @RequestBody ResumeCreatingDto request) {
+
+        ResumeDto resumeDto = request.getResumeDto();
+        List<EducationInfoDto> educationInfoDtos = request.getEducationInfoDtos();
+        List<WorkExperienceInfoDto> workExperienceInfoDtos = request.getWorkExperienceInfoDtos();
+        List<ContactInfoDto> contactInfoDtos = request.getContactInfoDtos();
+
+        int resumeId = resumeService.createResume(resumeDto);
+        resumeDto.setId((long) resumeId);
+
+        for (EducationInfoDto educationInfoDto : educationInfoDtos) {
+            educationInfoDto.setResumeId(resumeId);
+            educationInfoService.saveEducationInfo(educationInfoDto);
+        }
+
+        for (WorkExperienceInfoDto workExperienceInfoDto : workExperienceInfoDtos) {
+            workExperienceInfoDto.setResumeId(resumeId);
+            workExperienceInfoService.saveWorkExperienceInfo(workExperienceInfoDto);
+        }
+
+        for (ContactInfoDto contactInfoDto : contactInfoDtos) {
+            contactInfoDto.setResumeId(resumeId);
+            contactInfoService.saveContactInfo(contactInfoDto);
+        }
+
         return ResponseEntity.ok("Resume created successfully");
     }
 

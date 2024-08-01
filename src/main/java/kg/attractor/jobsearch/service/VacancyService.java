@@ -1,6 +1,5 @@
 package kg.attractor.jobsearch.service;
 
-import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 
 import java.util.List;
