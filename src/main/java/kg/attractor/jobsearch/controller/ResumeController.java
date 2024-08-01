@@ -25,32 +25,8 @@ public class ResumeController {
     private final ContactInfoService contactInfoService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createResume(
-            @RequestBody ResumeCreatingDto request) {
-
-        ResumeDto resumeDto = request.getResumeDto();
-        List<EducationInfoDto> educationInfoDtos = request.getEducationInfoDtos();
-        List<WorkExperienceInfoDto> workExperienceInfoDtos = request.getWorkExperienceInfoDtos();
-        List<ContactInfoDto> contactInfoDtos = request.getContactInfoDtos();
-
-        int resumeId = resumeService.createResume(resumeDto);
-        resumeDto.setId((long) resumeId);
-
-        for (EducationInfoDto educationInfoDto : educationInfoDtos) {
-            educationInfoDto.setResumeId(resumeId);
-            educationInfoService.saveEducationInfo(educationInfoDto);
-        }
-
-        for (WorkExperienceInfoDto workExperienceInfoDto : workExperienceInfoDtos) {
-            workExperienceInfoDto.setResumeId(resumeId);
-            workExperienceInfoService.saveWorkExperienceInfo(workExperienceInfoDto);
-        }
-
-        for (ContactInfoDto contactInfoDto : contactInfoDtos) {
-            contactInfoDto.setResumeId(resumeId);
-            contactInfoService.saveContactInfo(contactInfoDto);
-        }
-
+    public ResponseEntity<String> createResume(@RequestBody ResumeCreatingDto request) {
+        resumeService.createFullResume(request);
         return ResponseEntity.ok("Resume created successfully");
     }
 
