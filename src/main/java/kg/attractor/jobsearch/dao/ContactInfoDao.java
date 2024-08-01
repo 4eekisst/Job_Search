@@ -15,4 +15,9 @@ public class ContactInfoDao {
         String sql = "INSERT INTO CONTACT_INFO (TYPE_ID, RESUME_ID, CONTACT_VALUE) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, contactInfoDto.getTypeId(), contactInfoDto.getResumeId(), contactInfoDto.getValue());
     }
+
+    public void updateContactInfo(ContactInfoDto contactInfoDto) {
+        String sql = "UPDATE CONTACT_INFO SET TYPE_ID = ?, CONTACT_VALUE = ? WHERE id = ?";
+        jdbcTemplate.update(sql, contactInfoDto.getTypeId(), contactInfoDto.getValue(), contactInfoDto.getId());
+    }
 }

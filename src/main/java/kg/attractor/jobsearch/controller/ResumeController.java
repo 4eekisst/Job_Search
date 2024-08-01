@@ -42,11 +42,12 @@ public class ResumeController {
         return ResponseEntity.ok(resumes);
     }
 
-    @PutMapping("/edit")
-    public ResponseEntity<String> updateResume(@RequestBody ResumeDto resumeDto) {
-        resumeService.updateResume(resumeDto);
+    @PutMapping("/update")
+    public ResponseEntity<String> updateResume(@RequestBody ResumeCreatingDto request) {
+        resumeService.updateFullResume(request);
         return ResponseEntity.ok("Resume updated successfully");
     }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteResume(@PathVariable Long id) {

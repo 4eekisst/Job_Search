@@ -66,10 +66,51 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public void updateResume(ResumeDto resumeDto) {
-        resumeDao.updateResume(resumeDto);
-    }
+    public void updateResume(ResumeDto resumeDto) {resumeDao.updateResume(resumeDto);}
 
+    @Override
+    public void updateFullResume(ResumeCreatingDto request) {
+        ResumeDto resumeDto = request.getResumeDto();
+        List<EducationInfoDto> educationInfoDtos = request.getEducationInfoDtos();
+        List<WorkExperienceInfoDto> workExperienceInfoDtos = request.getWorkExperienceInfoDtos();
+        List<ContactInfoDto> contactInfoDtos = request.getContactInfoDtos();
+
+        updateResume(resumeDto);
+        Long resumeId = resumeDto.getId();
+
+        if (educationInfoDtos != null) {
+            for (EducationInfoDto educationInfoDto : educationInfoDtos) {
+                educationInfoDto.setResumeId(resumeId.intValue());
+                if (educationInfoDto.getId() == null) {
+                    educationInfoService.saveEducationInfo(educationInfoDto);
+                } else {
+                    educationInfoService.updateEducationInfo(educationInfoDto);
+                }
+            }
+        }
+
+        if (workExperienceInfoDtos != null) {
+            for (WorkExperienceInfoDto workExperienceInfoDto : workExperienceInfoDtos) {
+                workExperienceInfoDto.setResumeId(resumeId.intValue());
+                if (workExperienceInfoDto.getId() == null) {
+                    workExperienceInfoService.saveWorkExperienceInfo(workExperienceInfoDto);
+                } else {
+                    workExperienceInfoService.updateWorkExperienceInfo(workExperienceInfoDto);
+                }
+            }
+        }
+
+        if (contactInfoDtos != null) {
+            for (ContactInfoDto contactInfoDto : contactInfoDtos) {
+                contactInfoDto.setResumeId(resumeId.intValue());
+                if (contactInfoDto.getId() == null) {
+                    contactInfoService.saveContactInfo(contactInfoDto);
+                } else {
+                    contactInfoService.updateContactInfo(contactInfoDto);
+                }
+            }
+        }
+    }
     @Override
     public void deleteResume(Long id) {
         resumeDao.deleteResume(id);

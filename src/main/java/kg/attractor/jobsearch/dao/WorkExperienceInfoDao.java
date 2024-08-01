@@ -15,4 +15,9 @@ public class WorkExperienceInfoDao {
         String sql = "INSERT INTO WORK_EXPERIENCE_INFO (RESUME_ID, years, COMPANY_NAME, position, responsibilities) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, workExperienceInfoDto.getResumeId(), workExperienceInfoDto.getYears(), workExperienceInfoDto.getCompanyName(), workExperienceInfoDto.getPosition(), workExperienceInfoDto.getResponsibilities());
     }
+
+    public void updateWorkExperienceInfo(WorkExperienceInfoDto workExperienceInfoDto) {
+        String sql = "UPDATE WORK_EXPERIENCE_INFO SET years = ?, COMPANY_NAME = ?, position = ?, responsibilities = ? WHERE id = ?";
+        jdbcTemplate.update(sql, workExperienceInfoDto.getYears(), workExperienceInfoDto.getCompanyName(), workExperienceInfoDto.getPosition(), workExperienceInfoDto.getResponsibilities(), workExperienceInfoDto.getId());
+    }
 }

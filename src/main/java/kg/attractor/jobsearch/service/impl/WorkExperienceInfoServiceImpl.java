@@ -16,4 +16,7 @@ public class WorkExperienceInfoServiceImpl implements WorkExperienceInfoService 
 
     @Override
     public void saveWorkExperienceInfo(WorkExperienceInfoDto workExperienceInfoDto) {workExperienceInfoDao.saveWorkExperienceInfo(workExperienceInfoDto);}
+
+    @Override
+    public void updateWorkExperienceInfo(WorkExperienceInfoDto workExperienceInfoDto) {workExperienceInfoDao.updateWorkExperienceInfo(workExperienceInfoDto);}
 }

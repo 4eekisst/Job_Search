@@ -4,4 +4,6 @@ import kg.attractor.jobsearch.dto.ContactInfoDto;
 
 public interface ContactInfoService {
     void saveContactInfo(ContactInfoDto contactInfoDto);
+
+    void updateContactInfo(ContactInfoDto contactInfoDto);
 }

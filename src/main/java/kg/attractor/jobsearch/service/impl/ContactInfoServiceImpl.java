@@ -15,4 +15,6 @@ public class ContactInfoServiceImpl implements ContactInfoService {
     private final ContactInfoDao contactInfoDao;
 
     @Override public void saveContactInfo(ContactInfoDto contactInfoDto) {contactInfoDao.saveContactInfo(contactInfoDto);}
+
+    @Override public void updateContactInfo(ContactInfoDto contactInfoDto) {contactInfoDao.updateContactInfo(contactInfoDto);}
 }

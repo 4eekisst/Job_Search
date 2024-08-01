@@ -16,4 +16,7 @@ public class EducationInfoServiceImpl implements EducationInfoService {
 
     @Override
     public void saveEducationInfo(EducationInfoDto educationInfoDto) {educationInfoDao.saveEducationInfo(educationInfoDto);}
+
+    @Override
+    public void updateEducationInfo(EducationInfoDto educationInfoDto) {educationInfoDao.updateEducationInfo(educationInfoDto);}
 }

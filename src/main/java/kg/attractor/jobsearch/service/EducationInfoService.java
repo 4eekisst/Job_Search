@@ -4,4 +4,6 @@ import kg.attractor.jobsearch.dto.EducationInfoDto;
 
 public interface EducationInfoService {
     void saveEducationInfo(EducationInfoDto educationInfoDto);
+
+    void updateEducationInfo(EducationInfoDto educationInfoDto);
 }
