@@ -62,4 +62,28 @@ public class UserServiceImpl implements UserService {
     public boolean existsByEmail(String email) {
         return userDao.existsByEmail(email);
     }
+
+    @Override
+    public UserDto updateUserProfile(Long userId, UserDto userDto) {
+        UserDto existingUser = userDao.findUserById(userId);
+        if (existingUser == null) {
+            log.warn("User with ID {} not found", userId);
+            return null;
+        }
+
+        UserDto updatedUser = UserDto.builder()
+                .id(userId)
+                .name(userDto.getName())
+                .surname(userDto.getSurname())
+                .age(userDto.getAge())
+                .phoneNumber(userDto.getPhoneNumber())
+                .email(existingUser.getEmail())
+                .avatar(existingUser.getAvatar())
+                .accType(existingUser.getAccType())
+                .build();
+
+        userDao.updateUser(updatedUser);
+
+        return updatedUser;
+    }
 }

@@ -74,4 +74,13 @@ public class UserController {
         boolean exists = userService.existsByEmail(email);
         return ResponseEntity.ok(exists);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> updateUserProfile(@PathVariable("id") Long userId, @RequestBody UserDto userDto) {
+        UserDto updatedUser = userService.updateUserProfile(userId, userDto);
+        if (updatedUser == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updatedUser);
+    }
 }
