@@ -188,12 +188,17 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public List<ResumeDto> getResumesByCategory(Long categoryId) {
         try {
-            return resumeDao.findResumesByCategory(categoryId);
+            List<ResumeDto> resumes = resumeDao.findResumesByCategory(categoryId);
+            if (resumes.isEmpty()) {
+                throw new CanNotFindResumeException("No resumes found for category ID " + categoryId);
+            }
+            return resumes;
         } catch (Exception e) {
             log.error("An error occurred while fetching resumes by category: {}", e.getMessage());
             throw new CanNotFindResumeException("Unable to fetch resumes by category ID " + categoryId);
         }
     }
+
 
     @Override
     public List<ResumeDto> getResumesByApplicantId(Integer applicantId) {

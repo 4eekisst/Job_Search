@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import kg.attractor.jobsearch.dto.*;
 import kg.attractor.jobsearch.dto.customDto.ResumeCreatingDto;
+import kg.attractor.jobsearch.errors.CanNotFindResumeException;
 import kg.attractor.jobsearch.service.ContactInfoService;
 import kg.attractor.jobsearch.service.EducationInfoService;
 import kg.attractor.jobsearch.service.ResumeService;
@@ -38,8 +39,12 @@ public class ResumeController {
 
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<ResumeDto>> getResumesByCategory(@PathVariable @Positive(message = "Category ID must be positive") Long categoryId) {
-        List<ResumeDto> resumes = resumeService.getResumesByCategory(categoryId);
-        return ResponseEntity.ok(resumes);
+        try {
+            List<ResumeDto> resumes = resumeService.getResumesByCategory(categoryId);
+            return ResponseEntity.ok(resumes);
+        } catch (CanNotFindResumeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/update")
