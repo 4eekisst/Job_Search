@@ -42,6 +42,6 @@ public class UserDto {
     @Pattern(regexp = "^https?://.*\\.(jpg|jpeg|png)$", message = "Avatar URL should be valid and end with .jpg, .jpeg, or .png")
     private String avatar;
 
-    @Pattern(regexp = "^(EMPLOYER|APPLICANT)$", message = "Account type must be either 'EMPLOYER' or 'APPLICANT'")
+    @Pattern(regexp = "^(employer|applicant)$", message = "Account type must be either 'EMPLOYER' or 'APPLICANT'")
     private String accType;
 }

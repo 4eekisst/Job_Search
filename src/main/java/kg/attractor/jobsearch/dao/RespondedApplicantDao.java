@@ -27,8 +27,8 @@ public class RespondedApplicantDao {
         return jdbcTemplate.query(sql, new Object[]{vacancyId}, (rs, rowNum) ->
                 RespondedApplicantDto.builder()
                         .id(rs.getLong("id"))
-                        .resumeId((int) rs.getLong("resumeId"))
-                        .vacancyId((int) rs.getLong("vacancyId"))
+                        .resumeId((int) rs.getLong("resume_id"))
+                        .vacancyId((int) rs.getLong("vacancy_id"))
                         .confirmation(rs.getBoolean("confirmation"))
                         .build()
         );
@@ -48,14 +48,14 @@ public class RespondedApplicantDao {
                 .id(rs.getLong("id"))
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
-                .categoryId(rs.getLong("categoryId"))
-                .authorId(rs.getLong("authorId"))
+                .categoryId(rs.getLong("category_id"))
+                .authorId(rs.getLong("author_id"))
                 .salary(rs.getDouble("salary"))
-                .expFrom(rs.getInt("expFrom"))
-                .expTo(rs.getInt("expTo"))
-                .isActive(rs.getBoolean("isActive"))
-                .createdDate(rs.getTimestamp("createdDate").toLocalDateTime())
-                .updateTime(rs.getTimestamp("updateTime").toLocalDateTime())
+                .expFrom(rs.getInt("exp_from"))
+                .expTo(rs.getInt("exp_to"))
+                .isActive(rs.getBoolean("is_active"))
+                .createdDate(rs.getTimestamp("created_date").toLocalDateTime())
+                .updateTime(rs.getTimestamp("update_time").toLocalDateTime())
                 .build();
     }
 }

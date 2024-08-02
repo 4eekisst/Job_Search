@@ -2,8 +2,10 @@ package kg.attractor.jobsearch.controller;
 
 import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.VacancyDto;
+import kg.attractor.jobsearch.errors.CanNotFindVacancyException;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,9 +45,14 @@ public class VacancyController {
 
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<VacancyDto>> getVacanciesByCategory(@PathVariable Long categoryId) {
-        List<VacancyDto> vacancies = vacancyService.getVacanciesByCategory(categoryId);
-        return ResponseEntity.ok(vacancies);
+        try {
+            List<VacancyDto> vacancies = vacancyService.getVacanciesByCategory(categoryId);
+            return ResponseEntity.ok(vacancies);
+        } catch (CanNotFindVacancyException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
+
 
     @GetMapping("/all")
     public ResponseEntity<List<VacancyDto>> getAllVacancies() {

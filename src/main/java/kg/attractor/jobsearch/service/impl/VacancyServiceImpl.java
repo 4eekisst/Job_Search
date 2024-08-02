@@ -58,12 +58,17 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public List<VacancyDto> getVacanciesByCategory(Long categoryId) {
         try {
-            return vacancyDao.findVacanciesByCategory(categoryId);
+            List<VacancyDto> vacancies = vacancyDao.findVacanciesByCategory(categoryId);
+            if (vacancies.isEmpty()) {
+                throw new CanNotFindVacancyException("No vacancies found for category ID " + categoryId);
+            }
+            return vacancies;
         } catch (Exception e) {
             log.error("An error occurred while fetching vacancies by category ID {}: {}", categoryId, e.getMessage());
             throw new CanNotFindVacancyException("Unable to fetch vacancies by category ID " + categoryId);
         }
     }
+
 
     @Override
     public List<VacancyDto> getAllVacancies() {

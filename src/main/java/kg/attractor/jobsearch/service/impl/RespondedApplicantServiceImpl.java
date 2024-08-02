@@ -32,12 +32,17 @@ public class RespondedApplicantServiceImpl implements RespondedApplicantService 
     @Override
     public List<RespondedApplicantDto> getApplicantsForVacancy(Long vacancyId) {
         try {
-            return respondedApplicantDao.findApplicantsForVacancy(vacancyId);
+            List<RespondedApplicantDto> applicants = respondedApplicantDao.findApplicantsForVacancy(vacancyId);
+            if (applicants.isEmpty()) {
+                throw new CanNotFindRespondedApplicantException("No applicants found for vacancy ID " + vacancyId);
+            }
+            return applicants;
         } catch (Exception e) {
             log.error("An error occurred while fetching applicants for vacancy ID {}: {}", vacancyId, e.getMessage());
             throw new CanNotFindRespondedApplicantException("Unable to fetch applicants for vacancy ID " + vacancyId);
         }
     }
+
 
     @Override
     public List<VacancyDto> getVacanciesByApplicantId(Integer applicantId) {
