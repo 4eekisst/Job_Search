@@ -61,7 +61,11 @@ public class ResumeController {
 
     @GetMapping("/applicant/{applicantId}")
     public ResponseEntity<List<ResumeDto>> getResumesByApplicantId(@PathVariable @Positive(message = "Applicant ID must be positive") Integer applicantId) {
-        List<ResumeDto> resumes = resumeService.getResumesByApplicantId(applicantId);
-        return ResponseEntity.ok(resumes);
+        try {
+            List<ResumeDto> resumes = resumeService.getResumesByApplicantId(applicantId);
+            return ResponseEntity.ok(resumes);
+        } catch (CanNotFindResumeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
