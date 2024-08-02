@@ -1,6 +1,8 @@
 package kg.attractor.jobsearch.controller;
 
+import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.UserDto;
+import kg.attractor.jobsearch.model.User;
 import kg.attractor.jobsearch.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -78,9 +80,14 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUserProfile(@PathVariable("id") Long userId, @RequestBody UserDto userDto) {
         UserDto updatedUser = userService.updateUserProfile(userId, userDto);
-        if (updatedUser == null) {
+        if (updatedUser ==  null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(updatedUser);
+    }
+
+    @PostMapping ("/create")
+    public void addUser(@RequestBody @Valid UserDto userDto){
+        userService.createUser(userDto);
     }
 }

@@ -130,4 +130,21 @@ public class UserServiceImpl implements UserService {
             throw new CanNotFindUserException("An error occurred while updating user profile with ID " + userId);
         }
     }
+
+    @Override
+    public void createUser(UserDto userDto) {
+        try {
+            if (userDao.existsByEmail(userDto.getEmail())) {
+                log.warn("User with email {} already exists", userDto.getEmail());
+                throw new IllegalArgumentException("User with email " + userDto.getEmail() + " already exists");
+            }
+
+            Long userId = userDao.createUser(userDto);
+
+            log.info("User with ID {} created successfully", userId);
+        } catch (Exception e) {
+            log.error("An error occurred while creating user with email {}: {}", userDto.getEmail(), e.getMessage());
+            throw new RuntimeException("An error occurred while creating user with email " + userDto.getEmail());
+        }
+    }
 }
