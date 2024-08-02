@@ -1,9 +1,6 @@
 package kg.attractor.jobsearch.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,22 +11,37 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
+    @NotNull(message = "ID cannot be null")
     private Long id;
+
+    @NotBlank(message = "Name cannot be blank")
+    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String name;
+
+    @NotBlank(message = "Surname cannot be blank")
+    @Size(min = 2, max = 50, message = "Surname must be between 2 and 50 characters")
     private String surname;
+
+    @NotNull(message = "Age cannot be null")
+    @Min(value = 0, message = "Age must be positive")
+    @Max(value = 150, message = "Age must be less than or equal to 150")
     private Byte age;
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "Email cannot be blank")
+    @Email(message = "Email should be valid")
     private String email;
 
-    @NotBlank
-    @Size(min = 4, max = 20, message = "length must be >= 4 and <= 20")
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).+$",
-            message = "Should contain at least one uppercase letter, one number")
+    @NotBlank(message = "Password cannot be blank")
+    @Size(min = 4, max = 20, message = "Password length must be between 4 and 20 characters")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).+$", message = "Password should contain at least one uppercase letter, one number, and one lowercase letter")
     private String password;
 
+    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number should be valid")
     private String phoneNumber;
+
+    @Pattern(regexp = "^https?://.*\\.(jpg|jpeg|png)$", message = "Avatar URL should be valid and end with .jpg, .jpeg, or .png")
     private String avatar;
+
+    @Pattern(regexp = "^(EMPLOYER|APPLICANT)$", message = "Account type must be either 'EMPLOYER' or 'APPLICANT'")
     private String accType;
 }
