@@ -1,5 +1,7 @@
 package kg.attractor.jobsearch.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import kg.attractor.jobsearch.dto.*;
 import kg.attractor.jobsearch.dto.customDto.ResumeCreatingDto;
 import kg.attractor.jobsearch.service.ContactInfoService;
@@ -23,7 +25,7 @@ public class ResumeController {
     private final ResumeService resumeService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createResume(@RequestBody ResumeCreatingDto request) {
+    public ResponseEntity<String> createResume(@RequestBody @Valid ResumeCreatingDto request) {
         resumeService.createFullResume(request);
         return ResponseEntity.ok("Resume created successfully");
     }
@@ -35,26 +37,25 @@ public class ResumeController {
     }
 
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<ResumeDto>> getResumesByCategory(@PathVariable Long categoryId) {
+    public ResponseEntity<List<ResumeDto>> getResumesByCategory(@PathVariable @Positive(message = "Category ID must be positive") Long categoryId) {
         List<ResumeDto> resumes = resumeService.getResumesByCategory(categoryId);
         return ResponseEntity.ok(resumes);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<String> updateResume(@RequestBody ResumeCreatingDto request) {
+    public ResponseEntity<String> updateResume(@RequestBody @Valid ResumeCreatingDto request) {
         resumeService.updateFullResume(request);
         return ResponseEntity.ok("Resume updated successfully");
     }
 
-
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteResume(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteResume(@PathVariable @Positive(message = "Resume ID must be positive") Long id) {
         resumeService.deleteResume(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/applicant/{applicantId}")
-    public ResponseEntity<List<ResumeDto>> getResumesByApplicantId(@PathVariable Integer applicantId) {
+    public ResponseEntity<List<ResumeDto>> getResumesByApplicantId(@PathVariable @Positive(message = "Applicant ID must be positive") Integer applicantId) {
         List<ResumeDto> resumes = resumeService.getResumesByApplicantId(applicantId);
         return ResponseEntity.ok(resumes);
     }
