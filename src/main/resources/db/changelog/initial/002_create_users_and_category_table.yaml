@@ -27,7 +27,7 @@ databaseChangeLog:
                   type: varchar(255)
               - column:
                   name: password
-                  type: varchar(45)
+                  type: varchar(255)
               - column:
                   name: phoneNumber
                   type: varchar(45)
@@ -35,8 +35,17 @@ databaseChangeLog:
                   name: avatar
                   type: varchar(255)
               - column:
-                  name: accountType
-                  type: varchar(45)
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authority_id
+                  type: long
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_authority_users_id
+                    references: authorities(id)
 
   - changeSet:
       id: create category table

@@ -15,5 +15,21 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/master.yml
 
+  output:
+    ansi:
+      enabled: always
+
+logging:
+  level:
+    root: info
+
+    org:
+      springframework:
+        security: debug
+
+  file:
+    path: logs
+
+
 
 

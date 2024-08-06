@@ -39,12 +39,12 @@ public class UserDao {
     }
 
     public UserDto findEmployerById(Long userId) {
-        String sql = "SELECT * FROM Users WHERE id = ? AND ACCOUNTTYPE = 'employer'";
+        String sql = "SELECT * FROM Users WHERE id = ? AND AUTHORITY_ID = '2'";
         return jdbcTemplate.queryForObject(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(UserDto.class));
     }
 
     public UserDto findApplicantById(Long userId) {
-        String sql = "SELECT * FROM Users WHERE id = ? AND ACCOUNTTYPE = 'applicant'";
+        String sql = "SELECT * FROM Users WHERE id = ? AND AUTHORITY_ID = '1'";
         return jdbcTemplate.queryForObject(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(UserDto.class));
     }
 
@@ -60,8 +60,8 @@ public class UserDao {
     }
 
     public Long createUser(UserDto userDto) {
-        String sql = "INSERT INTO Users (name, surname, age, email, password, phoneNumber, avatar, ACCOUNTTYPE) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Users (name, surname, age, email, password, phoneNumber, avatar, ENABLED, AUTHORITY_ID) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
