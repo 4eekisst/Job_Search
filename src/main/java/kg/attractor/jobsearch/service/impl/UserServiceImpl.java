@@ -2,6 +2,7 @@ package kg.attractor.jobsearch.service.impl;
 
 import kg.attractor.jobsearch.dao.UserDao;
 import kg.attractor.jobsearch.dto.UserDto;
+import kg.attractor.jobsearch.dto.customDto.UpdateUserProfileDto;
 import kg.attractor.jobsearch.errors.CanNotFindUserException;
 import kg.attractor.jobsearch.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +16,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
-
 
     @Override
     public UserDto getUserById(Long userId) {
@@ -124,4 +123,28 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("An error occurred while registering user");
         }
     }
+
+    @Override
+    public UserDto updateUserProfile(UpdateUserProfileDto updateUserProfileDto) throws CanNotFindUserException {
+        try {
+            UserDto existingUser = userDao.findUserById(updateUserProfileDto.getId());
+            if (existingUser == null) {
+                log.warn("User with ID {} not found", updateUserProfileDto.getId());
+                throw new CanNotFindUserException("User with ID " + updateUserProfileDto.getId() + " not found");
+            }
+
+            existingUser.setName(updateUserProfileDto.getName());
+            existingUser.setSurname(updateUserProfileDto.getSurname());
+            existingUser.setAge(updateUserProfileDto.getAge());
+            existingUser.setPhoneNumber(updateUserProfileDto.getPhoneNumber());
+
+            return userDao.updateUser(existingUser);
+        } catch (CanNotFindUserException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("An error occurred while updating user profile with ID {}: {}", updateUserProfileDto.getId(), e.getMessage());
+            throw new RuntimeException("An error occurred while updating user profile");
+        }
+    }
 }
+

@@ -1,8 +1,10 @@
 package kg.attractor.jobsearch.dao;
 
 import kg.attractor.jobsearch.dto.UserDto;
+import kg.attractor.jobsearch.dto.customDto.UpdateUserProfileDto;
 import kg.attractor.jobsearch.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -18,9 +20,14 @@ import java.util.List;
 
 public class UserDao {
     private final JdbcTemplate jdbcTemplate;
+
     public UserDto findUserById(Long userId) {
-        String sql = "SELECT * FROM USERS WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(UserDto.class));
+        try {
+            String sql = "SELECT * FROM USERS WHERE id = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(UserDto.class));
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public List<UserDto> findUsersByName(String name) {
@@ -75,6 +82,20 @@ public class UserDao {
 
         Number key = keyHolder.getKey();
         userDto.setId(key != null ? key.longValue() : null);
+        return userDto;
+    }
+
+    public UserDto updateUser(UserDto userDto) {
+        String sql = "UPDATE Users SET name = ?, surname = ?, age = ?, phoneNumber = ? WHERE id = ?";
+
+        jdbcTemplate.update(sql,
+                userDto.getName(),
+                userDto.getSurname(),
+                userDto.getAge(),
+                userDto.getPhoneNumber(),
+                userDto.getId()
+        );
+
         return userDto;
     }
 }

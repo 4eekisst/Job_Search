@@ -56,13 +56,22 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->  request
                         .requestMatchers(HttpMethod.POST,"/users/register").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/users/update").authenticated()
                         .requestMatchers(HttpMethod.POST,"/resumes/create").hasAuthority("applicant")
                         .requestMatchers(HttpMethod.PUT, "/resumes/update").hasAuthority("applicant")
                         .requestMatchers(HttpMethod.DELETE,"/resumes/delete/{id}").hasAuthority("applicant")
+                        .requestMatchers(HttpMethod.GET,"/resumes/category/{categoryId}").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.GET,"/resumes/all").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.GET,"/resumes/applicant/{applicantId}").hasAuthority("employer")
                         .requestMatchers(HttpMethod.POST,"/vacancies/create").hasAuthority("employer")
                         .requestMatchers(HttpMethod.PUT, "/vacancies/update").hasAuthority("employer")
                         .requestMatchers(HttpMethod.DELETE,"/vacancies/delete/{id}").hasAuthority("employer")
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.GET,"/vacancies/all").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/vacancies/category/{categoryId}").hasAuthority("applicant")
+                        .requestMatchers(HttpMethod.GET,"/vacancies/active").hasAuthority("applicant")
+                        .requestMatchers(HttpMethod.POST,"/respondedApplicant/respond").hasAuthority("applicant")
+                        .requestMatchers(HttpMethod.GET,"/respondedApplicant/vacancies/{applicantId}").hasAuthority("applicant")
+                        .requestMatchers(HttpMethod.GET,"/respondedApplicant/vacancy/{vacancyId}").hasAuthority("employer")
                 );
                 return http.build();
     }

@@ -2,6 +2,8 @@ package kg.attractor.jobsearch.controller;
 
 import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.UserDto;
+import kg.attractor.jobsearch.dto.customDto.UpdateUserProfileDto;
+import kg.attractor.jobsearch.errors.CanNotFindUserException;
 import kg.attractor.jobsearch.model.User;
 import kg.attractor.jobsearch.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -82,5 +84,17 @@ public class UserController {
     public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto) {
         UserDto createdUser = userService.registerUser(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<UserDto> updateUserProfile(@Valid @RequestBody UpdateUserProfileDto updateUserProfileDto) {
+        try {
+            UserDto updatedUser = userService.updateUserProfile(updateUserProfileDto);
+            return ResponseEntity.ok(updatedUser);
+        } catch (CanNotFindUserException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }
