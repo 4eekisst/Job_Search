@@ -6,6 +6,7 @@ import kg.attractor.jobsearch.errors.CanNotFindUserException;
 import kg.attractor.jobsearch.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public UserDto getUserById(Long userId) {
@@ -103,48 +106,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUserProfile(Long userId, UserDto userDto) {
-        try {
-            UserDto existingUser = userDao.findUserById(userId);
-            if (existingUser == null) {
-                log.warn("User with ID {} not found", userId);
-                throw new CanNotFindUserException("User with ID " + userId + " not found");
-            }
-
-            UserDto updatedUser = UserDto.builder()
-                    .id(userId)
-                    .name(userDto.getName())
-                    .surname(userDto.getSurname())
-                    .age(userDto.getAge())
-                    .phoneNumber(userDto.getPhoneNumber())
-                    .email(existingUser.getEmail())
-                    .avatar(existingUser.getAvatar())
-                    .accType(existingUser.getAccType())
-                    .build();
-
-            userDao.updateUser(updatedUser);
-
-            return updatedUser;
-        } catch (Exception e) {
-            log.error("An error occurred while updating user profile with ID {}: {}", userId, e.getMessage());
-            throw new CanNotFindUserException("An error occurred while updating user profile with ID " + userId);
-        }
-    }
-
-    @Override
-    public void createUser(UserDto userDto) {
+    public UserDto registerUser(UserDto userDto) {
         try {
             if (userDao.existsByEmail(userDto.getEmail())) {
                 log.warn("User with email {} already exists", userDto.getEmail());
-                throw new IllegalArgumentException("User with email " + userDto.getEmail() + " already exists");
+                throw new CanNotFindUserException("User with email " + userDto.getEmail() + " already exists");
             }
 
-            Long userId = userDao.createUser(userDto);
+            userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            userDto.setEnabled(true);
 
-            log.info("User with ID {} created successfully", userId);
+            return userDao.saveUser(userDto);
+        } catch (CanNotFindUserException e) {
+            throw e;
         } catch (Exception e) {
-            log.error("An error occurred while creating user with email {}: {}", userDto.getEmail(), e.getMessage());
-            throw new RuntimeException("An error occurred while creating user with email " + userDto.getEmail());
+            log.error("An error occurred while registering user: {}", e.getMessage());
+            throw new RuntimeException("An error occurred while registering user");
         }
     }
 }

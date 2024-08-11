@@ -12,6 +12,6 @@ public interface UserService {
     UserDto getApplicantById(Long userId);
     UserDto getEmployerById(Long userId);
     boolean existsByEmail(String email);
-    UserDto updateUserProfile(Long userId, UserDto userDto);
-    void createUser(UserDto userDto);
+
+    UserDto registerUser(UserDto userDto);
 }

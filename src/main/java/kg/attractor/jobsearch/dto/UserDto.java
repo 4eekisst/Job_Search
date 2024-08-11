@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    @NotNull(message = "ID cannot be null")
+
     private Long id;
 
     @NotBlank(message = "Name cannot be blank")
@@ -25,7 +25,7 @@ public class UserDto {
     @NotNull(message = "Age cannot be null")
     @Min(value = 0, message = "Age must be positive")
     @Max(value = 150, message = "Age must be less than or equal to 150")
-    private Byte age;
+    private Integer age;
 
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Email should be valid")
@@ -42,6 +42,8 @@ public class UserDto {
     @Pattern(regexp = "^https?://.*\\.(jpg|jpeg|png)$", message = "Avatar URL should be valid and end with .jpg, .jpeg, or .png")
     private String avatar;
 
-    @Pattern(regexp = "^(employer|applicant)$", message = "Account type must be either 'EMPLOYER' or 'APPLICANT'")
-    private String accType;
+    private Boolean enabled;
+
+    @NotNull(message = "Authority ID cannot be null")
+    private Long authority_id;
 }

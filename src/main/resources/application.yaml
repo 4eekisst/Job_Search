@@ -9,9 +9,7 @@ spring:
     username: root
     password: 1q2w3e
     driver-class-name: org.h2.Driver
-#  sql:
-#    init:
-#      mode: always
+
   liquibase:
     change-log: classpath:db/changelog/master.yml
 

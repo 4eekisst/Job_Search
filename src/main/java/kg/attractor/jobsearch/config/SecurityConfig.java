@@ -55,10 +55,15 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->  request
-                        .requestMatchers(HttpMethod.POST, "/resumes").hasAuthority("applicant")
-                        .requestMatchers(HttpMethod.POST, "/vacancies").hasAuthority("employer")
-                        .requestMatchers(HttpMethod.GET, "/resumes").hasAuthority("employer")
-                        .anyRequest().permitAll());
+                        .requestMatchers(HttpMethod.POST,"/users/register").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/resumes/create").hasAuthority("applicant")
+                        .requestMatchers(HttpMethod.PUT, "/resumes/update").hasAuthority("applicant")
+                        .requestMatchers(HttpMethod.DELETE,"/resumes/delete/{id}").hasAuthority("applicant")
+                        .requestMatchers(HttpMethod.POST,"/vacancies/create").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.PUT, "/vacancies/update").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.DELETE,"/vacancies/delete/{id}").hasAuthority("employer")
+                        .anyRequest().authenticated()
+                );
                 return http.build();
     }
 }

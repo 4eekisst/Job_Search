@@ -29,19 +29,13 @@ public class ErrorServiceImpl implements ErrorService {
     public ErrorResponseBody makeResponse(BindingResult bindingResult) {
         Map<String, List<String>> reasons = new HashMap<>();
         bindingResult.getFieldErrors().stream()
-                .filter(e -> e.getDefaultMessage() !=  null)
+                .filter(e -> e.getDefaultMessage() != null)
                 .forEach(e -> {
-                    List<String> errors = new ArrayList<>();
-                    errors.add(e.getDefaultMessage());
-                    if (reasons.containsKey(e.getField())){
-                        reasons.put(e.getField(), errors);
-                    } else {
-                         reasons.get(e.getField()).addAll(errors);
-                    }
+                    reasons.computeIfAbsent(e.getField(), k -> new ArrayList<>()).add(e.getDefaultMessage());
                 });
-                        return ErrorResponseBody.builder()
-                                .error("Validation error")
-                                .reasons(reasons)
-                                .build();
+        return ErrorResponseBody.builder()
+                .error("Validation error")
+                .reasons(reasons)
+                .build();
     }
 }

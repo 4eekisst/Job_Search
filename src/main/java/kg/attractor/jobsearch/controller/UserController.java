@@ -5,6 +5,7 @@ import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.model.User;
 import kg.attractor.jobsearch.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,17 +78,9 @@ public class UserController {
         return ResponseEntity.ok(exists);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUserProfile(@PathVariable("id") Long userId, @RequestBody @Valid UserDto userDto) {
-        UserDto updatedUser = userService.updateUserProfile(userId, userDto);
-        if (updatedUser ==  null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(updatedUser);
-    }
-
-    @PostMapping ("/create")
-    public void addUser(@RequestBody @Valid UserDto userDto){
-        userService.createUser(userDto);
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto) {
+        UserDto createdUser = userService.registerUser(userDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 }
