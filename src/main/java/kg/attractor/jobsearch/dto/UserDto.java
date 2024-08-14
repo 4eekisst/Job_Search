@@ -18,7 +18,6 @@ public class UserDto {
     @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String name;
 
-    @NotBlank(message = "Surname cannot be blank")
     @Size(min = 2, max = 50, message = "Surname must be between 2 and 50 characters")
     private String surname;
 
@@ -39,7 +38,6 @@ public class UserDto {
     @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number should be valid")
     private String phoneNumber;
 
-    @Pattern(regexp = "^https?://.*\\.(jpg|jpeg|png)$", message = "Avatar URL should be valid and end with .jpg, .jpeg, or .png")
     private String avatar;
 
     private Boolean enabled;

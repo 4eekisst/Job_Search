@@ -1,14 +1,11 @@
-package kg.attractor.jobsearch.controller;
+package kg.attractor.jobsearch.controller.api;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import kg.attractor.jobsearch.dto.*;
 import kg.attractor.jobsearch.dto.customDto.ResumeCreatingDto;
 import kg.attractor.jobsearch.errors.CanNotFindResumeException;
-import kg.attractor.jobsearch.service.ContactInfoService;
-import kg.attractor.jobsearch.service.EducationInfoService;
 import kg.attractor.jobsearch.service.ResumeService;
-import kg.attractor.jobsearch.service.WorkExperienceInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController("resumesRest")
 @RequiredArgsConstructor
-@RequestMapping("resumes")
+@RequestMapping("api/resumes")
 
 
 public class ResumeController {

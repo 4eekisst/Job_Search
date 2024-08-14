@@ -1,9 +1,13 @@
 server:
-  port: 9099
+  port: 1111
 spring:
   application:
     name: Job_search
+  mvc:
+    static-path-pattern: classpath:/static/
 
+
+  #----DataBases----#
   datasource:
     url: jdbc:h2:./db/JobSearch;AUTO_SERVER=true
     username: root
@@ -23,7 +27,7 @@ logging:
 
     org:
       springframework:
-        security: debug
+        security: info
 
   file:
     path: logs

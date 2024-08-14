@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.controller;
+package kg.attractor.jobsearch.controller.api;
 
 import kg.attractor.jobsearch.service.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController
+@RestController("imageRest")
 @RequiredArgsConstructor
-@RequestMapping("images")
+@RequestMapping("api/images")
 
 public class ImageController {
     private final ImageService imageService;

@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -48,31 +49,30 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .httpBasic(Customizer.withDefaults())
-                .formLogin(AbstractHttpConfigurer::disable)
+                .formLogin(form -> form
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/auth/login")
+                        .defaultSuccessUrl("/")
+                        .failureUrl("/auth/login?error=true")
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request ->  request
-                        .requestMatchers(HttpMethod.POST,"/users/register").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/users/update").authenticated()
-                        .requestMatchers(HttpMethod.POST,"/resumes/create").hasAuthority("applicant")
-                        .requestMatchers(HttpMethod.PUT, "/resumes/update").hasAuthority("applicant")
-                        .requestMatchers(HttpMethod.DELETE,"/resumes/delete/{id}").hasAuthority("applicant")
-                        .requestMatchers(HttpMethod.GET,"/resumes/category/{categoryId}").hasAuthority("employer")
-                        .requestMatchers(HttpMethod.GET,"/resumes/all").hasAuthority("employer")
-                        .requestMatchers(HttpMethod.GET,"/resumes/applicant/{applicantId}").hasAuthority("employer")
-                        .requestMatchers(HttpMethod.POST,"/vacancies/create").hasAuthority("employer")
-                        .requestMatchers(HttpMethod.PUT, "/vacancies/update").hasAuthority("employer")
-                        .requestMatchers(HttpMethod.DELETE,"/vacancies/delete/{id}").hasAuthority("employer")
-                        .requestMatchers(HttpMethod.GET,"/vacancies/all").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/vacancies/category/{categoryId}").hasAuthority("applicant")
-                        .requestMatchers(HttpMethod.GET,"/vacancies/active").hasAuthority("applicant")
-                        .requestMatchers(HttpMethod.POST,"/respondedApplicant/respond").hasAuthority("applicant")
-                        .requestMatchers(HttpMethod.GET,"/respondedApplicant/vacancies/{applicantId}").hasAuthority("applicant")
-                        .requestMatchers(HttpMethod.GET,"/respondedApplicant/vacancy/{vacancyId}").hasAuthority("employer")
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/users/update").authenticated()
+                        .requestMatchers("/api/resumes/create", "/api/resumes/update", "/api/resumes/delete/**").hasAuthority("applicant")
+                        .requestMatchers("/api/resumes/category/**", "/api/resumes/all", "/api/resumes/applicant/**").hasAuthority("employer")
+                        .requestMatchers("/api/vacancies/create", "/api/vacancies/update", "/api/vacancies/delete/**").hasAuthority("employer")
+                        .requestMatchers("/api/vacancies/all", "/api/vacancies/category/**", "/api/vacancies/active").hasAuthority("applicant")
+                        .requestMatchers("/api/respondedApplicant/respond", "/api/respondedApplicant/vacancies/**", "/api/respondedApplicant/vacancy/**").hasAuthority("applicant")
+                        .anyRequest().permitAll()
                 );
-                return http.build();
+        return http.build();
     }
 }
