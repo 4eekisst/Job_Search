@@ -14,13 +14,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("")
 
-public class HomeController {
+public class MainController {
     private final VacancyService vacancyService;
 
     @GetMapping
     public String getAllVacancies(Model model) {
         List<VacancyDto> vacancies = vacancyService.getAllVacancies();
         model.addAttribute("vacancies", vacancies);
-        return "home/index";
+        return "main/index";
     }
 }

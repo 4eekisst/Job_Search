@@ -16,6 +16,11 @@ spring:
 
   liquibase:
     change-log: classpath:db/changelog/master.yml
+  h2:
+    console:
+      enabled: false
+  freemarker:
+    expose-session-attributes: true
 
   output:
     ansi:

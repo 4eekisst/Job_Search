@@ -4,11 +4,11 @@ VALUES ('applicant'),
 
 INSERT INTO Users (name, surname, age, email, password, phoneNumber, avatar, enabled, authority_id)
 VALUES ('Ivan', 'Ivanov', 30, 'ivan@example.com', '$2a$12$rTMjQ/Uw9Q8fuHZRYnWFF.CFenZn42KlTLRHc2bS6rKovVnz3U6Be',
-        '1234567890', 'avatar1.png', true, '1'),
+        '1234567890', NULL, true, '1'),
        ('qwe', 'qwe', 33, 'qwe@qwe.qwe', '$2a$12$OsUEglL6BGMf7oqc3YD7V.PWAw/PKkR7atf0Bnz4ExoLfze/7M/gK', '0557057557',
-        'avatar2.png', true, '1'),
+        NULL, true, '1'),
        ('DetalingStudio', '', 3, 'detaling@example.com',
-        '$2a$12$YRF7dh4FstGNEkZLnD7Mve0IRP0HysM7Uul6SnQ09nQ9HbXWi2qL2', '0987654321', 'avatar3.png', true, '2');
+        '$2a$12$YRF7dh4FstGNEkZLnD7Mve0IRP0HysM7Uul6SnQ09nQ9HbXWi2qL2', '0987654321', NULL, true, '2');
 
 
 INSERT INTO Category (name, PARENT_ID)

@@ -146,5 +146,20 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("An error occurred while updating user profile");
         }
     }
+
+    @Override
+    public UserDto getUserByEmail(String email) {
+        try {
+            List<UserDto> users = userDao.findUsersByEmail(email);
+            if (users.isEmpty()) {
+                log.warn("User with email {} not found", email);
+                throw new CanNotFindUserException("User with email " + email + " not found");
+            }
+            return users.get(0);
+        } catch (Exception e) {
+            log.error("An error occurred while fetching user by email {}: {}", email, e.getMessage());
+            throw new CanNotFindUserException("An error occurred while fetching user by email " + email);
+        }
+    }
 }
 

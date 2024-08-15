@@ -2,11 +2,13 @@ package kg.attractor.jobsearch.service;
 
 import lombok.SneakyThrows;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -53,4 +55,8 @@ public interface ImageService {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Image not found");
         }
     }
+
+    ResponseEntity<InputStreamResource> downloadImage(String name);
+
+    void uploadImage(MultipartFile avatar, Authentication authentication);
 }

@@ -8,32 +8,56 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>JobSearch</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            .navbar-text {
+                margin-left: auto;
+            }
+        </style>
     </head>
     <body>
-
-    <nav class="navbar navbar-expand-md navbar-dark bg-primary pt-5 pb-5" data-bs-theme="dark">
+    <#assign
+    known = SPRING_SECURITY_CONTEXT??
+    >
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary pt-3 pb-3">
         <div class="container">
             <a class="navbar-brand" href="/">Job Search</a>
-            <button class="navbar-toggler text-light bg-orange btn-user ms-auto" type="button"
+            <button class="navbar-toggler text-light bg-orange btn-user" type="button"
                     data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <i class="bi bi-list-nested"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav fw-medium mx-auto">
-                    <li class="mx-3 nav-item">
-                        <a class="nav-link" aria-current="page" href="/auth/login">login</a>
-                    </li>
-                    <li class="mx-3 nav-item">
-                        <a class="nav-link" aria-current="page" href="/auth/register">register</a>
-                    </li>
-                    <li class="mx-3 nav-item">
-                        <a class="nav-link" href="/#">текст</a>
-                    </li>
-                    <li class="mx-3 nav-item">
-                        <a class="nav-link" href="/#">текст</a>
-                    </li>
+                <ul class="navbar-nav mr-auto">
+                    <#if !known>
+                        <li class="nav-item">
+                            <a href="/auth/login" class="btn btn-primary rounded-1">Вход</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/auth/register" class="btn btn-primary rounded-1">Регистрация</a>
+                        </li>
+                    </#if>
+
+                    <#if known>
+                        <li class="nav-item">
+                            <a href="/profile" class="btn btn-primary rounded-1">Профиль</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/logout" class="btn btn-primary rounded-1" id="logout">Выход</a>
+                        </li>
+                    </#if>
+                </ul>
+
+                <ul class="navbar-nav ml-auto">
+                    <#if known>
+                        <#assign
+                        user = SPRING_SECURITY_CONTEXT.authentication.principal
+                        name = user.getUsername()
+                        >
+                        <li class="nav-item">
+                            <span class="navbar-text text-light">Добро пожаловать ${name}</span>
+                        </li>
+                    </#if>
                 </ul>
             </div>
         </div>
@@ -41,9 +65,7 @@
 
     <main class="container mt-4">
         <div class="row">
-
-            <#nested >
-
+            <#nested>
         </div>
     </main>
 

@@ -2,6 +2,7 @@ package kg.attractor.jobsearch.controller.api;
 
 import kg.attractor.jobsearch.service.ImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,5 +23,10 @@ public class ImageController {
     @GetMapping("byName")
     public ResponseEntity<?> download(@RequestParam(name = "name")String name){
         return imageService.download(name);
+    }
+
+    @GetMapping(value = "image/{name}")
+    public ResponseEntity<InputStreamResource> get(@PathVariable  String name){
+        return imageService.downloadImage(name);
     }
 }
