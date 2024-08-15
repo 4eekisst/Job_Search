@@ -24,6 +24,11 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public String uploadAvatar(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            log.error("Attempted to upload an empty or null file");
+            throw new IllegalArgumentException("File must not be empty or null");
+        }
+
         try {
             return ImageService.uploadImage(file);
         } catch (Exception e) {
@@ -34,6 +39,11 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public ResponseEntity<?> download(String name) {
+        if (name == null || name.isEmpty()) {
+            log.error("Attempted to download an image with an empty or null name");
+            return ResponseEntity.badRequest().body("Image name must not be empty or null");
+        }
+
         try {
             return ImageService.downloadImage(name, MediaType.IMAGE_JPEG);
         } catch (Exception e) {
@@ -44,23 +54,51 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public ResponseEntity<InputStreamResource> downloadImage(String name) {
+        if (name == null || name.isEmpty()) {
+            log.error("Attempted to download an image with an empty or null name");
+            return ResponseEntity.badRequest().body(null); // Return bad request with null body
+        }
+
         return fileUtil.getOutputFile(name, "/images");
     }
 
     @Override
     public void uploadImage(MultipartFile avatar, Authentication authentication) {
-        if (avatar != null) {
-            String contentType = avatar.getContentType();
-            if (contentType == null || !contentType.matches("image/png|image/jpeg")) {
-                throw new IllegalArgumentException("Unsupported image type (should be: \"png/jpeg\")");
-            }
-            String fileName = fileUtil.saveUploadedFile(avatar, "/images");
-            UserDto user = imageDao.findUserByEmail(authentication.getName());
+        if (avatar == null || avatar.isEmpty()) {
+            log.error("Attempted to upload an empty or null file");
+            throw new IllegalArgumentException("File must not be empty or null");
+        }
+
+        String contentType = avatar.getContentType();
+        if (contentType == null || !contentType.matches("image/png|image/jpeg")) {
+            throw new IllegalArgumentException("Unsupported image type (should be: \"png/jpeg\")");
+        }
+
+        String fileName;
+        try {
+            fileName = fileUtil.saveUploadedFile(avatar, "/images");
+        } catch (Exception e) {
+            log.error("An error occurred while saving the uploaded file: {}", e.getMessage());
+            throw new CanNotFindImageException("Unable to save uploaded image");
+        }
+
+        UserDto user;
+        try {
+            user = imageDao.findUserByEmail(authentication.getName());
             if (user == null) {
                 throw new CanNotFindUserException("User by email " + authentication.getName() + " not found");
             }
+        } catch (Exception e) {
+            log.error("An error occurred while finding the user by email: {}", e.getMessage());
+            throw new CanNotFindUserException("Unable to find user");
+        }
+
+        try {
             user.setAvatar(fileName);
             imageDao.updateUser(user);
+        } catch (Exception e) {
+            log.error("An error occurred while updating the user with the new avatar: {}", e.getMessage());
+            throw new CanNotFindUserException("Unable to update user with new avatar");
         }
     }
 }
