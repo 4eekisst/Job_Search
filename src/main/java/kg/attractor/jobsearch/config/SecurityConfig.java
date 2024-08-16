@@ -64,15 +64,11 @@ public class SecurityConfig {
                         .permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
-//                        .requestMatchers(HttpMethod.PUT, "/api/users/update").authenticated()
-//                        .requestMatchers("/api/resumes/create", "/api/resumes/update", "/api/resumes/delete/**").hasAuthority("applicant")
-//                        .requestMatchers("/api/resumes/category/**", "/api/resumes/all", "/api/resumes/applicant/**").hasAuthority("employer")
-//                        .requestMatchers("/api/vacancies/create", "/api/vacancies/update", "/api/vacancies/delete/**").hasAuthority("employer")
-//                        .requestMatchers("/api/vacancies/all", "/api/vacancies/category/**", "/api/vacancies/active").hasAuthority("applicant")
-//                        .requestMatchers("/api/respondedApplicant/respond", "/api/respondedApplicant/vacancies/**", "/api/respondedApplicant/vacancy/**").hasAuthority("applicant")
-                                .requestMatchers("/profile").authenticated()
-                                .anyRequest().permitAll()
+                        .requestMatchers(HttpMethod.GET, "/vacancies").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/resumes").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.GET, "/resume/info/{id}").hasAuthority("employer")
+                        .requestMatchers("/profile").authenticated()
+                        .anyRequest().permitAll()
                 );
         return http.build();
     }

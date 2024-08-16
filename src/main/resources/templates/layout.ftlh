@@ -48,9 +48,15 @@
                         <li class="nav-item">
                             <a href="/vacancies" class="btn btn-primary rounded-1">Список вакансий</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/resumes" class="btn btn-primary rounded-1">Список резюме</a>
-                        </li>
+                        <#assign
+                        user = SPRING_SECURITY_CONTEXT.authentication.principal
+                        roles = user.authorities
+                        >
+                        <#if roles?seq_contains("employer")>
+                            <li class="nav-item">
+                                <a href="/resumes" class="btn btn-primary rounded-1">Список резюме</a>
+                            </li>
+                        </#if>
                     </#if>
                 </ul>
 
