@@ -88,4 +88,18 @@ public class VacancyServiceImpl implements VacancyService {
             throw new CanNotFindVacancyException("Unable to fetch vacancy with ID " + id);
         }
     }
+
+    @Override
+    public List<VacancyDto> getVacanciesByUserId(Long userId) {
+        try {
+            List<VacancyDto> vacancies = vacancyDao.findVacanciesByUserId(userId);
+            if (vacancies.isEmpty()) {
+                throw new CanNotFindVacancyException("No vacancies found for user ID " + userId);
+            }
+            return vacancies;
+        } catch (Exception e) {
+            log.error("An error occurred while fetching vacancies by user ID {}: {}", userId, e.getMessage());
+            throw new CanNotFindVacancyException("Unable to fetch vacancies by user ID " + userId);
+        }
+    }
 }

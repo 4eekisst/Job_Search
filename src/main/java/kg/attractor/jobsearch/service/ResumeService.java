@@ -14,6 +14,6 @@ public interface ResumeService {
     void deleteResume(Long id);
     List<ResumeDto> getResumesByCategory(Long categoryId);
     List<ResumeDto> getResumesByApplicantId(Integer applicantId);
-
     ResumeDto getResumeById(Long id);
+    List<ResumeDto> getResumesByUserId(Long userId);
 }

@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.dao;
 
+import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -89,5 +90,10 @@ public class VacancyDao {
                 .createdDate(rs.getObject("CREATED_DATE", LocalDateTime.class))
                 .updateTime(rs.getObject("UPDATE_TIME", LocalDateTime.class))
                 .build();
+    }
+
+    public List<VacancyDto> findVacanciesByUserId(Long userId) {
+        String sql = "SELECT * FROM Vacancy WHERE AUTHOR_ID = ?";
+        return jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> mapRowToVacancyDto(rs));
     }
 }

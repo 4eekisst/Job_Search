@@ -226,6 +226,20 @@ public class ResumeServiceImpl implements ResumeService {
             throw new CanNotFindResumeException("Unable to fetch resume with ID " + id);
         }
     }
+
+    @Override
+    public List<ResumeDto> getResumesByUserId(Long userId) {
+        try {
+            List<ResumeDto> resumes = resumeDao.findResumesByUserId(userId);
+            if (resumes.isEmpty()) {
+                throw new CanNotFindResumeException("No resumes found for user ID " + userId);
+            }
+            return resumes;
+        } catch (Exception e) {
+            log.error("An error occurred while fetching resumes by user ID {}: {}", userId, e.getMessage());
+            throw new CanNotFindResumeException("Unable to fetch resumes by user ID " + userId);
+        }
+    }
 }
 
 

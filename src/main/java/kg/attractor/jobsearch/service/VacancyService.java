@@ -12,4 +12,5 @@ public interface VacancyService {
     List<VacancyDto> getVacanciesByCategory(Long categoryId);
     List<VacancyDto> getAllVacancies();
     VacancyDto getVacancyById(Long id);
+    List<VacancyDto> getVacanciesByUserId(Long userId);
 }
