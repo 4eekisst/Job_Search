@@ -45,6 +45,12 @@
                         <li class="nav-item">
                             <a href="/logout" class="btn btn-primary rounded-1" id="logout">Выход</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="/vacancies" class="btn btn-primary rounded-1">Список вакансий</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/resumes" class="btn btn-primary rounded-1">Список резюме</a>
+                        </li>
                     </#if>
                 </ul>
 

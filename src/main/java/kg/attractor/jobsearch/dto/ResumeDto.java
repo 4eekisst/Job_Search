@@ -24,6 +24,9 @@ public class ResumeDto {
     @Positive(message = "Applicant ID must be positive")
     private Integer applicantId;
 
+    @NotBlank(message = "Email cannot be blank")
+    private String email;
+
     @NotBlank(message = "Name cannot be blank")
     @Size(min = 1, max = 100, message = "Name must be between 1 and 100 characters")
     private String name;
@@ -36,6 +39,6 @@ public class ResumeDto {
     @Positive(message = "Salary must be positive")
     private Double salary;
     private Boolean isActive;
-    private LocalDate createdDate;
-    private LocalDate updateTime;
+    private String createdDate;
+    private String updateTime;
 }

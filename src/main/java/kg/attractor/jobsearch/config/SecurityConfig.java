@@ -71,8 +71,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/api/vacancies/create", "/api/vacancies/update", "/api/vacancies/delete/**").hasAuthority("employer")
 //                        .requestMatchers("/api/vacancies/all", "/api/vacancies/category/**", "/api/vacancies/active").hasAuthority("applicant")
 //                        .requestMatchers("/api/respondedApplicant/respond", "/api/respondedApplicant/vacancies/**", "/api/respondedApplicant/vacancy/**").hasAuthority("applicant")
-                                .requestMatchers("/profile").authenticated() // Only authenticated users can access the profile page
-
+                                .requestMatchers("/profile").authenticated()
                                 .anyRequest().permitAll()
                 );
         return http.build();

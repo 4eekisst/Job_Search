@@ -4,12 +4,11 @@ VALUES ('applicant'),
 
 INSERT INTO Users (name, surname, age, email, password, phoneNumber, avatar, enabled, authority_id)
 VALUES ('Ivan', 'Ivanov', 30, 'ivan@example.com', '$2a$12$rTMjQ/Uw9Q8fuHZRYnWFF.CFenZn42KlTLRHc2bS6rKovVnz3U6Be',
-        '1234567890', NULL, true, '1'),
+        '1234567890', NULL, true, 1),
        ('qwe', 'qwe', 33, 'qwe@qwe.qwe', '$2a$12$OsUEglL6BGMf7oqc3YD7V.PWAw/PKkR7atf0Bnz4ExoLfze/7M/gK', '0557057557',
-        NULL, true, '1'),
+        NULL, true, 1),
        ('DetalingStudio', '', 3, 'detaling@example.com',
-        '$2a$12$YRF7dh4FstGNEkZLnD7Mve0IRP0HysM7Uul6SnQ09nQ9HbXWi2qL2', '0987654321', NULL, true, '2');
-
+        '$2a$12$YRF7dh4FstGNEkZLnD7Mve0IRP0HysM7Uul6SnQ09nQ9HbXWi2qL2', '0987654321', NULL, true, 2);
 
 INSERT INTO Category (name, PARENT_ID)
 VALUES ('IT', NULL),
@@ -17,9 +16,9 @@ VALUES ('IT', NULL),
        ('Design', (SELECT id FROM Category WHERE name = 'IT' LIMIT 1));
 
 INSERT INTO Resume (APPLICANT_ID, name, CATEGORY_ID, salary, IS_ACTIVE, CREATED_DATE, UPDATE_TIME)
-VALUES ((SELECT id FROM Users WHERE name = 'Ivan' LIMIT 1), 'Developer Resume 1',
+VALUES ((SELECT id FROM Users WHERE name = 'Ivan' LIMIT 1), 'Senior Developer Resume',
         (SELECT id FROM Category WHERE name = 'Development' LIMIT 1), 1000.0, TRUE, '2023-01-01', '2023-07-01'),
-       ((SELECT id FROM Users WHERE name = 'Ivan' LIMIT 1), 'Developer Resume 2',
+       ((SELECT id FROM Users WHERE name = 'qwe' LIMIT 1), 'Junior Developer Resume',
         (SELECT id FROM Category WHERE name = 'Development' LIMIT 1), 1500.0, TRUE, '2023-02-01', '2023-07-15');
 
 INSERT INTO Vacancy (name, description, CATEGORY_ID, salary, EXP_FROM, EXP_TO, IS_ACTIVE, AUTHOR_ID, CREATED_DATE, UPDATE_TIME)
@@ -171,37 +170,9 @@ VALUES
      'Network Engineer required to design and manage network infrastructure. Must have experience with network security, routing, and troubleshooting connectivity issues.',
      (SELECT id FROM Category WHERE name = 'IT' LIMIT 1),
      1500.0,
-     4,
+     3,
      7,
      TRUE,
      (SELECT id FROM Users WHERE name = 'DetalingStudio' LIMIT 1),
      '2023-12-15',
      '2024-01-01');
-
-INSERT INTO RESPONDED_APPLICANT (RESUME_ID, VACANCY_ID, confirmation)
-VALUES ((SELECT id FROM Resume WHERE name = 'Developer Resume 1' LIMIT 1),
-        (SELECT id FROM Vacancy WHERE name = 'Junior Developer' LIMIT 1), TRUE);
-
-INSERT INTO Message (RESPONDED_APPLICANT, text, TIME_STAMP)
-VALUES ((SELECT id
-         FROM RESPONDED_APPLICANT
-         WHERE RESUME_ID = (SELECT id FROM Resume WHERE name = 'Developer Resume 1' LIMIT 1)
-           AND VACANCY_ID = (SELECT id FROM Vacancy WHERE name = 'Junior Developer' LIMIT 1)
-         LIMIT 1), 'I am interested in this vacancy.', '2023-07-01');
-
-INSERT INTO CONTACT_TYPE (type)
-VALUES ('Email'),
-       ('Phone');
-
-INSERT INTO CONTACT_INFO (TYPE_ID, RESUME_ID, CONTACT_VALUE)
-VALUES ((SELECT id FROM CONTACT_TYPE WHERE type = 'Email' LIMIT 1),
-        (SELECT id FROM Resume WHERE name = 'Developer Resume 1' LIMIT 1), 'ivan@example.com'),
-       ((SELECT id FROM CONTACT_TYPE WHERE type = 'Phone' LIMIT 1),
-        (SELECT id FROM Resume WHERE name = 'Developer Resume 1' LIMIT 1), '1234567890');
-
-INSERT INTO EDUCATION_INFO (RESUME_ID, institution, program, START_DATE, END_DATE, degree)
-VALUES ((SELECT id FROM Resume WHERE name = 'Developer Resume 1' LIMIT 1), 'IT University', 'Computer Science',
-        '2015-09-01', '2019-06-30', 'Bachelor');
-
-INSERT INTO WORK_EXPERIENCE_INFO (resume_id, years, COMPANY_NAME, position, responsibilities)
-VALUES (1, 3, 'Tech Company', 'Junior Developer', 'Developing software applications');

@@ -70,6 +70,11 @@ public class VacancyDao {
         return jdbcTemplate.query(sql, (rs, rowNum) -> mapRowToVacancyDto(rs));
     }
 
+    public VacancyDto findVacancyById(Long id) {
+        String sql = "SELECT * FROM Vacancy WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> mapRowToVacancyDto(rs));
+    }
+
     private VacancyDto mapRowToVacancyDto(ResultSet rs) throws SQLException {
         return VacancyDto.builder()
                 .id(rs.getLong("id"))

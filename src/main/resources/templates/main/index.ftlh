@@ -38,9 +38,8 @@
                                 </#if>
                             </p>
                             <p class="card-text">${vacancy.description}</p>
-                            <p class="card-text"><strong>Зарплата:</strong> $${vacancy.salary}</p>
                             <div class="mt-auto">
-                                <a href="vacancies/info/${vacancy.id}" class="btn btn-primary">Подробнее</a>
+                                <a href="/vacancy/info/${vacancy.id}" class="btn btn-primary">Подробнее</a>
                             </div>
                         </div>
                     </div>

@@ -69,7 +69,6 @@ public class VacancyServiceImpl implements VacancyService {
         }
     }
 
-
     @Override
     public List<VacancyDto> getAllVacancies() {
         try {
@@ -77,6 +76,16 @@ public class VacancyServiceImpl implements VacancyService {
         } catch (Exception e) {
             log.error("An error occurred while fetching all vacancies: {}", e.getMessage());
             throw new CanNotFindVacancyException("Unable to fetch all vacancies");
+        }
+    }
+
+    @Override
+    public VacancyDto getVacancyById(Long id) {
+        try {
+            return vacancyDao.findVacancyById(id);
+        } catch (Exception e) {
+            log.error("An error occurred while fetching vacancy with ID {}: {}", id, e.getMessage());
+            throw new CanNotFindVacancyException("Unable to fetch vacancy with ID " + id);
         }
     }
 }

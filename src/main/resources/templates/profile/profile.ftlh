@@ -28,7 +28,8 @@
                     <div class="card border-0 p-4">
                         <h5 class="card-title">Данные:</h5>
                         <#if user.authority_id == 1>
-                            <p class="card-text"><strong>Имя:</strong> ${user.name} ${user.surname}</p>
+                            <p class="card-text"><strong>Имя:</strong> ${user.name}</p>
+                            <p class="card-text"><strong>Фамилия:</strong> ${user.surname}</p>
                             <p class="card-text">
                                 <strong>Возраст:</strong> ${user.age}
                                 <#if user.age % 10 == 1 && user.age % 100 != 11>
@@ -40,7 +41,7 @@
                                 </#if>
                             </p>
                         <#else>
-                            <p class="card-text"><strong>Название вашей компании:</strong> ${user.name}</p>
+                            <p class="card-text"><strong>Название компании:</strong> ${user.name}</p>
                             <p class="card-text">
                                 <strong>Срок деятельности компании:</strong> ${user.age}
                                 <#if user.age % 10 == 1 && user.age % 100 != 11>

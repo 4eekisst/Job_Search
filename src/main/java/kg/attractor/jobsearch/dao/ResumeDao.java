@@ -23,7 +23,9 @@ public class ResumeDao {
 
 
     public List<ResumeDto> findAllResumes() {
-        String sql = "SELECT * FROM Resume";
+        String sql = "SELECT r.id, r.applicant_id, r.name, r.category_id, r.salary, r.is_active, r.created_date, r.update_time, u.email " +
+                "FROM Resume r " +
+                "JOIN USERS u ON r.applicant_id = u.id";
         return jdbcTemplate.query(sql, (rs, rowNum) ->
                 ResumeDto.builder()
                         .id(rs.getLong("id"))
@@ -32,8 +34,9 @@ public class ResumeDao {
                         .categoryId(rs.getInt("category_id"))
                         .salary(rs.getDouble("salary"))
                         .isActive(rs.getBoolean("is_active"))
-                        .createdDate(rs.getDate("created_date").toLocalDate())
-                        .updateTime(rs.getDate("update_time").toLocalDate())
+                        .createdDate(rs.getDate("created_date").toString())
+                        .updateTime(rs.getDate("update_time").toString())
+                        .email(rs.getString("email"))
                         .build()
         );
     }
@@ -58,6 +61,26 @@ public class ResumeDao {
         return jdbcTemplate.query(sql, new Object[]{applicantId}, (rs, rowNum) -> mapRowToResumeDto(rs));
     }
 
+    public ResumeDto findResumeById(Long id) {
+        String sql = "SELECT r.id, r.applicant_id, r.name, r.category_id, r.salary, r.is_active, r.created_date, r.update_time, u.email " +
+                "FROM Resume r " +
+                "JOIN USERS u ON r.applicant_id = u.id " +
+                "WHERE r.id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) ->
+                ResumeDto.builder()
+                        .id(rs.getLong("id"))
+                        .applicantId(rs.getInt("applicant_id"))
+                        .name(rs.getString("name"))
+                        .categoryId(rs.getInt("category_id"))
+                        .salary(rs.getDouble("salary"))
+                        .isActive(rs.getBoolean("is_active"))
+                        .createdDate(rs.getDate("created_date").toString())
+                        .updateTime(rs.getDate("update_time").toString())
+                        .email(rs.getString("email"))
+                        .build()
+        );
+    }
+
     private ResumeDto mapRowToResumeDto(ResultSet rs) throws SQLException {
         return ResumeDto.builder()
                 .id(rs.getLong("id"))
@@ -66,8 +89,8 @@ public class ResumeDao {
                 .categoryId(rs.getInt("category_id"))
                 .salary(rs.getDouble("salary"))
                 .isActive(rs.getBoolean("is_active"))
-                .createdDate(rs.getDate("created_date").toLocalDate())
-                .updateTime(rs.getDate("update_time").toLocalDate())
+                .createdDate(rs.getDate("created_date").toString())
+                .updateTime(rs.getDate("update_time").toString())
                 .build();
     }
 }
