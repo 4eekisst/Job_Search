@@ -11,24 +11,24 @@
 
         <div class="container my-5 mx-auto" style="max-width: 1200px;">
             <div class="row g-3">
+
                 <div class="col-md-4 d-flex justify-content-center align-items-center">
-                    <div class="card border-0 p-3" style="width: 250px; background: white; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                        <div style="width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; overflow: hidden; border-radius: 50%; background-color: #f0f0f0;">
-                            <#if user.avatar??>
-                                <img src="api/images/image/${user.avatar}" alt="User image" style="max-width: 100%; max-height: 100%; object-fit: cover;">
-                            <#else>
-                                <img src="api/images/image/anon.jpeg" alt="Default user image" style="max-width: 100%; max-height: 100%; object-fit: cover;">
-                            </#if>
-                        </div>
+                    <div>
+                        <#if user.avatar??>
+                            <img src="api/images/image/${user.avatar}" alt="User image"
+                                 style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;">
+                        <#else>
+                            <img src="api/images/image/anon.jpeg" alt="Default user image"
+                                 style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;">
+                        </#if>
                     </div>
                 </div>
 
                 <div class="col-md-8">
-                    <div class="card border-0 p-4" style="background: white; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                    <div class="card border-0 p-4 bg-white rounded shadow-sm" style="height: 300px;">
                         <h5 class="card-title">Данные:</h5>
                         <#if user.authority_id == 1>
-                            <p class="card-text"><strong>Имя:</strong> ${user.name}</p>
-                            <p class="card-text"><strong>Фамилия:</strong> ${user.surname}</p>
+                            <p class="card-text"><strong>Имя Фамилия:</strong> ${user.name} ${user.surname}</p>
                             <p class="card-text">
                                 <strong>Возраст:</strong> ${user.age}
                                 <#if user.age % 10 == 1 && user.age % 100 != 11>
@@ -61,27 +61,81 @@
 
             <div class="profile-content mt-4">
                 <#if user.authority_id == 1>
-                    <h2>Мои резюме</h2>
+                    <h2>Резюме:</h2>
                     <#if resumes?? && resumes?has_content>
-                        <div class="card border-0 p-4" style="background: white; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                            <ul class="list-group">
-                                <#list resumes as resume>
-                                    <li class="list-group-item">${resume.name} - ${resume.createdDate}</li>
-                                </#list>
-                            </ul>
+                        <div class="row mt-4">
+                            <#list resumes as resume>
+                                <div class="col-sm-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title mb-0">${resume.name}</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <strong>Адрес электронной почты:</strong> ${resume.email}
+                                            </p>
+                                            <p class="card-text">
+                                                <strong>Статус:</strong> <#if resume.isActive>Активно</#if><#if !resume.isActive>Неактивно</#if>
+                                            </p>
+                                            <p class="card-text">
+                                                <strong>Дата создания:</strong> ${resume.createdDate?date("yyyy-MM-dd")}
+                                            </p>
+                                            <a href="/resume/info/${resume.id}" class="btn btn-primary">Подробнее</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </#list>
                         </div>
                     <#else>
                         <p>У вас нет созданных резюме.</p>
                     </#if>
                 <#else>
-                    <h2>Мои вакансии</h2>
+                    <h2>Созданные вакансии:</h2>
                     <#if vacancies?? && vacancies?has_content>
-                        <div class="card border-0 p-4" style="background: white; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                            <ul class="list-group">
-                                <#list vacancies as vacancy>
-                                    <li class="list-group-item">${vacancy.name} - ${vacancy.createdDate}</li>
-                                </#list>
-                            </ul>
+                        <div class="row mt-4">
+                            <#list vacancies as vacancy>
+                                <div class="col-sm-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title mb-0">${vacancy.name}</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <strong>Требуемый опыт:</strong>
+                                                <#if vacancy.expFrom == vacancy.expTo>
+                                                    <#if vacancy.expFrom % 10 == 1 && vacancy.expFrom % 100 != 11>
+                                                        ${vacancy.expFrom} год
+                                                    <#elseif (vacancy.expFrom % 10 >= 2 && vacancy.expFrom % 10 <= 4) && (vacancy.expFrom % 100 < 10 || vacancy.expFrom % 100 >= 20)>
+                                                        ${vacancy.expFrom} года
+                                                    <#else>
+                                                        ${vacancy.expFrom} лет
+                                                    </#if>
+                                                <#else>
+                                                    <#if vacancy.expFrom % 10 == 1 && vacancy.expFrom % 100 != 11>
+                                                        ${vacancy.expFrom} год
+                                                    <#elseif (vacancy.expFrom % 10 >= 2 && vacancy.expFrom % 10 <= 4) && (vacancy.expFrom % 100 < 10 || vacancy.expFrom % 100 >= 20)>
+                                                        ${vacancy.expFrom} года
+                                                    <#else>
+                                                        ${vacancy.expFrom} лет
+                                                    </#if>
+                                                    -
+                                                    <#if vacancy.expTo % 10 == 1 && vacancy.expTo % 100 != 11>
+                                                        ${vacancy.expTo} год
+                                                    <#elseif (vacancy.expTo % 10 >= 2 && vacancy.expTo % 10 <= 4) && (vacancy.expTo % 100 < 10 || vacancy.expTo % 100 >= 20)>
+                                                        ${vacancy.expTo} года
+                                                    <#else>
+                                                        ${vacancy.expTo} лет
+                                                    </#if>
+                                                </#if>
+                                            </p>
+                                            <p class="card-text">${vacancy.description}</p>
+                                            <div class="mt-auto">
+                                                <a href="/vacancy/info/${vacancy.id}" class="btn btn-primary">Подробнее</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </#list>
                         </div>
                     <#else>
                         <p>У вас нет созданных вакансий.</p>
