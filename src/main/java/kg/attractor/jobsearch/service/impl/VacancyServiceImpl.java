@@ -7,6 +7,8 @@ import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,12 +20,15 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public void createVacancy(VacancyDto vacancyDto) {
         try {
+            vacancyDto.setCreatedDate(LocalDateTime.now());
+            vacancyDto.setUpdateTime(LocalDateTime.now());
             vacancyDao.saveVacancy(vacancyDto);
         } catch (Exception e) {
             log.error("An error occurred while creating vacancy: {}", e.getMessage());
             throw new CanNotFindVacancyException("Unable to create vacancy");
         }
     }
+
 
     @Override
     public void updateVacancy(VacancyDto vacancyDto) {

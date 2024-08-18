@@ -16,10 +16,10 @@
                     <div>
                         <#if user.avatar??>
                             <img src="api/images/image/${user.avatar}" alt="User image"
-                                 style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;">
+                                 class="img-fluid rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
                         <#else>
                             <img src="api/images/image/anon.jpeg" alt="Default user image"
-                                 style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;">
+                                 class="img-fluid rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
                         </#if>
                     </div>
                 </div>
@@ -57,6 +57,18 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="d-flex justify-content-end mb-4">
+                <#if user.authority_id == 1>
+                    <a href="/resume/create" class="btn btn-success rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                        +
+                    </a>
+                <#else>
+                    <a href="/vacancy/create" class="btn btn-success rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                        +
+                    </a>
+                </#if>
             </div>
 
             <div class="profile-content mt-4">
@@ -130,7 +142,11 @@
                                             </p>
                                             <p class="card-text">${vacancy.description}</p>
                                             <div class="mt-auto">
-                                                <a href="/vacancy/info/${vacancy.id}" class="btn btn-primary">Подробнее</a>
+                                                <form action="/vacancy/update-time" method="post" style="display:inline;">
+                                                    <input type="hidden" name="id" value="${vacancy.id}">
+                                                    <button type="submit" class="btn btn-secondary">Обновить</button>
+                                                </form>
+                                                <a href="/vacancy/edit/${vacancy.id}" class="btn btn-secondary">Редактировать</a>
                                             </div>
                                         </div>
                                     </div>

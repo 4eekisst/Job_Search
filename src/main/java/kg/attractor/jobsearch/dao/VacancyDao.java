@@ -35,7 +35,7 @@ public class VacancyDao {
     }
 
     public void updateVacancy(VacancyDto vacancyDto) {
-        String sql = "UPDATE Vacancy SET name = ?, description = ?, CATEGORY_ID = ?, AUTHOR_ID = ?, salary = ?, EXP_FROM = ?, EXP_TO = ?, IS_ACTIVE = ?, CREATED_DATE = ?, UPDATE_TIME = ? WHERE id = ?";
+        String sql = "UPDATE Vacancy SET name = ?, description = ?, CATEGORY_ID = ?, AUTHOR_ID = ?, salary = ?, EXP_FROM = ?, EXP_TO = ?, IS_ACTIVE = ?, UPDATE_TIME = ? WHERE id = ?";
         jdbcTemplate.update(sql,
                 vacancyDto.getName(),
                 vacancyDto.getDescription(),
@@ -45,7 +45,6 @@ public class VacancyDao {
                 vacancyDto.getExpFrom(),
                 vacancyDto.getExpTo(),
                 vacancyDto.getIsActive(),
-                Timestamp.valueOf(vacancyDto.getCreatedDate()),
                 Timestamp.valueOf(vacancyDto.getUpdateTime()),
                 vacancyDto.getId()
         );
