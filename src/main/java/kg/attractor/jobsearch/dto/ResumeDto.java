@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -39,6 +40,10 @@ public class ResumeDto {
     @Positive(message = "Salary must be positive")
     private Double salary;
     private Boolean isActive;
-    private String createdDate;
-    private String updateTime;
+;
+    private LocalDateTime createdDate;
+    private LocalDateTime updateTime;
+
+    private String createdDateStr;
+    private String updateTimeStr;
 }

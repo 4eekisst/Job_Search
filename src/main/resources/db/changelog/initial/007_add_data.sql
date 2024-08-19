@@ -145,3 +145,11 @@ VALUES ('Junior Developer','Seeking a junior developer with some experience in c
        ('Marketing Manager', 'Develop and implement marketing strategies. Strong experience in marketing and team leadership needed.', (SELECT id FROM Category WHERE name = 'Development' LIMIT 1), 1600.0, 4, 8, TRUE, (SELECT id FROM Users WHERE name = 'PioneerTech' LIMIT 1), '2024-07-15', '2024-08-15'),
        ('IT Support Specialist', 'Provide technical support and troubleshooting for IT issues. Excellent problem-solving skills required.', (SELECT id FROM Category WHERE name = 'IT' LIMIT 1), 1200.0, 1, 3, TRUE, (SELECT id FROM Users WHERE name = 'TechSphere' LIMIT 1), '2024-08-01', '2024-09-01'),
        ('UI Developer', 'Develop user interfaces for web applications. Experience with UI frameworks and front-end technologies required.', (SELECT id FROM Category WHERE name = 'Development' LIMIT 1), 1450.0, 2, 5, TRUE, (SELECT id FROM Users WHERE name = 'CreativeSolutions' LIMIT 1), '2024-08-15', '2024-09-15');
+
+
+INSERT INTO CONTACT_TYPE (type)
+VALUES ('Telegram'),
+       ('Email'),
+       ('Phone number'),
+       ('Facebook'),
+       ('Linkedin');

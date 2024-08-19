@@ -22,7 +22,6 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
     private final DataSource dataSource;
 
     @Bean
@@ -66,7 +65,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "/vacancies").permitAll()
                         .requestMatchers(HttpMethod.GET, "/resumes").hasAuthority("employer")
-                        .requestMatchers(HttpMethod.GET, "/resume/info/{id}").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.GET, "/resume/info/{id}").hasAnyAuthority("employer", "applicant")
                         .requestMatchers("/profile").authenticated()
                         .anyRequest().permitAll()
                 );

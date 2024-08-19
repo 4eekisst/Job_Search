@@ -38,7 +38,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public void createFullResume(ResumeCreatingDto request) {
+    public ResumeDto createFullResume(ResumeCreatingDto request) {
         ResumeDto resumeDto = request.getResumeDto();
         List<EducationInfoDto> educationInfoDtos = request.getEducationInfoDtos();
         List<WorkExperienceInfoDto> workExperienceInfoDtos = request.getWorkExperienceInfoDtos();
@@ -51,6 +51,7 @@ public class ResumeServiceImpl implements ResumeService {
             log.error("An error occurred while creating resume: {}", e.getMessage());
             throw new CanNotFindResumeException("Unable to create resume");
         }
+
         resumeDto.setId((long) resumeId);
 
         if (educationInfoDtos != null) {
@@ -88,6 +89,9 @@ public class ResumeServiceImpl implements ResumeService {
                 }
             }
         }
+
+        ResumeDto createdResume = resumeDao.findResumeById((long) resumeId);
+        return createdResume;
     }
 
     @Override
@@ -241,5 +245,3 @@ public class ResumeServiceImpl implements ResumeService {
         }
     }
 }
-
-

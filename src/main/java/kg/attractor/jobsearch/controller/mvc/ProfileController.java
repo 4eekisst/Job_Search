@@ -4,8 +4,6 @@ import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.dto.customDto.UpdateUserProfileDto;
-import kg.attractor.jobsearch.model.Resume;
-import kg.attractor.jobsearch.model.Vacancy;
 import kg.attractor.jobsearch.service.ImageService;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
@@ -17,13 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("")
-
 
 public class ProfileController {
     private final UserService userService;
@@ -40,6 +37,10 @@ public class ProfileController {
 
         if (user.getAuthority_id() == 1) {
             List<ResumeDto> resumes = resumeService.getResumesByUserId(user.getId());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            resumes.forEach(resume -> {
+                resume.setCreatedDateStr(resume.getCreatedDate().format(formatter));
+            });
             model.addAttribute("resumes", resumes);
         } else if (user.getAuthority_id() == 2) {
             List<VacancyDto> vacancies = vacancyService.getVacanciesByUserId(user.getId());

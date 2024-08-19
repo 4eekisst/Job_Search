@@ -17,7 +17,7 @@
                                 <strong>Статус:</strong> <#if resume.isActive>Активно</#if><#if !resume.isActive>Неактивно</#if>
                             </p>
                             <p class="card-text">
-                                <strong>Дата создания:</strong> ${resume.createdDate?date("yyyy-MM-dd")}
+                                <strong>Дата создания:</strong> ${resume.createdDateStr}
                             </p>
                             <a href="/resume/info/${resume.id}" class="btn btn-primary">Подробнее</a>
                         </div>

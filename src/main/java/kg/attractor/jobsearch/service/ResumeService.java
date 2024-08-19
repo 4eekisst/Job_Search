@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ResumeService {
     int createResume(ResumeDto resumeDto);
-    void createFullResume(ResumeCreatingDto request);
+    ResumeDto createFullResume(ResumeCreatingDto request);
     List<ResumeDto> getAllResumes();
     void updateResume(ResumeDto resumeDto);
     void updateFullResume(ResumeCreatingDto request);

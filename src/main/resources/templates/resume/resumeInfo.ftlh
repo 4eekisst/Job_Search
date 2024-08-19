@@ -19,12 +19,18 @@
                             <strong>Статус:</strong> <#if resume.isActive>Активно</#if><#if !resume.isActive>Неактивно</#if>
                         </p>
                         <p class="card-text">
-                            <strong>Дата создания:</strong> ${resume.createdDate?date("yyyy-MM-dd")}
+                            <strong>Дата создания:</strong> ${resume.createdDateStr}
                         </p>
                         <p class="card-text">
-                            <strong>Дата обновления:</strong> ${resume.updateTime?date("yyyy-MM-dd")}
+                            <strong>Дата обновления:</strong> ${resume.updateTimeStr}
                         </p>
-                        <a href="/resumes" class="btn btn-secondary">Вернуться к списку</a>
+
+                        <#if isApplicant>
+                            <a href="/resume/edit/${resume.id}" class="btn btn-primary">Редактировать</a>
+                            <a href="/profile" class="btn btn-primary">Вернуться в личный кабинет</a>
+                        <#else>
+                            <a href="/resumes" class="btn btn-secondary">Вернуться к списку</a>
+                        </#if>
                     </div>
                 </div>
             </div>

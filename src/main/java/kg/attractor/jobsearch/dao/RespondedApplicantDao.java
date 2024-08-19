@@ -13,7 +13,6 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 
-
 public class RespondedApplicantDao {
     private final JdbcTemplate jdbcTemplate;
 

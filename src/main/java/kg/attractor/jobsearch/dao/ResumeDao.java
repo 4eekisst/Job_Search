@@ -1,13 +1,13 @@
 package kg.attractor.jobsearch.dao;
 
 import kg.attractor.jobsearch.dto.ResumeDto;
-import kg.attractor.jobsearch.model.Resume;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 @Component
@@ -18,7 +18,22 @@ public class ResumeDao {
 
     public int saveResume(ResumeDto resume) {
         String sql = "INSERT INTO Resume (APPLICANT_ID, name, CATEGORY_ID, salary, IS_ACTIVE, CREATED_DATE, UPDATE_TIME) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, resume.getApplicantId(), resume.getName(), resume.getCategoryId(), resume.getSalary(), resume.getIsActive(), resume.getCreatedDate(), resume.getUpdateTime());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, resume.getApplicantId());
+            ps.setString(2, resume.getName());
+            ps.setInt(3, resume.getCategoryId());
+            ps.setDouble(4, resume.getSalary());
+            ps.setBoolean(5, resume.getIsActive());
+            ps.setTimestamp(6, Timestamp.valueOf(resume.getCreatedDate()));
+            ps.setTimestamp(7, Timestamp.valueOf(resume.getUpdateTime()));
+            return ps;
+        }, keyHolder);
+
+        Number key = keyHolder.getKey();
+        return key != null ? key.intValue() : -1;
+
     }
 
 
@@ -34,8 +49,8 @@ public class ResumeDao {
                         .categoryId(rs.getInt("category_id"))
                         .salary(rs.getDouble("salary"))
                         .isActive(rs.getBoolean("is_active"))
-                        .createdDate(rs.getDate("created_date").toString())
-                        .updateTime(rs.getDate("update_time").toString())
+                        .createdDate(rs.getTimestamp("created_date").toLocalDateTime())
+                        .updateTime(rs.getTimestamp("update_time").toLocalDateTime())
                         .email(rs.getString("email"))
                         .build()
         );
@@ -74,12 +89,13 @@ public class ResumeDao {
                         .categoryId(rs.getInt("category_id"))
                         .salary(rs.getDouble("salary"))
                         .isActive(rs.getBoolean("is_active"))
-                        .createdDate(rs.getDate("created_date").toString())
-                        .updateTime(rs.getDate("update_time").toString())
+                        .createdDate(rs.getTimestamp("created_date").toLocalDateTime())
+                        .updateTime(rs.getTimestamp("update_time").toLocalDateTime())
                         .email(rs.getString("email"))
                         .build()
         );
     }
+
 
     public List<ResumeDto> findResumesByUserId(Long userId) {
         String sql = "SELECT r.id, r.applicant_id, r.name, r.category_id, r.salary, r.is_active, r.created_date, r.update_time, u.email " +
@@ -94,8 +110,8 @@ public class ResumeDao {
                         .categoryId(rs.getInt("category_id"))
                         .salary(rs.getDouble("salary"))
                         .isActive(rs.getBoolean("is_active"))
-                        .createdDate(rs.getDate("created_date").toString())
-                        .updateTime(rs.getDate("update_time").toString())
+                        .createdDate(rs.getTimestamp("created_date").toLocalDateTime())
+                        .updateTime(rs.getTimestamp("update_time").toLocalDateTime())
                         .email(rs.getString("email"))
                         .build()
         );
@@ -109,8 +125,8 @@ public class ResumeDao {
                 .categoryId(rs.getInt("category_id"))
                 .salary(rs.getDouble("salary"))
                 .isActive(rs.getBoolean("is_active"))
-                .createdDate(rs.getDate("created_date").toString())
-                .updateTime(rs.getDate("update_time").toString())
+                .createdDate(rs.getTimestamp("created_date").toLocalDateTime())
+                .updateTime(rs.getTimestamp("update_time").toLocalDateTime())
                 .build();
     }
 }
