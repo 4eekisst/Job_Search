@@ -80,12 +80,14 @@ public class ResumeServiceImpl implements ResumeService {
 
         if (contactInfoDtos != null) {
             for (ContactInfoDto contactInfoDto : contactInfoDtos) {
-                contactInfoDto.setResumeId(resumeId);
-                try {
-                    contactInfoService.saveContactInfo(contactInfoDto);
-                } catch (Exception e) {
-                    log.error("An error occurred while saving contact info: {}", e.getMessage());
-                    throw new CanNotFindResumeException("Unable to save contact info for resume ID " + resumeId);
+                if (contactInfoDto.getValue() != null && !contactInfoDto.getValue().isEmpty()) {
+                    contactInfoDto.setResumeId(resumeId);
+                    try {
+                        contactInfoService.saveContactInfo(contactInfoDto);
+                    } catch (Exception e) {
+                        log.error("An error occurred while saving contact info: {}", e.getMessage());
+                        throw new CanNotFindResumeException("Unable to save contact info for resume ID " + resumeId);
+                    }
                 }
             }
         }
@@ -93,6 +95,7 @@ public class ResumeServiceImpl implements ResumeService {
         ResumeDto createdResume = resumeDao.findResumeById((long) resumeId);
         return createdResume;
     }
+
 
     @Override
     public List<ResumeDto> getAllResumes() {
@@ -235,9 +238,6 @@ public class ResumeServiceImpl implements ResumeService {
     public List<ResumeDto> getResumesByUserId(Long userId) {
         try {
             List<ResumeDto> resumes = resumeDao.findResumesByUserId(userId);
-            if (resumes.isEmpty()) {
-                throw new CanNotFindResumeException("No resumes found for user ID " + userId);
-            }
             return resumes;
         } catch (Exception e) {
             log.error("An error occurred while fetching resumes by user ID {}: {}", userId, e.getMessage());

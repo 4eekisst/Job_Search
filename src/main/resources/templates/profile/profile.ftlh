@@ -9,9 +9,8 @@
             </#if>
         </header>
 
-        <div class="container my-5 mx-auto" style="max-width: 1200px;">
+        <div class="container my-5 mx-auto" style="max-width: 1200px; position: relative;">
             <div class="row g-3">
-
                 <div class="col-md-4 d-flex justify-content-center align-items-center">
                     <div>
                         <#if user.avatar??>
@@ -59,17 +58,18 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-end mb-4">
-                <#if user.authority_id == 1>
-                    <a href="/resume/create" class="btn btn-success rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 24px;">
-                        +
-                    </a>
-                <#else>
-                    <a href="/vacancy/create" class="btn btn-success rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 24px;">
-                        +
-                    </a>
-                </#if>
-            </div>
+            <#if user.authority_id == 1>
+                <a href="/resume/create" class="btn btn-success position-absolute d-flex align-items-center justify-content-center"
+                   style="width: 70px; height: 70px; background-color: gray; border: 2px solid gray; top: 100px; right: 100px; color: white; font-size: 36px; border-radius: 5px;">
+                    +
+                </a>
+            <#else>
+                <a href="/vacancy/create" class="btn btn-success position-absolute d-flex align-items-center justify-content-center"
+                   style="width: 70px; height: 70px; background-color: gray; border: 2px solid gray; top: 100px; right: 100px; color: white; font-size: 36px; border-radius: 5px;">
+                    +
+                </a>
+            </#if>
+
 
             <div class="profile-content mt-4">
                 <#if user.authority_id == 1>
@@ -92,7 +92,13 @@
                                             <p class="card-text">
                                                 <strong>Дата создания:</strong> ${resume.createdDateStr}
                                             </p>
-                                            <a href="/resume/info/${resume.id}" class="btn btn-primary">Подробнее</a>
+                                            <div class="mt-auto">
+                                                <form action="/resume/update-time" method="post" style="display:inline;">
+                                                    <input type="hidden" name="id" value="${resume.id}">
+                                                    <button type="submit" class="btn btn-secondary">Обновить</button>
+                                                </form>
+                                                <a href="/resume/edit/${resume.id}" class="btn btn-secondary">Редактировать</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

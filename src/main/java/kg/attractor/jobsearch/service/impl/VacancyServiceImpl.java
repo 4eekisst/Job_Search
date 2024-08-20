@@ -98,9 +98,6 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> getVacanciesByUserId(Long userId) {
         try {
             List<VacancyDto> vacancies = vacancyDao.findVacanciesByUserId(userId);
-            if (vacancies.isEmpty()) {
-                throw new CanNotFindVacancyException("No vacancies found for user ID " + userId);
-            }
             return vacancies;
         } catch (Exception e) {
             log.error("An error occurred while fetching vacancies by user ID {}: {}", userId, e.getMessage());

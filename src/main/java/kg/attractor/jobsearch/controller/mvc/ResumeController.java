@@ -87,4 +87,38 @@ public class ResumeController {
 
         return "redirect:/resume/info/" + createdResume.getId();
     }
+
+    @GetMapping("/resume/edit/{id}")
+    public String edit(@PathVariable Long id, Model model) {
+        ResumeDto resume = resumeService.getResumeById(id);
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        List<ContactTypeDto> contactTypes = contactTypeService.getAllContactTypes();
+
+        model.addAttribute("resumeDto", resume);
+        model.addAttribute("categories", categories);
+        model.addAttribute("contactTypes", contactTypes);
+        return "resume/resumeEdit";
+    }
+
+    @PostMapping("/resume/edit")
+    public String update(@ModelAttribute ResumeDto resumeDto) {
+        ResumeDto existingResume = resumeService.getResumeById(resumeDto.getId());
+
+        resumeDto.setCreatedDate(existingResume.getCreatedDate());
+        resumeDto.setUpdateTime(LocalDateTime.now());
+
+        resumeService.updateResume(resumeDto);
+
+        return "redirect:/resume/info/" + resumeDto.getId();
+    }
+
+    @PostMapping("/resume/update-time")
+    public String updateResumeTime(@RequestParam Long id) {
+        ResumeDto resumeDto = resumeService.getResumeById(id);
+        if (resumeDto != null) {
+            resumeDto.setUpdateTime(LocalDateTime.now());
+            resumeService.updateResume(resumeDto);
+        }
+        return "redirect:/profile";
+    }
 }
