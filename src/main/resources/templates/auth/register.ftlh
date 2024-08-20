@@ -7,8 +7,8 @@
 
         <form action="/auth/register" method="post">
             <div class="form-group">
-                <label for="authority_id">Выберите ваш тип регистрации:</label>
-                <select id="authority_id" name="authority_id" class="form-control" onchange="this.form.submit()">
+                <label for="authorityId">Выберите ваш тип регистрации:</label>
+                <select id="authorityId" name="authorityId" class="form-control" onchange="this.form.submit()">
                     <option value="1" <#if authorityId == 1>selected</#if>>Регистрация соискателя</option>
                     <option value="2" <#if authorityId == 2>selected</#if>>Регистрация для поиска сотрудников</option>
                 </select>
