@@ -76,7 +76,7 @@ public class UserDao {
             ps.setString(6, userDto.getPhoneNumber());
             ps.setString(7, userDto.getAvatar());
             ps.setBoolean(8, userDto.getEnabled());
-            ps.setLong(9, userDto.getAuthority_id());
+            ps.setLong(9, userDto.getAuthorityId());
             return ps;
         }, keyHolder);
 

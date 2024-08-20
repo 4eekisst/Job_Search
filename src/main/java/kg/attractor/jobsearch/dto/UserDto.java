@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,5 +44,6 @@ public class UserDto {
     private Boolean enabled;
 
     @NotNull(message = "Authority ID cannot be null")
-    private Long authority_id;
+    @JsonProperty("authority_id")
+    private Long authorityId;
 }

@@ -14,5 +14,5 @@ public class User {
     private String phoneNumber;
     private String avatar;
     private Boolean enabled;
-    private Long authority_id;
+    private Long authorityId;
 }
