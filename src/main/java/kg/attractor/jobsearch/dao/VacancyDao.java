@@ -4,11 +4,11 @@ import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,20 +18,26 @@ import java.util.List;
 public class VacancyDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public void saveVacancy(VacancyDto vacancyDto) {
+    public VacancyDto saveVacancy(VacancyDto vacancyDto) {
         String sql = "INSERT INTO Vacancy (name, description, CATEGORY_ID, AUTHOR_ID, salary, EXP_FROM, EXP_TO, IS_ACTIVE, CREATED_DATE, UPDATE_TIME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
-                vacancyDto.getName(),
-                vacancyDto.getDescription(),
-                vacancyDto.getCategoryId(),
-                vacancyDto.getAuthorId(),
-                vacancyDto.getSalary(),
-                vacancyDto.getExpFrom(),
-                vacancyDto.getExpTo(),
-                vacancyDto.getIsActive(),
-                Timestamp.valueOf(vacancyDto.getCreatedDate()),
-                Timestamp.valueOf(vacancyDto.getUpdateTime())
-        );
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, vacancyDto.getName());
+            ps.setString(2, vacancyDto.getDescription());
+            ps.setLong(3, vacancyDto.getCategoryId());
+            ps.setLong(4, vacancyDto.getAuthorId());
+            ps.setDouble(5, vacancyDto.getSalary());
+            ps.setInt(6, vacancyDto.getExpFrom());
+            ps.setInt(7, vacancyDto.getExpTo());
+            ps.setBoolean(8, vacancyDto.getIsActive());
+            ps.setTimestamp(9, Timestamp.valueOf(vacancyDto.getCreatedDate()));
+            ps.setTimestamp(10, Timestamp.valueOf(vacancyDto.getUpdateTime()));
+            return ps;
+        }, keyHolder);
+        Long id = keyHolder.getKey().longValue();
+        vacancyDto.setId(id);
+        return vacancyDto;
     }
 
     public void updateVacancy(VacancyDto vacancyDto) {

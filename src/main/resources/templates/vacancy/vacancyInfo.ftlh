@@ -39,7 +39,8 @@
                         </p>
                         <p class="card-text">${vacancy.description}</p>
                         <p class="card-text"><strong>Зарплата:</strong> $${vacancy.salary}</p>
-                        <a href="/vacancies" class="btn btn-secondary">Вернуться к списку</a>
+                        <a href="/vacancy/edit/${vacancy.id}" class="btn btn-primary">Редактировать</a>
+                        <a href="/profile" class="btn btn-primary">Вернуться в личный кабинет</a>
                     </div>
                 </div>
             </div>
@@ -47,4 +48,3 @@
     </main>
 
 </@vacancyInfo.layout>
-

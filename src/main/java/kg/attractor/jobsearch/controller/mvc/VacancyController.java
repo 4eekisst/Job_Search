@@ -58,9 +58,10 @@ public class VacancyController {
         vacancyDto.setUpdateTime(LocalDateTime.now());
         vacancyDto.setAuthorId(userId);
 
-        vacancyService.createVacancy(vacancyDto);
-        return "redirect:/vacancies";
+        VacancyDto createdVacancy = vacancyService.createVacancy(vacancyDto);
+        return "redirect:/vacancy/info/" + createdVacancy.getId();
     }
+
 
     @GetMapping("/vacancy/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
@@ -82,7 +83,7 @@ public class VacancyController {
         vacancyDto.setAuthorId(userId);
 
         vacancyService.updateVacancy(vacancyDto);
-        return "redirect:/vacancies";
+        return "redirect:/vacancy/info/" + vacancyDto.getId();
     }
 
     @PostMapping("/vacancy/update-time")

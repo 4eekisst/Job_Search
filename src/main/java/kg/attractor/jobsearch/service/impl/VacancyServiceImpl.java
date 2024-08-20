@@ -18,17 +18,17 @@ public class VacancyServiceImpl implements VacancyService {
     private final VacancyDao vacancyDao;
 
     @Override
-    public void createVacancy(VacancyDto vacancyDto) {
+    public VacancyDto createVacancy(VacancyDto vacancyDto) {
         try {
             vacancyDto.setCreatedDate(LocalDateTime.now());
             vacancyDto.setUpdateTime(LocalDateTime.now());
             vacancyDao.saveVacancy(vacancyDto);
+            return vacancyDao.findVacancyById(vacancyDto.getId());
         } catch (Exception e) {
             log.error("An error occurred while creating vacancy: {}", e.getMessage());
             throw new CanNotFindVacancyException("Unable to create vacancy");
         }
     }
-
 
     @Override
     public void updateVacancy(VacancyDto vacancyDto) {
