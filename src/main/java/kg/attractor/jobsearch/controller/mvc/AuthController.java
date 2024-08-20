@@ -34,13 +34,13 @@ public class AuthController {
     @PostMapping("register")
     public String register(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("isEmployer", userDto.getAuthority_id() != null && userDto.getAuthority_id() == 2);
+            model.addAttribute("isEmployer", userDto.getAuthorityId() != null && userDto.getAuthorityId() == 2);
             return "auth/register";
         }
 
         userService.registerUser(userDto);
 
-        boolean isEmployer = userDto.getAuthority_id() != null && userDto.getAuthority_id() == 2;
+        boolean isEmployer = userDto.getAuthorityId() != null && userDto.getAuthorityId() == 2;
         model.addAttribute("isEmployer", isEmployer);
         model.addAttribute("userDto", userDto);
 

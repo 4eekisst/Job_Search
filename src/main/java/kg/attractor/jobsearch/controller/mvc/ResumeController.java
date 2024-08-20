@@ -45,7 +45,7 @@ public class ResumeController {
         resume.setUpdateTimeStr(resume.getUpdateTime().format(formatter));
 
         model.addAttribute("resume", resume);
-        model.addAttribute("isApplicant", user.getAuthority_id() == 1);
+        model.addAttribute("isApplicant", user.getAuthorityId() == 1);
 
         return "resume/resumeInfo";
     }

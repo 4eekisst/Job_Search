@@ -35,14 +35,14 @@ public class ProfileController {
 
         model.addAttribute("user", user);
 
-        if (user.getAuthority_id() == 1) {
+        if (user.getAuthorityId() == 1) {
             List<ResumeDto> resumes = resumeService.getResumesByUserId(user.getId());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             resumes.forEach(resume -> {
                 resume.setCreatedDateStr(resume.getCreatedDate().format(formatter));
             });
             model.addAttribute("resumes", resumes);
-        } else if (user.getAuthority_id() == 2) {
+        } else if (user.getAuthorityId() == 2) {
             List<VacancyDto> vacancies = vacancyService.getVacanciesByUserId(user.getId());
             model.addAttribute("vacancies", vacancies);
         }
@@ -53,7 +53,7 @@ public class ProfileController {
     public String edit(Model model, Authentication authentication) {
         UserDto user = userService.getUserByEmail(authentication.getName());
         model.addAttribute("user", user);
-        model.addAttribute("authority_id", user.getAuthority_id());
+        model.addAttribute("authority_id", user.getAuthorityId());
         return "profile/edit";
     }
 
@@ -68,7 +68,7 @@ public class ProfileController {
         imageService.uploadImage(file, authentication);
         userService.updateUserProfile(updateUserProfileDto);
 
-        model.addAttribute("accType", user.getAuthority_id());
+        model.addAttribute("accType", user.getAuthorityId());
         return "redirect:/profile";
     }
 }
