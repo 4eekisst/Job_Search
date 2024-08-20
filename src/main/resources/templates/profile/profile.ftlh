@@ -2,7 +2,7 @@
 <@profile.layout>
     <div class="profile-container">
         <header class="profile-header text-center my-4">
-            <#if user.authority_id == 1>
+            <#if user.authorityId == 1>
                 <h2>Личный кабинет соискателя</h2>
             <#else>
                 <h2>Личный кабинет работодателя</h2>
@@ -26,7 +26,7 @@
                 <div class="col-md-8">
                     <div class="card border-0 p-4 bg-white rounded shadow-sm" style="height: 300px;">
                         <h5 class="card-title">Данные:</h5>
-                        <#if user.authority_id == 1>
+                        <#if user.authorityId == 1>
                             <p class="card-text"><strong>Имя Фамилия:</strong> ${user.name} ${user.surname}</p>
                             <p class="card-text">
                                 <strong>Возраст:</strong> ${user.age}
@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <#if user.authority_id == 1>
+            <#if user.authorityId == 1>
                 <a href="/resume/create" class="btn btn-success position-absolute d-flex align-items-center justify-content-center"
                    style="width: 70px; height: 70px; background-color: gray; border: 2px solid gray; top: 100px; right: 100px; color: white; font-size: 36px; border-radius: 5px;">
                     +
@@ -72,7 +72,7 @@
 
 
             <div class="profile-content mt-4">
-                <#if user.authority_id == 1>
+                <#if user.authorityId == 1>
                     <h2>Резюме:</h2>
                     <#if resumes?? && resumes?has_content>
                         <div class="row mt-4">

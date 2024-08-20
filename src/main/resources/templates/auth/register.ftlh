@@ -3,7 +3,7 @@
 
     <div class="container">
         <#assign isEmployer = isEmployer!false>
-        <#assign authorityId = userDto.authority_id!1>
+        <#assign authorityId = userDto.authorityId!1>
 
         <form action="/auth/register" method="post">
             <div class="form-group">
