@@ -1,24 +1,31 @@
 server:
   port: 1111
+
 spring:
   application:
     name: Job_search
+
   mvc:
     static-path-pattern: classpath:/static/
 
-
-  #----DataBases----#
+  #----Databases----#
   datasource:
     url: jdbc:h2:./db/JobSearch;AUTO_SERVER=true
     username: root
     password: 1q2w3e
     driver-class-name: org.h2.Driver
 
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
   liquibase:
     change-log: classpath:db/changelog/master.yml
+
   h2:
     console:
       enabled: false
+
   freemarker:
     expose-session-attributes: true
 
@@ -29,14 +36,9 @@ spring:
 logging:
   level:
     root: info
-
     org:
       springframework:
         security: info
 
   file:
     path: logs
-
-
-
-

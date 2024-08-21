@@ -1,13 +1,29 @@
 package kg.attractor.jobsearch.model;
 
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
-@Data
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "message")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer respondedApplicant;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "responded_applicant")
+    private RespondedApplicant respondedApplicant;
+
+    @Column(name = "text")
     private String text;
+
+    @Column(name = "time_stamp")
     private LocalDate timeStamp;
 }

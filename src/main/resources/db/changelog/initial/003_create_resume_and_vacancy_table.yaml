@@ -8,14 +8,14 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: int
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
                   name: applicant_id
-                  type: int
+                  type: bigint
                   constraints:
                     foreignKeyName: fk_resume_applicant_id
                     references: users(id)
@@ -25,7 +25,7 @@ databaseChangeLog:
                   type: varchar(45)
               - column:
                   name: category_id
-                  type: int
+                  type: bigint
                   constraints:
                     foreignKeyName: fk_resume_category_id
                     references: category(id)
@@ -52,7 +52,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: int
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -65,7 +65,7 @@ databaseChangeLog:
                   type: varchar(255)
               - column:
                   name: category_id
-                  type: int
+                  type: bigint
                   constraints:
                     foreignKeyName: fk_vacancy_category_id
                     references: category(id)
@@ -84,7 +84,7 @@ databaseChangeLog:
                   type: boolean
               - column:
                   name: author_id
-                  type: int
+                  type: bigint
                   constraints:
                     foreignKeyName: fk_vacancy_author_id
                     references: users(id)

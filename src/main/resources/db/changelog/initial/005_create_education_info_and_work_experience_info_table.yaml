@@ -8,14 +8,14 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: int
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
                   name: resume_id
-                  type: int
+                  type: bigint
                   constraints:
                     foreignKeyName: fk_education_info_resume_id
                     references: resume(id)
@@ -46,14 +46,14 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: int
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
                   name: resume_id
-                  type: int
+                  type: bigint
                   constraints:
                     foreignKeyName: fk_work_experience_info_resume_id
                     references: resume(id)
@@ -69,4 +69,4 @@ databaseChangeLog:
                   type: varchar(255)
               - column:
                   name: responsibilities
-                  type: text
+                  type: varchar(255)
