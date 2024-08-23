@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 public class WorkExperienceInfoDto {
     private Long id;
-    private Integer resumeId;
+    private Long resumeId;
     private Integer years;
     private String companyName;
     private String position;

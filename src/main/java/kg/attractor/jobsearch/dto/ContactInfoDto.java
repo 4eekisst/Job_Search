@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class ContactInfoDto {
     private Long id;
     private Integer typeId;
-    private Integer resumeId;
+    private Long resumeId;
     private String value;
 }

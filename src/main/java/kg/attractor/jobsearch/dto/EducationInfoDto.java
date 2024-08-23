@@ -14,7 +14,7 @@ import java.time.LocalDate;
 
 public class EducationInfoDto {
     private Long id;
-    private Integer resumeId;
+    private Long resumeId;
     private String institution;
     private String program;
     private LocalDate startDate;

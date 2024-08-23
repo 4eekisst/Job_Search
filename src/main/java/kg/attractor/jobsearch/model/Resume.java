@@ -32,6 +32,9 @@ public class Resume {
     @Column(name = "salary")
     private Double salary;
 
+    @Transient
+    private String email;
+
     @Column(name = "is_active")
     private boolean isActive;
 
