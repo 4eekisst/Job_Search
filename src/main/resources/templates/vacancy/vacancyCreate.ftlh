@@ -3,6 +3,9 @@
 
     <div class="container mt-5">
         <h1 class="mb-4">Создание вакансии:</h1>
+        <#if error??>
+            <div class="alert alert-danger">${error}</div>
+        </#if>
         <form action="/vacancy/create" method="post">
 
             <div class="form-group mb-3">

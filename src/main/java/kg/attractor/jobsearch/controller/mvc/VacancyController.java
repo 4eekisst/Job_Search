@@ -33,9 +33,12 @@ public class VacancyController {
     }
 
     @GetMapping("/vacancy/info/{id}")
-    public String vacancyInfo(@PathVariable Long id, Model model) {
+    public String vacancyInfo(@PathVariable Long id, Model model, Authentication authentication) {
         VacancyDto vacancy = vacancyService.getVacancyById(id);
+        UserDto user = userService.getUserByEmail(authentication.getName());
+
         model.addAttribute("vacancy", vacancy);
+        model.addAttribute("isEmployer", user.getAuthorityId() == 2);
         return "vacancy/vacancyInfo";
     }
 
@@ -48,7 +51,15 @@ public class VacancyController {
     }
 
     @PostMapping("/vacancy/create")
-    public String create(@ModelAttribute VacancyDto vacancyDto) {
+    public String create(@ModelAttribute VacancyDto vacancyDto, Model model) {
+        if (vacancyDto.getIsActive() == null || !vacancyDto.getIsActive()) {
+            model.addAttribute("error", "Поставьте галочку в конце формы, чтобы создать вакансию.");
+            List<CategoryDto> categories = categoryService.getAllCategories();
+            model.addAttribute("categories", categories);
+            model.addAttribute("vacancy", vacancyDto);
+            return "vacancy/vacancyCreate";
+        }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         UserDto user = userService.getUserByEmail(email);
@@ -61,7 +72,6 @@ public class VacancyController {
         VacancyDto createdVacancy = vacancyService.createVacancy(vacancyDto);
         return "redirect:/vacancy/info/" + createdVacancy.getId();
     }
-
 
     @GetMapping("/vacancy/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {

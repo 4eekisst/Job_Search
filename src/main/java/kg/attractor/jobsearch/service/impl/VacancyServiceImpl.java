@@ -28,6 +28,9 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public VacancyDto createVacancy(VacancyDto vacancyDto) {
         try {
+            if (vacancyDto.getIsActive() == null || !vacancyDto.getIsActive()) {
+                throw new CanNotFindVacancyException("Vacancy must be active");
+            }
             Vacancy vacancy = mapToVacancy(vacancyDto);
             vacancy.setCreatedDate(LocalDate.now());
             vacancy.setUpdateTime(LocalDate.now());

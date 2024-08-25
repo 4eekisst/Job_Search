@@ -47,7 +47,7 @@ public class VacancyDto {
     @Positive(message = "Experience to must be positive")
     private Integer expTo;
 
-    private Boolean isActive;
+    private Boolean isActive = false;
     private LocalDateTime createdDate;
     private LocalDateTime updateTime;
 }
