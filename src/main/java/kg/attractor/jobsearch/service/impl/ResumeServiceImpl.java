@@ -281,9 +281,6 @@ public class ResumeServiceImpl implements ResumeService {
     public List<ResumeDto> getResumesByUserId(Long userId) {
         try {
             List<Resume> resumes = resumeRepository.findByApplicantId(userId);
-            if (resumes.isEmpty()) {
-                throw new CanNotFindResumeException("No resumes found for user ID " + userId);
-            }
             return resumes.stream()
                     .map(this::getResumeDto)
                     .collect(Collectors.toList());

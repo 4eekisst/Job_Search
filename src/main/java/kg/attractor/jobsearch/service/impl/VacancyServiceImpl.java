@@ -29,13 +29,25 @@ public class VacancyServiceImpl implements VacancyService {
     public VacancyDto createVacancy(VacancyDto vacancyDto) {
         try {
             if (vacancyDto.getIsActive() == null || !vacancyDto.getIsActive()) {
-                throw new CanNotFindVacancyException("Vacancy must be active");
+                throw new CanNotFindVacancyException("Поставьте галочку в конце формы, чтобы создать вакансию.");
             }
+
+            if (vacancyDto.getExpFrom() > vacancyDto.getExpTo()) {
+                throw new IllegalArgumentException("Начальный опыт работы не может быть больше конечного.");
+            }
+
+            if (vacancyDto.getExpFrom() < 0 || vacancyDto.getExpTo() < 0) {
+                throw new IllegalArgumentException("Опыт работы не может иметь отрицательное значение.");
+            }
+
             Vacancy vacancy = mapToVacancy(vacancyDto);
             vacancy.setCreatedDate(LocalDate.now());
             vacancy.setUpdateTime(LocalDate.now());
             Vacancy savedVacancy = vacancyRepository.save(vacancy);
             return mapToVacancyDto(savedVacancy);
+        } catch (IllegalArgumentException e) {
+            log.error("Invalid input for creating vacancy: {}", e.getMessage());
+            throw e;
         } catch (Exception e) {
             log.error("An error occurred while creating vacancy: {}", e.getMessage());
             throw new CanNotFindVacancyException("Unable to create vacancy");

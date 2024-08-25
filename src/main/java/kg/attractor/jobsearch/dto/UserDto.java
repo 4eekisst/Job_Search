@@ -15,7 +15,6 @@ public class UserDto {
 
     private Long id;
 
-    @NotBlank(message = "Name cannot be blank")
     @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String name;
 
@@ -23,17 +22,15 @@ public class UserDto {
     private String surname;
 
     @NotNull(message = "Age cannot be null")
-    @Min(value = 0, message = "Age must be positive")
-    @Max(value = 150, message = "Age must be less than or equal to 150")
+    @Min(value = 18, message = "Age must be at least 18")
+    @Max(value = 55, message = "Age must be less than or equal to 55")
     private Integer age;
 
-    @NotBlank(message = "Email cannot be blank")
     @Email(message = "Email should be valid")
     private String email;
 
-    @NotBlank(message = "Password cannot be blank")
     @Size(min = 4, max = 20, message = "Password length must be between 4 and 20 characters")
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).+$", message = "Password should contain at least one uppercase letter, one number, and one lowercase letter")
+    @Pattern(regexp = "^(?=.*[a-zA-Z]).*$", message = "Password should contain at least one letter")
     private String password;
 
     @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number should be valid")
@@ -43,7 +40,6 @@ public class UserDto {
 
     private Boolean enabled;
 
-    @NotNull(message = "Authority ID cannot be null")
     @JsonProperty("authority_id")
     private Long authorityId;
 }

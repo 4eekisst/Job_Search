@@ -71,18 +71,25 @@ public class VacancyController {
             return "vacancy/vacancyCreate";
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        UserDto user = userService.getUserByEmail(email);
-        Long userId = user.getId();
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+            UserDto user = userService.getUserByEmail(email);
+            Long userId = user.getId();
 
-        vacancyDto.setCreatedDate(LocalDateTime.now());
-        vacancyDto.setUpdateTime(LocalDateTime.now());
-        vacancyDto.setAuthorId(userId);
+            vacancyDto.setCreatedDate(LocalDateTime.now());
+            vacancyDto.setUpdateTime(LocalDateTime.now());
+            vacancyDto.setAuthorId(userId);
 
-        VacancyDto createdVacancy = vacancyService.createVacancy(vacancyDto);
-        session.setAttribute("fromEditOrCreate", true);
-        return "redirect:/vacancy/info/" + createdVacancy.getId();
+            VacancyDto createdVacancy = vacancyService.createVacancy(vacancyDto);
+            session.setAttribute("fromEditOrCreate", true);
+            return "redirect:/vacancy/info/" + createdVacancy.getId();
+        } catch (IllegalArgumentException e) {
+            List<CategoryDto> categories = categoryService.getAllCategories();
+            model.addAttribute("categories", categories);
+            model.addAttribute("vacancy", vacancyDto);
+            return "vacancy/vacancyCreate";
+        }
     }
 
     @GetMapping("/vacancy/edit/{id}")
