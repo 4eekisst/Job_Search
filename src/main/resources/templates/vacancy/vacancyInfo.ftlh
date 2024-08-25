@@ -35,12 +35,11 @@
                                 <#else>
                                     ${vacancy.expTo} лет
                                 </#if>
-                            </#if>
-                        </p>
+                            </#if>                        </p>
                         <p class="card-text">${vacancy.description}</p>
                         <p class="card-text"><strong>Зарплата:</strong> $${vacancy.salary}</p>
-                        <#if isEmployer>
-                            <a href="/resume/edit/${vacancy.id}" class="btn btn-primary">Редактировать</a>
+                        <#if fromEditOrCreate>
+                            <a href="/vacancy/edit/${vacancy.id}" class="btn btn-primary">Редактировать</a>
                             <a href="/profile" class="btn btn-primary">Вернуться в личный кабинет</a>
                         <#else>
                             <a href="/vacancies" class="btn btn-secondary">Вернуться к списку</a>
@@ -52,3 +51,4 @@
     </main>
 
 </@vacancyInfo.layout>
+

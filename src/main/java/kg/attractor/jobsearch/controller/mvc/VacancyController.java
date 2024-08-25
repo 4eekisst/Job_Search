@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.controller.mvc;
 
+import jakarta.servlet.http.HttpSession;
 import kg.attractor.jobsearch.dto.CategoryDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
@@ -33,12 +34,22 @@ public class VacancyController {
     }
 
     @GetMapping("/vacancy/info/{id}")
-    public String vacancyInfo(@PathVariable Long id, Model model, Authentication authentication) {
+    public String vacancyInfo(@PathVariable Long id, Model model, Authentication authentication, HttpSession session) {
         VacancyDto vacancy = vacancyService.getVacancyById(id);
-        UserDto user = userService.getUserByEmail(authentication.getName());
+        boolean isEmployer = false;
+
+        if (authentication != null) {
+            UserDto user = userService.getUserByEmail(authentication.getName());
+            isEmployer = user.getAuthorityId() == 2;
+        }
+
+        Boolean fromEditOrCreate = (Boolean) session.getAttribute("fromEditOrCreate");
+        session.removeAttribute("fromEditOrCreate");
 
         model.addAttribute("vacancy", vacancy);
-        model.addAttribute("isEmployer", user.getAuthorityId() == 2);
+        model.addAttribute("isEmployer", isEmployer);
+        model.addAttribute("fromEditOrCreate", fromEditOrCreate != null ? fromEditOrCreate : false);
+
         return "vacancy/vacancyInfo";
     }
 
@@ -51,7 +62,7 @@ public class VacancyController {
     }
 
     @PostMapping("/vacancy/create")
-    public String create(@ModelAttribute VacancyDto vacancyDto, Model model) {
+    public String create(@ModelAttribute VacancyDto vacancyDto, Model model, HttpSession session) {
         if (vacancyDto.getIsActive() == null || !vacancyDto.getIsActive()) {
             model.addAttribute("error", "Поставьте галочку в конце формы, чтобы создать вакансию.");
             List<CategoryDto> categories = categoryService.getAllCategories();
@@ -70,6 +81,7 @@ public class VacancyController {
         vacancyDto.setAuthorId(userId);
 
         VacancyDto createdVacancy = vacancyService.createVacancy(vacancyDto);
+        session.setAttribute("fromEditOrCreate", true);
         return "redirect:/vacancy/info/" + createdVacancy.getId();
     }
 
@@ -83,7 +95,7 @@ public class VacancyController {
     }
 
     @PostMapping("/vacancy/edit")
-    public String edit(@ModelAttribute VacancyDto vacancyDto) {
+    public String edit(@ModelAttribute VacancyDto vacancyDto, HttpSession session) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         UserDto user = userService.getUserByEmail(email);
@@ -93,6 +105,7 @@ public class VacancyController {
         vacancyDto.setAuthorId(userId);
 
         vacancyService.updateVacancy(vacancyDto);
+        session.setAttribute("fromEditOrCreate", true);
         return "redirect:/vacancy/info/" + vacancyDto.getId();
     }
 
