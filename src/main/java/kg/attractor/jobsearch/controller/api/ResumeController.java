@@ -28,12 +28,6 @@ public class ResumeController {
         return ResponseEntity.ok("Resume created successfully");
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<ResumeDto>> getAllResumes() {
-        List<ResumeDto> resumes = resumeService.getAllResumes();
-        return ResponseEntity.ok(resumes);
-    }
-
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<ResumeDto>> getResumesByCategory(@PathVariable @Positive(message = "Category ID must be positive") Long categoryId) {
         try {

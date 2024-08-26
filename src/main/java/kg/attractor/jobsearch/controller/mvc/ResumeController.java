@@ -9,6 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,13 +28,17 @@ public class ResumeController {
     private final ContactTypeService contactTypeService;
 
     @GetMapping("/resumes")
-    public String listResumes(Model model) {
-        List<ResumeDto> resumes = resumeService.getAllResumes();
+    public String listResumes(@RequestParam(defaultValue = "0") int page, Model model) {
+        int pageSize = 10;
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<ResumeDto> resumesPage = resumeService.getAllResumes(pageable);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        for (ResumeDto resume : resumes) {
+        for (ResumeDto resume : resumesPage.getContent()) {
             resume.setCreatedDateStr(resume.getCreatedDate().format(formatter));
         }
-        model.addAttribute("resumes", resumes);
+
+        model.addAttribute("resumesPage", resumesPage);
         return "resume/resumes";
     }
 

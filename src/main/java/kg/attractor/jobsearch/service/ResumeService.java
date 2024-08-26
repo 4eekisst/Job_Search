@@ -3,18 +3,20 @@ package kg.attractor.jobsearch.service;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.customDto.ResumeCreatingDto;
 import kg.attractor.jobsearch.model.Resume;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ResumeService {
     Resume createResume(ResumeDto resumeDto);
     ResumeDto createFullResume(ResumeCreatingDto request);
-    List<ResumeDto> getAllResumes();
+    Page<ResumeDto> getAllResumes(Pageable pageable);
     void updateResume(ResumeDto resumeDto);
     void updateFullResume(ResumeCreatingDto request);
     void deleteResume(Long id);
     List<ResumeDto> getResumesByCategory(Long categoryId);
     List<ResumeDto> getResumesByApplicantId(Integer applicantId);
     ResumeDto getResumeById(Long id);
-    List<ResumeDto> getResumesByUserId(Long userId);
+    Page<ResumeDto> getResumesByUserId(Long userId, int page, int size);
 }

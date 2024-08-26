@@ -8,21 +8,21 @@
                 <h2>Личный кабинет работодателя</h2>
             </#if>
         </header>
-
         <div class="container my-5 mx-auto" style="max-width: 1200px; position: relative;">
             <div class="row g-3">
                 <div class="col-md-4 d-flex justify-content-center align-items-center">
                     <div>
                         <#if user.avatar??>
                             <img src="api/images/image/${user.avatar}" alt="User image"
-                                 class="img-fluid rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
+                                 class="img-fluid rounded-circle"
+                                 style="width: 200px; height: 200px; object-fit: cover;">
                         <#else>
                             <img src="api/images/image/anon.jpeg" alt="Default user image"
-                                 class="img-fluid rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
+                                 class="img-fluid rounded-circle"
+                                 style="width: 200px; height: 200px; object-fit: cover;">
                         </#if>
                     </div>
                 </div>
-
                 <div class="col-md-8">
                     <div class="card border-0 p-4 bg-white rounded shadow-sm" style="height: 300px;">
                         <h5 class="card-title">Данные:</h5>
@@ -52,18 +52,21 @@
                             </p>
                         </#if>
                         <div class="d-grid gap-2 mt-4">
-                            <a href="/edit" class="btn btn-secondary btn-sm mb-2" style="width: 200px;">Редактировать профиль</a>
+                            <a href="/edit" class="btn btn-secondary btn-sm mb-2" style="width: 200px;">Редактировать
+                                профиль</a>
                         </div>
                     </div>
                 </div>
             </div>
             <#if user.authorityId == 1>
-                <a href="/resume/create" class="btn btn-success position-absolute d-flex align-items-center justify-content-center"
+                <a href="/resume/create"
+                   class="btn btn-success position-absolute d-flex align-items-center justify-content-center"
                    style="width: 70px; height: 70px; background-color: gray; border: 2px solid gray; top: 100px; right: 100px; color: white; font-size: 36px; border-radius: 5px;">
                     +
                 </a>
             <#else>
-                <a href="/vacancy/create" class="btn btn-success position-absolute d-flex align-items-center justify-content-center"
+                <a href="/vacancy/create"
+                   class="btn btn-success position-absolute d-flex align-items-center justify-content-center"
                    style="width: 70px; height: 70px; background-color: gray; border: 2px solid gray; top: 100px; right: 100px; color: white; font-size: 36px; border-radius: 5px;">
                     +
                 </a>
@@ -71,9 +74,9 @@
             <div class="profile-content mt-4">
                 <#if user.authorityId == 1>
                     <h2>Резюме:</h2>
-                    <#if resumes?? && resumes?has_content>
+                    <#if resumesPage?? && resumesPage.content?has_content>
                         <div class="row mt-4">
-                            <#list resumes as resume>
+                            <#list resumesPage.content as resume>
                                 <div class="col-sm-6 mb-4">
                                     <div class="card">
                                         <div class="card-header">
@@ -90,7 +93,8 @@
                                                 <strong>Дата создания:</strong> ${resume.createdDateStr}
                                             </p>
                                             <div class="mt-auto">
-                                                <form action="/resume/update-time" method="post" style="display:inline;">
+                                                <form action="/resume/update-time" method="post"
+                                                      style="display:inline;">
                                                     <input type="hidden" name="id" value="${resume.id}">
                                                     <button type="submit" class="btn btn-secondary">Обновить</button>
                                                 </form>
@@ -101,6 +105,41 @@
                                 </div>
                             </#list>
                         </div>
+                        <nav aria-label="Page navigation" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <#if resumesPage.hasPrevious()>
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="?page=${resumesPage.number - 1}&size=${resumesPage.size}"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                <#else>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&laquo;</span>
+                                    </li>
+                                </#if>
+                                <#list 0..(resumesPage.totalPages - 1) as i>
+                                    <li class="page-item <#if i == resumesPage.number>active</#if>">
+                                        <a class="page-link" href="?page=${i}&size=${resumesPage.size}">${i + 1}</a>
+                                    </li>
+                                </#list>
+                                <#if resumesPage.hasNext()>
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="?page=${resumesPage.number + 1}&size=${resumesPage.size}"
+                                           aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                <#else>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&raquo;</span>
+                                    </li>
+                                </#if>
+                            </ul>
+                        </nav>
                     <#else>
                         <p>У вас нет созданных резюме.</p>
                     </#if>
@@ -145,7 +184,8 @@
                                             </p>
                                             <p class="card-text">${vacancy.description}</p>
                                             <div class="mt-auto">
-                                                <form action="/vacancy/update-time" method="post" style="display:inline;">
+                                                <form action="/vacancy/update-time" method="post"
+                                                      style="display:inline;">
                                                     <input type="hidden" name="id" value="${vacancy.id}">
                                                     <button type="submit" class="btn btn-secondary">Обновить</button>
                                                 </form>
@@ -160,7 +200,9 @@
                             <ul class="pagination justify-content-center">
                                 <#if vacanciesPage.hasPrevious()>
                                     <li class="page-item">
-                                        <a class="page-link" href="?page=${vacanciesPage.number - 1}&size=${vacanciesPage.size}" aria-label="Previous">
+                                        <a class="page-link"
+                                           href="?page=${vacanciesPage.number - 1}&size=${vacanciesPage.size}"
+                                           aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
@@ -178,7 +220,9 @@
 
                                 <#if vacanciesPage.hasNext()>
                                     <li class="page-item">
-                                        <a class="page-link" href="?page=${vacanciesPage.number + 1}&size=${vacanciesPage.size}" aria-label="Next">
+                                        <a class="page-link"
+                                           href="?page=${vacanciesPage.number + 1}&size=${vacanciesPage.size}"
+                                           aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>

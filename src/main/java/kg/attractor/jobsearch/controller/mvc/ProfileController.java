@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,10 +38,10 @@ public class ProfileController {
         model.addAttribute("user", user);
 
         if (user.getAuthorityId() == 1) {
-            List<ResumeDto> resumes = resumeService.getResumesByUserId(user.getId());
+            Page<ResumeDto> resumesPage = resumeService.getResumesByUserId(user.getId(), page, size);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            resumes.forEach(resume -> resume.setCreatedDateStr(resume.getCreatedDate().format(formatter)));
-            model.addAttribute("resumes", resumes);
+            resumesPage.forEach(resume -> resume.setCreatedDateStr(resume.getCreatedDate().format(formatter)));
+            model.addAttribute("resumesPage", resumesPage);
         } else if (user.getAuthorityId() == 2) {
             Page<VacancyDto> vacanciesPage = vacancyService.getVacanciesByUserId(user.getId(), page, size);
             model.addAttribute("vacanciesPage", vacanciesPage);

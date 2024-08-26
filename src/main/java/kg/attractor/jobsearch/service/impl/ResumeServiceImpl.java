@@ -14,6 +14,9 @@ import kg.attractor.jobsearch.service.ContactInfoService;
 import kg.attractor.jobsearch.service.EducationInfoService;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.WorkExperienceInfoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,7 +35,7 @@ public class ResumeServiceImpl implements ResumeService {
     private final ContactInfoService contactInfoService;
     private final ResumeRepository resumeRepository;
     private final CategoryRepository categoryRepository;
-    private final   UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Resume createResume(ResumeDto resumeDto) {
@@ -115,13 +118,11 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<ResumeDto> getAllResumes() {
+    public Page<ResumeDto> getAllResumes(Pageable pageable) {
         try {
-            List<Resume> resumes = resumeRepository.findAll();
+            Page<Resume> resumesPage = resumeRepository.findAll(pageable);
 
-            return resumes.stream()
-                    .map(this::getResumeDto)
-                    .collect(Collectors.toList());
+            return resumesPage.map(this::getResumeDto);
         } catch (Exception e) {
             log.error("An error occurred while fetching all resumes: {}", e.getMessage());
             throw new CanNotFindResumeException("Unable to fetch all resumes");
@@ -278,12 +279,11 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<ResumeDto> getResumesByUserId(Long userId) {
+    public Page<ResumeDto> getResumesByUserId(Long userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         try {
-            List<Resume> resumes = resumeRepository.findByApplicantId(userId);
-            return resumes.stream()
-                    .map(this::getResumeDto)
-                    .collect(Collectors.toList());
+            Page<Resume> resumesPage = resumeRepository.findByApplicantId(userId, pageable);
+            return resumesPage.map(this::getResumeDto);
         } catch (Exception e) {
             log.error("An error occurred while fetching resumes by user ID {}: {}", userId, e.getMessage());
             throw new CanNotFindResumeException("Unable to fetch resumes by user ID " + userId);
