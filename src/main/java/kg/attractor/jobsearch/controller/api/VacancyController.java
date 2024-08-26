@@ -52,11 +52,4 @@ public class VacancyController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-
-
-    @GetMapping("/all")
-    public ResponseEntity<List<VacancyDto>> getAllVacancies() {
-        List<VacancyDto> vacancies = vacancyService.getAllVacancies();
-        return ResponseEntity.ok(vacancies);
-    }
 }

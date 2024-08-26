@@ -8,6 +8,7 @@ import kg.attractor.jobsearch.service.CategoryService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,9 +28,11 @@ public class VacancyController {
     private final UserService userService;
 
     @GetMapping("/vacancies")
-    public String listVacancies(Model model) {
-        List<VacancyDto> vacancies = vacancyService.getAllVacancies();
-        model.addAttribute("vacancies", vacancies);
+    public String listVacancies(@RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "10") int size,
+                                Model model) {
+        Page<VacancyDto> vacanciesPage = vacancyService.getAllVacancies(page, size);
+        model.addAttribute("vacanciesPage", vacanciesPage);
         return "vacancy/vacancies";
     }
 

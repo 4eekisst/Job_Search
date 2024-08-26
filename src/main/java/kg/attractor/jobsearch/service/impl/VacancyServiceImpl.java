@@ -12,6 +12,9 @@ import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -122,15 +125,14 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getAllVacancies() {
+    public Page<VacancyDto> getAllVacancies(int page, int size) {
         try {
-            List<Vacancy> vacancies = vacancyRepository.findAll();
-            return vacancies.stream()
-                    .map(this::mapToVacancyDto)
-                    .collect(Collectors.toList());
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Vacancy> vacanciesPage = vacancyRepository.findAll(pageable);
+            return vacanciesPage.map(this::mapToVacancyDto);
         } catch (Exception e) {
-            log.error("An error occurred while fetching all vacancies: {}", e.getMessage());
-            throw new CanNotFindVacancyException("Unable to fetch all vacancies");
+            log.error("An error occurred while fetching vacancies: {}", e.getMessage());
+            throw new CanNotFindVacancyException("Unable to fetch vacancies");
         }
     }
 
@@ -147,14 +149,11 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getVacanciesByUserId(Long userId) {
+    public Page<VacancyDto> getVacanciesByUserId(Long userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         try {
-            List<Vacancy> vacancies = vacancyRepository.findAll().stream()
-                    .filter(vacancy -> vacancy.getAuthor().getId().equals(userId))
-                    .toList();
-            return vacancies.stream()
-                    .map(this::mapToVacancyDto)
-                    .collect(Collectors.toList());
+            Page<Vacancy> vacanciesPage = vacancyRepository.findAllByAuthorId(userId, pageable);
+            return vacanciesPage.map(this::mapToVacancyDto);
         } catch (Exception e) {
             log.error("An error occurred while fetching vacancies by user ID {}: {}", userId, e.getMessage());
             throw new CanNotFindVacancyException("Unable to fetch vacancies by user ID " + userId);

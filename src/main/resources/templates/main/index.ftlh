@@ -2,7 +2,7 @@
 <@main.layout>
     <main class="container mt-4">
         <div class="row mt-4">
-            <#list vacancies as vacancy>
+            <#list vacanciesPage.content as vacancy>
                 <div class="col-sm-6 mb-4">
                     <div class="card">
                         <div class="card-header">
@@ -45,6 +45,41 @@
                     </div>
                 </div>
             </#list>
+        </div>
+        <div class="container mt-4">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <#if vacanciesPage.hasPrevious()>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=${vacanciesPage.number - 1}&size=${vacanciesPage.size}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    <#else>
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-label="Previous">&laquo;</span>
+                        </li>
+                    </#if>
+
+                    <#list 0..(vacanciesPage.totalPages - 1) as i>
+                        <li class="page-item <#if i == vacanciesPage.number>active</#if>">
+                            <a class="page-link" href="?page=${i}&size=${vacanciesPage.size}">${i + 1}</a>
+                        </li>
+                    </#list>
+
+                    <#if vacanciesPage.hasNext()>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=${vacanciesPage.number + 1}&size=${vacanciesPage.size}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    <#else>
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-label="Next">&raquo;</span>
+                        </li>
+                    </#if>
+                </ul>
+            </nav>
         </div>
     </main>
 </@main.layout>

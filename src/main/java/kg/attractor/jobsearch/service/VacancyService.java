@@ -1,6 +1,7 @@
 package kg.attractor.jobsearch.service;
 
 import kg.attractor.jobsearch.dto.VacancyDto;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface VacancyService {
     void deleteVacancy(Long id);
     List<VacancyDto> getActiveVacancies();
     List<VacancyDto> getVacanciesByCategory(Long categoryId);
-    List<VacancyDto> getAllVacancies();
+    Page<VacancyDto> getAllVacancies(int page, int size);
     VacancyDto getVacancyById(Long id);
-    List<VacancyDto> getVacanciesByUserId(Long userId);
+    Page<VacancyDto> getVacanciesByUserId(Long userId, int page, int size);
 }

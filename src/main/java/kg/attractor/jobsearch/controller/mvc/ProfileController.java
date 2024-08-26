@@ -9,6 +9,7 @@ import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +30,9 @@ public class ProfileController {
     private final VacancyService vacancyService;
 
     @GetMapping("/profile")
-    public String profile(Model model, Authentication authentication) {
+    public String profile(Model model, Authentication authentication,
+                          @RequestParam(defaultValue = "0") int page,
+                          @RequestParam(defaultValue = "10") int size) {
         String email = authentication.getName();
         UserDto user = userService.getUserByEmail(email);
 
@@ -38,13 +41,11 @@ public class ProfileController {
         if (user.getAuthorityId() == 1) {
             List<ResumeDto> resumes = resumeService.getResumesByUserId(user.getId());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            resumes.forEach(resume -> {
-                resume.setCreatedDateStr(resume.getCreatedDate().format(formatter));
-            });
+            resumes.forEach(resume -> resume.setCreatedDateStr(resume.getCreatedDate().format(formatter)));
             model.addAttribute("resumes", resumes);
         } else if (user.getAuthorityId() == 2) {
-            List<VacancyDto> vacancies = vacancyService.getVacanciesByUserId(user.getId());
-            model.addAttribute("vacancies", vacancies);
+            Page<VacancyDto> vacanciesPage = vacancyService.getVacanciesByUserId(user.getId(), page, size);
+            model.addAttribute("vacanciesPage", vacanciesPage);
         }
         return "profile/profile";
     }

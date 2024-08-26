@@ -57,7 +57,6 @@
                     </div>
                 </div>
             </div>
-
             <#if user.authorityId == 1>
                 <a href="/resume/create" class="btn btn-success position-absolute d-flex align-items-center justify-content-center"
                    style="width: 70px; height: 70px; background-color: gray; border: 2px solid gray; top: 100px; right: 100px; color: white; font-size: 36px; border-radius: 5px;">
@@ -69,8 +68,6 @@
                     +
                 </a>
             </#if>
-
-
             <div class="profile-content mt-4">
                 <#if user.authorityId == 1>
                     <h2>Резюме:</h2>
@@ -109,9 +106,9 @@
                     </#if>
                 <#else>
                     <h2>Созданные вакансии:</h2>
-                    <#if vacancies?? && vacancies?has_content>
+                    <#if vacanciesPage?? && vacanciesPage.content?has_content>
                         <div class="row mt-4">
-                            <#list vacancies as vacancy>
+                            <#list vacanciesPage.content as vacancy>
                                 <div class="col-sm-6 mb-4">
                                     <div class="card">
                                         <div class="card-header">
@@ -159,6 +156,39 @@
                                 </div>
                             </#list>
                         </div>
+                        <nav aria-label="Page navigation" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <#if vacanciesPage.hasPrevious()>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=${vacanciesPage.number - 1}&size=${vacanciesPage.size}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                <#else>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&laquo;</span>
+                                    </li>
+                                </#if>
+
+                                <#list 0..(vacanciesPage.totalPages - 1) as i>
+                                    <li class="page-item <#if i == vacanciesPage.number>active</#if>">
+                                        <a class="page-link" href="?page=${i}&size=${vacanciesPage.size}">${i + 1}</a>
+                                    </li>
+                                </#list>
+
+                                <#if vacanciesPage.hasNext()>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=${vacanciesPage.number + 1}&size=${vacanciesPage.size}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                <#else>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&raquo;</span>
+                                    </li>
+                                </#if>
+                            </ul>
+                        </nav>
                     <#else>
                         <p>У вас нет созданных вакансий.</p>
                     </#if>
