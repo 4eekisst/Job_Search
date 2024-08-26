@@ -1,6 +1,5 @@
 <#import "../layout.ftlh" as resumeInfo>
 <@resumeInfo.layout>
-
     <main class="container mt-4">
         <div class="row mt-4">
             <div class="col-12">
@@ -25,7 +24,7 @@
                             <strong>Дата обновления:</strong> ${resume.updateTimeStr}
                         </p>
 
-                        <#if isApplicant>
+                        <#if fromEditOrCreate>
                             <a href="/resume/edit/${resume.id}" class="btn btn-primary">Редактировать</a>
                             <a href="/profile" class="btn btn-primary">Вернуться в личный кабинет</a>
                         <#else>
@@ -36,5 +35,4 @@
             </div>
         </div>
     </main>
-
 </@resumeInfo.layout>

@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.controller.mvc;
 
+import jakarta.servlet.http.HttpSession;
 import kg.attractor.jobsearch.dto.*;
 import kg.attractor.jobsearch.dto.customDto.ResumeCreatingDto;
 import kg.attractor.jobsearch.service.*;
@@ -43,7 +44,7 @@ public class ResumeController {
     }
 
     @GetMapping("/resume/info/{id}")
-    public String resumeInfo(@PathVariable Long id, Model model, Authentication authentication) {
+    public String resumeInfo(@PathVariable Long id, Model model, Authentication authentication, HttpSession session) {
         ResumeDto resume = resumeService.getResumeById(id);
         UserDto user = userService.getUserByEmail(authentication.getName());
 
@@ -51,8 +52,14 @@ public class ResumeController {
         resume.setCreatedDateStr(resume.getCreatedDate().format(formatter));
         resume.setUpdateTimeStr(resume.getUpdateTime().format(formatter));
 
+        boolean isApplicant = user.getAuthorityId() == 1;
+
+        Boolean fromEditOrCreate = (Boolean) session.getAttribute("fromEditOrCreate");
+        session.removeAttribute("fromEditOrCreate");
+
         model.addAttribute("resume", resume);
-        model.addAttribute("isApplicant", user.getAuthorityId() == 1);
+        model.addAttribute("isApplicant", isApplicant);
+        model.addAttribute("fromEditOrCreate", fromEditOrCreate != null ? fromEditOrCreate : false);
 
         return "resume/resumeInfo";
     }

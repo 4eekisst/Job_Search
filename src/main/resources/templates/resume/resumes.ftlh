@@ -20,11 +20,7 @@
                                     <strong>Дата создания:</strong> ${resume.createdDateStr}
                                 </p>
                                 <div class="mt-auto">
-                                    <form action="/resume/update-time" method="post" style="display:inline;">
-                                        <input type="hidden" name="id" value="${resume.id}">
-                                        <button type="submit" class="btn btn-secondary">Обновить</button>
-                                    </form>
-                                    <a href="/resume/edit/${resume.id}" class="btn btn-secondary">Редактировать</a>
+                                    <a href="/resume/info/${resume.id}" class="btn btn-primary">Подробнее</a>
                                 </div>
                             </div>
                         </div>
