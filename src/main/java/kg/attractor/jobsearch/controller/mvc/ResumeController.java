@@ -77,7 +77,7 @@ public class ResumeController {
     }
 
     @PostMapping("/resume/create")
-    public String create(@ModelAttribute ResumeCreatingDto resumeCreatingDto) {
+    public String create(@ModelAttribute ResumeCreatingDto resumeCreatingDto, HttpSession session) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         UserDto user = userService.getUserByEmail(email);
@@ -98,6 +98,8 @@ public class ResumeController {
         resumeDto.setUpdateTimeStr(resumeDto.getUpdateTime().format(formatter));
 
         ResumeDto createdResume = resumeService.createFullResume(resumeCreatingDto);
+
+        session.setAttribute("fromEditOrCreate", true);
 
         return "redirect:/resume/info/" + createdResume.getId();
     }
