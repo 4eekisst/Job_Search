@@ -22,8 +22,6 @@ public class UserDto {
     private String surname;
 
     @NotNull(message = "Age cannot be null")
-    @Min(value = 18, message = "Age must be at least 18")
-    @Max(value = 55, message = "Age must be less than or equal to 55")
     private Integer age;
 
     @Email(message = "Email should be valid")
