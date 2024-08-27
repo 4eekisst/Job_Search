@@ -30,9 +30,17 @@ public class VacancyController {
     @GetMapping("/vacancies")
     public String listVacancies(@RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "10") int size,
+                                @RequestParam(defaultValue = "date") String sortBy,
+                                @RequestParam(required = false) String previousSortBy,
                                 Model model) {
-        Page<VacancyDto> vacanciesPage = vacancyService.getAllVacancies(page, size);
+        if (previousSortBy != null && !previousSortBy.equals(sortBy)) {
+            page = 0;
+        }
+
+        Page<VacancyDto> vacanciesPage = vacancyService.getAllVacancies(page, size, sortBy);
         model.addAttribute("vacanciesPage", vacanciesPage);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("previousSortBy", sortBy);
         return "vacancy/vacancies";
     }
 

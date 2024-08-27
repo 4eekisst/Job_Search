@@ -153,3 +153,14 @@ VALUES ('Telegram'),
        ('Phone number'),
        ('Facebook'),
        ('Linkedin');
+
+
+INSERT INTO responded_applicant (resume_id, vacancy_id, confirmation)
+VALUES (1, 30,TRUE),
+       (2 ,30,TRUE),
+       (3, 30,TRUE),
+       (4, 25,TRUE),
+       (4, 25,TRUE),
+       (5, 20, TRUE);
+
+

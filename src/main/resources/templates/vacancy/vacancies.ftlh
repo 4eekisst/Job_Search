@@ -1,6 +1,16 @@
 <#import "../layout.ftlh" as listOfVacancy>
 <@listOfVacancy.layout>
     <main class="container mt-4">
+        <form method="get" action="/vacancies" class="form-inline mb-3">
+            <input type="hidden" name="page" value="0">
+            <input type="hidden" name="size" value="${vacanciesPage.size}">
+            <input type="hidden" name="previousSortBy" value="${sortBy}">
+            <label for="sortBy" class="mr-2">Сортировать:</label>
+            <select class="custom-select" name="sortBy" id="sortBy" onchange="this.form.submit()">
+                <option value="date" <#if sortBy == "date">selected</#if>>По дате публикации</option>
+                <option value="responses" <#if sortBy == "responses">selected</#if>>По количеству откликов</option>
+            </select>
+        </form>
         <div class="row mt-4">
             <#list vacanciesPage.content as vacancy>
                 <div class="col-sm-6 mb-4">

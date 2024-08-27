@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -125,15 +127,20 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public Page<VacancyDto> getAllVacancies(int page, int size) {
-        try {
-            Pageable pageable = PageRequest.of(page, size);
-            Page<Vacancy> vacanciesPage = vacancyRepository.findAll(pageable);
-            return vacanciesPage.map(this::mapToVacancyDto);
-        } catch (Exception e) {
-            log.error("An error occurred while fetching vacancies: {}", e.getMessage());
-            throw new CanNotFindVacancyException("Unable to fetch vacancies");
+    @Transactional(readOnly = true)
+    public Page<VacancyDto> getAllVacancies(int page, int size, String sortBy) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Vacancy> vacanciesPage;
+
+        if ("responses".equals(sortBy)) {
+            vacanciesPage = vacancyRepository.findAllOrderByResponseCountDesc(pageable);
+        } else if ("date".equals(sortBy)) {
+            vacanciesPage = vacancyRepository.findAllByOrderByCreatedDateDesc(pageable);
+        } else {
+            vacanciesPage = vacancyRepository.findAll(pageable);
         }
+
+        return vacanciesPage.map(this::mapToVacancyDto);
     }
 
     @Override
