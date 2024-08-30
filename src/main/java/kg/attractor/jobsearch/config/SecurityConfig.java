@@ -22,29 +22,10 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final DataSource dataSource;
 
     @Bean
     public PasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        String fetchUsers = """
-                select email, password, enabled
-                from users
-                where email = ?;
-                """;
-        String fetchAuthorities = """
-                select email, authority
-                from authorities a, users u
-                where u.AUTHORITY_ID = a.ID
-                and email = ?;
-                """;
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery(fetchUsers)
-                .authoritiesByUsernameQuery(fetchAuthorities);
     }
 
     @Bean

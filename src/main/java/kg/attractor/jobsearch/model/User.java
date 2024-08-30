@@ -3,6 +3,7 @@ package kg.attractor.jobsearch.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,9 +38,9 @@ public class User {
     private String avatar;
 
     @Column(name = "enabled")
-    private Boolean enabled;
+    private boolean enabled;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "authority_id")
+    @ManyToOne
+    @PrimaryKeyJoinColumn
     private Authority authority;
 }

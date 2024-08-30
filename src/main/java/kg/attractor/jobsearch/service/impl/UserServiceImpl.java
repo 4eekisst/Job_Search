@@ -187,7 +187,7 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .avatar(user.getAvatar())
-                .enabled(user.getEnabled())
+                .enabled(user.isEnabled())
                 .authorityId(user.getAuthority().getId())
                 .build();
     }
@@ -202,7 +202,7 @@ public class UserServiceImpl implements UserService {
                 .password(userDto.getPassword())
                 .phoneNumber(userDto.getPhoneNumber())
                 .avatar(userDto.getAvatar())
-                .enabled(userDto.getEnabled())
+                .enabled(userDto.getEnabled() != null ? userDto.getEnabled() : false)
                 .build();
     }
 }

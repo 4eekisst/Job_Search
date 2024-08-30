@@ -38,6 +38,10 @@ public class AuthController {
             return "auth/register";
         }
 
+        if (userDto.getEnabled() == null) {
+            userDto.setEnabled(true);
+        }
+
         userService.registerUser(userDto);
 
         boolean isEmployer = userDto.getAuthorityId() != null && userDto.getAuthorityId() == 2;
