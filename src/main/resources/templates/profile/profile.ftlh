@@ -95,6 +95,10 @@
                                             <div class="mt-auto">
                                                 <form action="/resume/update-time" method="post"
                                                       style="display:inline;">
+                                                    <#if _csrf??>
+                                                        <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                                                               value="${(_csrf.token)!'csrf-token'}"/>
+                                                    </#if>
                                                     <input type="hidden" name="id" value="${resume.id}">
                                                     <button type="submit" class="btn btn-secondary">Обновить</button>
                                                 </form>
@@ -186,6 +190,10 @@
                                             <div class="mt-auto">
                                                 <form action="/vacancy/update-time" method="post"
                                                       style="display:inline;">
+                                                    <#if _csrf??>
+                                                        <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                                                               value="${(_csrf.token)!'csrf-token'}"/>
+                                                    </#if>
                                                     <input type="hidden" name="id" value="${vacancy.id}">
                                                     <button type="submit" class="btn btn-secondary">Обновить</button>
                                                 </form>

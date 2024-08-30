@@ -6,6 +6,10 @@
         <#assign authorityId = userDto.authorityId!1>
 
         <form action="/auth/register" method="post" id="registerForm">
+            <#if _csrf??>
+                <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                       value="${(_csrf.token)!'csrf-token'}"/>
+            </#if>
             <div class="form-group">
                 <label for="authorityId">Выберите ваш тип регистрации:</label>
                 <select id="authorityId" name="authorityId" class="form-control" onchange="updateFormFields()">

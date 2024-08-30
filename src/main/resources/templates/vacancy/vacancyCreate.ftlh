@@ -7,7 +7,10 @@
             <div class="alert alert-danger">${error}</div>
         </#if>
         <form action="/vacancy/create" method="post">
-
+            <#if _csrf??>
+                <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                       value="${(_csrf.token)!'csrf-token'}"/>
+            </#if>
             <div class="form-group mb-3">
                 <label for="name" class="form-label">Название вакансии:</label>
                 <input type="text" id="name" name="name" class="form-control" placeholder="Введите название" required>

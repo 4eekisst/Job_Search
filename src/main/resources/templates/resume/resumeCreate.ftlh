@@ -4,6 +4,10 @@
     <div class="container mt-5">
         <h1>Создание резюме:</h1>
         <form action="/resume/create" method="post">
+            <#if _csrf??>
+                <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                       value="${(_csrf.token)!'csrf-token'}"/>
+            </#if>
             <div class="form-group">
                 <label for="name">Название резюме:</label>
                 <input type="text" class="form-control" id="name" name="resumeDto.name" placeholder="Введите название" required>

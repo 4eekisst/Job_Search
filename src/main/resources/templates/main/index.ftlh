@@ -2,6 +2,10 @@
 <@main.layout>
     <main class="container mt-4">
         <form method="get" action="/vacancies" class="form-inline mb-3">
+            <#if _csrf??>
+                <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                       value="${(_csrf.token)!'csrf-token'}"/>
+            </#if>
             <input type="hidden" name="page" value="0">
             <input type="hidden" name="size" value="${vacanciesPage.size}">
             <input type="hidden" name="previousSortBy" value="${sortBy}">

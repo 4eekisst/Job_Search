@@ -4,7 +4,10 @@
     <div class="container mt-5">
         <h1 class="mb-4">Редактирование вакансии</h1>
         <form action="/vacancy/edit" method="post">
-
+            <#if _csrf??>
+                <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                       value="${(_csrf.token)!'csrf-token'}"/>
+            </#if>
             <input type="hidden" id="id" name="id" value="${vacancy.id}">
 
             <div class="form-group mb-3">

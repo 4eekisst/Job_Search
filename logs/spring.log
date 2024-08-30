@@ -9253,3 +9253,101 @@ java.lang.RuntimeException: An error occurred while registering user
 2024-08-30T17:40:10.208+06:00  INFO 6304 --- [Job_search] [http-nio-1111-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2024-08-30T17:40:10.208+06:00  INFO 6304 --- [Job_search] [http-nio-1111-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2024-08-30T17:40:10.209+06:00  INFO 6304 --- [Job_search] [http-nio-1111-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-08-30T17:44:48.414+06:00  INFO 6304 --- [Job_search] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-08-30T17:44:48.435+06:00  INFO 6304 --- [Job_search] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-08-30T17:44:48.466+06:00  INFO 6304 --- [Job_search] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-08-30T17:44:55.857+06:00  INFO 6624 --- [Job_search] [main] k.a.jobsearch.JobSearchApplication       : Starting JobSearchApplication using Java 21.0.2 with PID 6624 (/Users/admin/Desktop/my projects/Java-21/Job_Search/target/classes started by admin in /Users/admin/Desktop/my projects/Java-21/Job_Search)
+2024-08-30T17:44:55.858+06:00  INFO 6624 --- [Job_search] [main] k.a.jobsearch.JobSearchApplication       : No active profile set, falling back to 1 default profile: "default"
+2024-08-30T17:44:56.275+06:00  INFO 6624 --- [Job_search] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-08-30T17:44:56.309+06:00  INFO 6624 --- [Job_search] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 30 ms. Found 10 JPA repository interfaces.
+2024-08-30T17:44:56.562+06:00  INFO 6624 --- [Job_search] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 1111 (http)
+2024-08-30T17:44:56.569+06:00  INFO 6624 --- [Job_search] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-08-30T17:44:56.569+06:00  INFO 6624 --- [Job_search] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.26]
+2024-08-30T17:44:56.594+06:00  INFO 6624 --- [Job_search] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-08-30T17:44:56.595+06:00  INFO 6624 --- [Job_search] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 716 ms
+2024-08-30T17:44:56.666+06:00  INFO 6624 --- [Job_search] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-08-30T17:44:56.729+06:00  INFO 6624 --- [Job_search] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:./db/JobSearch user=ROOT
+2024-08-30T17:44:56.730+06:00  INFO 6624 --- [Job_search] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-08-30T17:44:56.757+06:00  INFO 6624 --- [Job_search] [main] liquibase.database                       : Set default schema name to PUBLIC
+2024-08-30T17:44:56.880+06:00  INFO 6624 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/001_create_authorities_table.yaml
+2024-08-30T17:44:56.885+06:00  INFO 6624 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/002_create_users_and_category_table.yaml
+2024-08-30T17:44:56.889+06:00  INFO 6624 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/003_create_resume_and_vacancy_table.yaml
+2024-08-30T17:44:56.893+06:00  INFO 6624 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/004_create_contact_type_and_contact_info_table.yaml
+2024-08-30T17:44:56.895+06:00  INFO 6624 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/005_create_education_info_and_work_experience_info_table.yaml
+2024-08-30T17:44:56.897+06:00  INFO 6624 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/006_create_responded_applicant_and_message_table.yaml
+2024-08-30T17:44:56.899+06:00  INFO 6624 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/007_add_data.sql
+2024-08-30T17:44:56.958+06:00  INFO 6624 --- [Job_search] [main] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2024-08-30T17:44:56.991+06:00  INFO 6624 --- [Job_search] [main] liquibase.ui                             : Database is up to date, no changesets to execute
+2024-08-30T17:44:56.992+06:00  INFO 6624 --- [Job_search] [main] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2024-08-30T17:44:56.996+06:00  INFO 6624 --- [Job_search] [main] liquibase.util                           : UPDATE SUMMARY
+2024-08-30T17:44:56.996+06:00  INFO 6624 --- [Job_search] [main] liquibase.util                           : Run:                          0
+2024-08-30T17:44:56.996+06:00  INFO 6624 --- [Job_search] [main] liquibase.util                           : Previously run:              12
+2024-08-30T17:44:56.996+06:00  INFO 6624 --- [Job_search] [main] liquibase.util                           : Filtered out:                 0
+2024-08-30T17:44:56.997+06:00  INFO 6624 --- [Job_search] [main] liquibase.util                           : -------------------------------
+2024-08-30T17:44:56.997+06:00  INFO 6624 --- [Job_search] [main] liquibase.util                           : Total change sets:           12
+2024-08-30T17:44:56.997+06:00  INFO 6624 --- [Job_search] [main] liquibase.util                           : Update summary generated
+2024-08-30T17:44:57.005+06:00  INFO 6624 --- [Job_search] [main] liquibase.lockservice                    : Successfully released change log lock
+2024-08-30T17:44:57.006+06:00  INFO 6624 --- [Job_search] [main] liquibase.command                        : Command execution complete
+2024-08-30T17:44:57.046+06:00  INFO 6624 --- [Job_search] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-08-30T17:44:57.080+06:00  INFO 6624 --- [Job_search] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-08-30T17:44:57.100+06:00  INFO 6624 --- [Job_search] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-08-30T17:44:57.260+06:00  INFO 6624 --- [Job_search] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-08-30T17:44:57.830+06:00  INFO 6624 --- [Job_search] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-08-30T17:44:57.845+06:00  INFO 6624 --- [Job_search] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-08-30T17:44:57.976+06:00  INFO 6624 --- [Job_search] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-08-30T17:44:58.334+06:00  WARN 6624 --- [Job_search] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-08-30T17:44:58.344+06:00  INFO 6624 --- [Job_search] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name authUserDetailsService
+2024-08-30T17:44:58.666+06:00  INFO 6624 --- [Job_search] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 1111 (http) with context path '/'
+2024-08-30T17:44:58.672+06:00  INFO 6624 --- [Job_search] [main] k.a.jobsearch.JobSearchApplication       : Started JobSearchApplication in 2.998 seconds (process running for 8.421)
+2024-08-30T17:45:09.878+06:00  INFO 6624 --- [Job_search] [http-nio-1111-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-08-30T17:45:09.879+06:00  INFO 6624 --- [Job_search] [http-nio-1111-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-08-30T17:45:09.880+06:00  INFO 6624 --- [Job_search] [http-nio-1111-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-08-30T17:45:27.706+06:00  INFO 6624 --- [Job_search] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-08-30T17:45:27.712+06:00  INFO 6624 --- [Job_search] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-08-30T17:45:27.718+06:00  INFO 6624 --- [Job_search] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-08-30T17:45:34.144+06:00  INFO 6659 --- [Job_search] [main] k.a.jobsearch.JobSearchApplication       : Starting JobSearchApplication using Java 21.0.2 with PID 6659 (/Users/admin/Desktop/my projects/Java-21/Job_Search/target/classes started by admin in /Users/admin/Desktop/my projects/Java-21/Job_Search)
+2024-08-30T17:45:34.145+06:00  INFO 6659 --- [Job_search] [main] k.a.jobsearch.JobSearchApplication       : No active profile set, falling back to 1 default profile: "default"
+2024-08-30T17:45:34.527+06:00  INFO 6659 --- [Job_search] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-08-30T17:45:34.566+06:00  INFO 6659 --- [Job_search] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 34 ms. Found 10 JPA repository interfaces.
+2024-08-30T17:45:34.838+06:00  INFO 6659 --- [Job_search] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 1111 (http)
+2024-08-30T17:45:34.845+06:00  INFO 6659 --- [Job_search] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-08-30T17:45:34.846+06:00  INFO 6659 --- [Job_search] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.26]
+2024-08-30T17:45:34.882+06:00  INFO 6659 --- [Job_search] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-08-30T17:45:34.882+06:00  INFO 6659 --- [Job_search] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 718 ms
+2024-08-30T17:45:34.952+06:00  INFO 6659 --- [Job_search] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-08-30T17:45:35.033+06:00  INFO 6659 --- [Job_search] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:./db/JobSearch user=ROOT
+2024-08-30T17:45:35.034+06:00  INFO 6659 --- [Job_search] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-08-30T17:45:35.062+06:00  INFO 6659 --- [Job_search] [main] liquibase.database                       : Set default schema name to PUBLIC
+2024-08-30T17:45:35.178+06:00  INFO 6659 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/001_create_authorities_table.yaml
+2024-08-30T17:45:35.183+06:00  INFO 6659 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/002_create_users_and_category_table.yaml
+2024-08-30T17:45:35.186+06:00  INFO 6659 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/003_create_resume_and_vacancy_table.yaml
+2024-08-30T17:45:35.191+06:00  INFO 6659 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/004_create_contact_type_and_contact_info_table.yaml
+2024-08-30T17:45:35.193+06:00  INFO 6659 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/005_create_education_info_and_work_experience_info_table.yaml
+2024-08-30T17:45:35.196+06:00  INFO 6659 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/006_create_responded_applicant_and_message_table.yaml
+2024-08-30T17:45:35.198+06:00  INFO 6659 --- [Job_search] [main] liquibase.changelog                      : Reading resource: db/changelog/initial/007_add_data.sql
+2024-08-30T17:45:35.252+06:00  INFO 6659 --- [Job_search] [main] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2024-08-30T17:45:35.285+06:00  INFO 6659 --- [Job_search] [main] liquibase.ui                             : Database is up to date, no changesets to execute
+2024-08-30T17:45:35.287+06:00  INFO 6659 --- [Job_search] [main] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2024-08-30T17:45:35.292+06:00  INFO 6659 --- [Job_search] [main] liquibase.util                           : UPDATE SUMMARY
+2024-08-30T17:45:35.292+06:00  INFO 6659 --- [Job_search] [main] liquibase.util                           : Run:                          0
+2024-08-30T17:45:35.292+06:00  INFO 6659 --- [Job_search] [main] liquibase.util                           : Previously run:              12
+2024-08-30T17:45:35.292+06:00  INFO 6659 --- [Job_search] [main] liquibase.util                           : Filtered out:                 0
+2024-08-30T17:45:35.292+06:00  INFO 6659 --- [Job_search] [main] liquibase.util                           : -------------------------------
+2024-08-30T17:45:35.292+06:00  INFO 6659 --- [Job_search] [main] liquibase.util                           : Total change sets:           12
+2024-08-30T17:45:35.293+06:00  INFO 6659 --- [Job_search] [main] liquibase.util                           : Update summary generated
+2024-08-30T17:45:35.301+06:00  INFO 6659 --- [Job_search] [main] liquibase.lockservice                    : Successfully released change log lock
+2024-08-30T17:45:35.302+06:00  INFO 6659 --- [Job_search] [main] liquibase.command                        : Command execution complete
+2024-08-30T17:45:35.346+06:00  INFO 6659 --- [Job_search] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-08-30T17:45:35.380+06:00  INFO 6659 --- [Job_search] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-08-30T17:45:35.396+06:00  INFO 6659 --- [Job_search] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-08-30T17:45:35.533+06:00  INFO 6659 --- [Job_search] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-08-30T17:45:36.129+06:00  INFO 6659 --- [Job_search] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-08-30T17:45:36.148+06:00  INFO 6659 --- [Job_search] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-08-30T17:45:36.278+06:00  INFO 6659 --- [Job_search] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-08-30T17:45:36.627+06:00  WARN 6659 --- [Job_search] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-08-30T17:45:36.637+06:00  INFO 6659 --- [Job_search] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name authUserDetailsService
+2024-08-30T17:45:36.951+06:00  INFO 6659 --- [Job_search] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 1111 (http) with context path '/'
+2024-08-30T17:45:36.957+06:00  INFO 6659 --- [Job_search] [main] k.a.jobsearch.JobSearchApplication       : Started JobSearchApplication in 2.993 seconds (process running for 8.319)
+2024-08-30T17:45:37.384+06:00  INFO 6659 --- [Job_search] [http-nio-1111-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-08-30T17:45:37.384+06:00  INFO 6659 --- [Job_search] [http-nio-1111-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-08-30T17:45:37.385+06:00  INFO 6659 --- [Job_search] [http-nio-1111-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms

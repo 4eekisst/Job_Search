@@ -4,6 +4,10 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <form id="profile-form" action="/edit" method="post" enctype="multipart/form-data">
+                    <#if _csrf??>
+                        <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                               value="${(_csrf.token)!'csrf-token'}"/>
+                    </#if>
                     <div class="mb-3">
                         <label for="avatar-input" class="form-label">Выберите изображение</label>
                         <input name="file" class="form-control" type="file" id="avatar-input">

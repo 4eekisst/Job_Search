@@ -54,9 +54,10 @@
 
 
                         <form id="login-form" action="/auth/login" method="post">
-
-                            <!-- Email input -->
-
+                            <#if _csrf??>
+                                <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                                       value="${(_csrf.token)!'csrf-token'}"/>
+                            </#if>
                             <div data-mdb-input-init class="form-outline mb-4">
 
                                 <input type="email" id="form2Example1" class="form-control" name="username"/>
