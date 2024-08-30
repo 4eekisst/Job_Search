@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.service.impl;
+package kg.attractor.jobsearch.service.impl.customImpl;
 
 import kg.attractor.jobsearch.model.User;
 import kg.attractor.jobsearch.repository.UserRepository;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class AuthUserDetailsService implements UserDetailsService {
+public class AuthUserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 

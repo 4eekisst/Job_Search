@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.service.impl;
+package kg.attractor.jobsearch.service.impl.customImpl;
 
 import kg.attractor.jobsearch.errors.handler.ErrorResponseBody;
 import kg.attractor.jobsearch.service.ErrorService;

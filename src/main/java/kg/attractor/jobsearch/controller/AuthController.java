@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.controller.mvc;
+package kg.attractor.jobsearch.controller;
 
 import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.UserDto;

@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.controller.mvc;
+package kg.attractor.jobsearch.controller;
 
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.VacancyService;
