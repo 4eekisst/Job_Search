@@ -25,4 +25,5 @@ public class RespondedApplicantDto {
     private Integer vacancyId;
 
     private Boolean confirmation;
+    private String message;
 }

@@ -24,6 +24,7 @@ public class RespondedApplicantServiceImpl implements RespondedApplicantService 
     private final RespondedApplicantRepository respondedApplicantRepository;
     private final ResumeRepository resumeRepository;
     private final VacancyRepository vacancyRepository;
+
     @Override
     public void respondToVacancy(RespondedApplicantDto respondedApplicantDto) {
         try {
@@ -33,6 +34,14 @@ public class RespondedApplicantServiceImpl implements RespondedApplicantService 
             log.error("An error occurred while responding to vacancy: {}", e.getMessage());
             throw new CanNotFindRespondedApplicantException("Unable to respond to vacancy");
         }
+    }
+
+    @Override
+    public RespondedApplicant findRespondedApplicant(RespondedApplicantDto respondedApplicantDto) {
+        return respondedApplicantRepository.findByResumeIdAndVacancyId(
+                respondedApplicantDto.getResumeId(),
+                respondedApplicantDto.getVacancyId()
+        ).orElseThrow(() -> new RuntimeException("Responded Applicant not found"));
     }
 
     @Override

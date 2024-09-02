@@ -2,9 +2,11 @@ package kg.attractor.jobsearch.controller;
 
 import jakarta.servlet.http.HttpSession;
 import kg.attractor.jobsearch.dto.CategoryDto;
+import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.CategoryService;
+import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,6 +29,7 @@ public class VacancyController {
     private final VacancyService vacancyService;
     private final CategoryService categoryService;
     private final UserService userService;
+    private final ResumeService resumeService;
 
     @GetMapping("/vacancies")
     public String listVacancies(@RequestParam(defaultValue = "0") int page,
@@ -48,10 +52,12 @@ public class VacancyController {
     public String vacancyInfo(@PathVariable Long id, Model model, Authentication authentication, HttpSession session) {
         VacancyDto vacancy = vacancyService.getVacancyById(id);
         boolean isEmployer = false;
+        List<ResumeDto> userResumes = new ArrayList<>();
 
         if (authentication != null) {
             UserDto user = userService.getUserByEmail(authentication.getName());
             isEmployer = user.getAuthorityId() == 2;
+            userResumes = resumeService.getResumesByUserId(user.getId(), 0, Integer.MAX_VALUE).getContent();
         }
 
         Boolean fromEditOrCreate = (Boolean) session.getAttribute("fromEditOrCreate");
@@ -60,9 +66,11 @@ public class VacancyController {
         model.addAttribute("vacancy", vacancy);
         model.addAttribute("isEmployer", isEmployer);
         model.addAttribute("fromEditOrCreate", fromEditOrCreate != null ? fromEditOrCreate : false);
+        model.addAttribute("userResumes", userResumes);
 
         return "vacancy/vacancyInfo";
     }
+
 
     @GetMapping("/vacancy/create")
     public String create(Model model) {

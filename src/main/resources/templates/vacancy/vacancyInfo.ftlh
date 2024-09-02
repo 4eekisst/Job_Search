@@ -35,13 +35,15 @@
                                 <#else>
                                     ${vacancy.expTo} лет
                                 </#if>
-                            </#if>                        </p>
+                            </#if>
+                        </p>
                         <p class="card-text">${vacancy.description}</p>
                         <p class="card-text"><strong>Зарплата:</strong> $${vacancy.salary}</p>
                         <#if fromEditOrCreate>
                             <a href="/vacancy/edit/${vacancy.id}" class="btn btn-primary">Редактировать</a>
                             <a href="/profile" class="btn btn-primary">Вернуться в личный кабинет</a>
                         <#else>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#respondModal">Оставить отклик</button>
                             <a href="/vacancies" class="btn btn-secondary">Вернуться к списку</a>
                         </#if>
                     </div>
@@ -50,5 +52,42 @@
         </div>
     </main>
 
-</@vacancyInfo.layout>
+    <div class="modal fade" id="respondModal" tabindex="-1" role="dialog" aria-labelledby="respondModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="respondModalLabel">Оставить отклик</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/respond" method="post">
+                    <#if _csrf??>
+                        <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                               value="${(_csrf.token)!'csrf-token'}"/>
+                    </#if>
+                    <input type="hidden" name="vacancyId" value="${vacancy.id}"/>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="resumeSelect">Выберите резюме:</label>
+                            <select id="resumeSelect" name="resumeId" class="form-control">
+                                <#list userResumes as resume>
+                                    <option value="${resume.id}">${resume.name}</option>
+                                </#list>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Оставьте сообщение работодателю:</label>
+                            <textarea id="message" name="message" class="form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Отправить отклик</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
+</@vacancyInfo.layout>
