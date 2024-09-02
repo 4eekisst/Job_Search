@@ -3,7 +3,6 @@ package kg.attractor.jobsearch.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -43,4 +42,6 @@ public class User {
     @ManyToOne
     @PrimaryKeyJoinColumn
     private Authority authority;
+
+    private String resetPasswordToken;
 }

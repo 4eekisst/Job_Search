@@ -46,6 +46,9 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_authority_users_id
                     references: authorities(id)
+              - column:
+                  name: reset_password_token
+                  type: varchar(255)
 
   - changeSet:
       id: create category table

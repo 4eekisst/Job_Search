@@ -66,10 +66,6 @@
 
                             </div>
 
-
-
-                            <!-- Password input -->
-
                             <div data-mdb-input-init class="form-outline mb-4">
 
                                 <input type="password" id="form2Example2" class="form-control" name="password"/>
@@ -78,19 +74,23 @@
 
                             </div>
 
-                            <!-- Submit button -->
-
                             <button type="submit" data-mdb-button-init data-mdb-ripple-init
 
                                     class="btn btn-primary btn-block mb-4">Sign in
 
                             </button>
 
-
-
                         </form>
 
+                        <div class="col-12">
+                            <a class="btn btn-link text-decoration-none text-dark" onclick="window.location.href='/auth/register'">
+                                Нет аккаунта?
+                            </a>
 
+                            <a class="btn btn-link text-decoration-none text-dark" onclick="window.location.href='/forgot_password'">
+                                Забыли пароль?
+                            </a>
+                        </div>
 
                     </div>
 

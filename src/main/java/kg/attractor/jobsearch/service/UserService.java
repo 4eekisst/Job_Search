@@ -1,13 +1,12 @@
 package kg.attractor.jobsearch.service;
 
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.customDto.UpdateUserProfileDto;
 import kg.attractor.jobsearch.errors.CanNotFindUserException;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.multipart.MultipartFile;
-
+import kg.attractor.jobsearch.model.User;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface UserService {
@@ -21,4 +20,7 @@ public interface UserService {
     UserDto registerUser(UserDto userDto);
     UserDto updateUserProfile(UpdateUserProfileDto updateUserProfileDto) throws CanNotFindUserException;
     UserDto getUserByEmail(String email);
+    void makeResetPasswordLnk(HttpServletRequest request) throws MessagingException, UnsupportedEncodingException;
+    User getByResetPasswordToken(String token);
+    void updatePassword(User user, String password);
 }
