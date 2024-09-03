@@ -52,11 +52,14 @@ public class VacancyController {
     public String vacancyInfo(@PathVariable Long id, Model model, Authentication authentication, HttpSession session) {
         VacancyDto vacancy = vacancyService.getVacancyById(id);
         boolean isEmployer = false;
+        boolean isApplicant = false;
+        boolean isAuthenticated = authentication != null;
         List<ResumeDto> userResumes = new ArrayList<>();
 
-        if (authentication != null) {
+        if (isAuthenticated) {
             UserDto user = userService.getUserByEmail(authentication.getName());
             isEmployer = user.getAuthorityId() == 2;
+            isApplicant = user.getAuthorityId() == 1;
             userResumes = resumeService.getResumesByUserId(user.getId(), 0, Integer.MAX_VALUE).getContent();
         }
 
@@ -65,12 +68,13 @@ public class VacancyController {
 
         model.addAttribute("vacancy", vacancy);
         model.addAttribute("isEmployer", isEmployer);
+        model.addAttribute("isAuthenticated", isAuthenticated);
+        model.addAttribute("isApplicant", isApplicant);
         model.addAttribute("fromEditOrCreate", fromEditOrCreate != null ? fromEditOrCreate : false);
         model.addAttribute("userResumes", userResumes);
 
         return "vacancy/vacancyInfo";
     }
-
 
     @GetMapping("/vacancy/create")
     public String create(Model model) {
