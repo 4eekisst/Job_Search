@@ -35,4 +35,6 @@ build/
 /logs/
 ./logs
 logs
+data/
+images/
 
