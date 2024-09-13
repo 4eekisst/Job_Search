@@ -1,11 +1,11 @@
 <#import "../layout.ftlh" as profile>
-<@profile.layout>
+<@profile.layout ; spring>
     <div class="profile-container">
         <header class="profile-header text-center my-4">
             <#if user.authorityId == 1>
-                <h2>Личный кабинет соискателя</h2>
+                <h2><@spring.message'profile.applicant'/></h2>
             <#else>
-                <h2>Личный кабинет работодателя</h2>
+                <h2><@spring.message'profile.employer'/></h2>
             </#if>
         </header>
         <div class="container my-5 mx-auto" style="max-width: 1200px; position: relative;">
@@ -25,35 +25,34 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card border-0 p-4 bg-white rounded shadow-sm" style="height: 300px;">
-                        <h5 class="card-title">Данные:</h5>
+                        <h5 class="card-title"><@spring.message'profile.data'/></h5>
                         <#if user.authorityId == 1>
-                            <p class="card-text"><strong>Имя Фамилия:</strong> ${user.name} ${user.surname}</p>
+                            <p class="card-text"><strong><@spring.message'profile.name.surname'/></strong> ${user.name} ${user.surname}</p>
                             <p class="card-text">
-                                <strong>Возраст:</strong> ${user.age}
+                                <strong><@spring.message'profile.age'/></strong> ${user.age}
                                 <#if user.age % 10 == 1 && user.age % 100 != 11>
-                                    год
+                                    <@spring.message'profile.year'/>
                                 <#elseif (user.age % 10 >= 2 && user.age % 10 <= 4) && (user.age % 100 < 10 || user.age % 100 >= 20)>
-                                    года
+                                    <@spring.message'profile.years'/>
                                 <#else>
-                                    лет
+                                    <@spring.message'profile.years.old'/>
                                 </#if>
                             </p>
                         <#else>
-                            <p class="card-text"><strong>Название компании:</strong> ${user.name}</p>
+                            <p class="card-text"><strong><@spring.message'profile.company.name'/></strong> ${user.name}</p>
                             <p class="card-text">
-                                <strong>Срок деятельности компании:</strong> ${user.age}
+                                <strong><@spring.message'profile.company.age'/></strong> ${user.age}
                                 <#if user.age % 10 == 1 && user.age % 100 != 11>
-                                    год
+                                    <@spring.message'profile.year'/>
                                 <#elseif (user.age % 10 >= 2 && user.age % 10 <= 4) && (user.age % 100 < 10 || user.age % 100 >= 20)>
-                                    года
+                                    <@spring.message'profile.years'/>
                                 <#else>
-                                    лет
+                                    <@spring.message'profile.years.old'/>
                                 </#if>
                             </p>
                         </#if>
                         <div class="d-grid gap-2 mt-4">
-                            <a href="/edit" class="btn btn-secondary btn-sm mb-2" style="width: 200px;">Редактировать
-                                профиль</a>
+                            <a href="/edit" class="btn btn-secondary btn-sm mb-2" style="width: 200px;"><@spring.message'profile.edit'/></a>
                         </div>
                     </div>
                 </div>
@@ -73,7 +72,7 @@
             </#if>
             <div class="profile-content mt-4">
                 <#if user.authorityId == 1>
-                    <h2>Резюме:</h2>
+                    <h2><@spring.message'profile.resumes'/></h2>
                     <#if resumesPage?? && resumesPage.content?has_content>
                         <div class="row mt-4">
                             <#list resumesPage.content as resume>
@@ -84,13 +83,13 @@
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text">
-                                                <strong>Адрес электронной почты:</strong> ${resume.email}
+                                                <strong><@spring.message'profile.resume.email'/></strong> ${resume.email}
                                             </p>
                                             <p class="card-text">
-                                                <strong>Статус:</strong> <#if resume.isActive>Активно</#if><#if !resume.isActive>Неактивно</#if>
+                                                <strong><@spring.message'profile.resume.status'/></strong> <#if resume.isActive>Активно</#if><#if !resume.isActive>Неактивно</#if>
                                             </p>
                                             <p class="card-text">
-                                                <strong>Дата создания:</strong> ${resume.createdDateStr}
+                                                <strong><@spring.message'profile.resume.date'/></strong> ${resume.createdDateStr}
                                             </p>
                                             <div class="mt-auto">
                                                 <form action="/resume/update-time" method="post"
@@ -100,9 +99,9 @@
                                                                value="${(_csrf.token)!'csrf-token'}"/>
                                                     </#if>
                                                     <input type="hidden" name="id" value="${resume.id}">
-                                                    <button type="submit" class="btn btn-secondary">Обновить</button>
+                                                    <button type="submit" class="btn btn-secondary"><@spring.message'profile.resume.update'/></button>
                                                 </form>
-                                                <a href="/resume/edit/${resume.id}" class="btn btn-secondary">Редактировать</a>
+                                                <a href="/resume/edit/${resume.id}" class="btn btn-secondary"><@spring.message'profile.resume.edit'/></a>
                                             </div>
                                         </div>
                                     </div>
@@ -145,10 +144,10 @@
                             </ul>
                         </nav>
                     <#else>
-                        <p>У вас нет созданных резюме.</p>
+                        <p><@spring.message'profile.resume.not.found'/></p>
                     </#if>
                 <#else>
-                    <h2>Созданные вакансии:</h2>
+                    <h2><@spring.message'profile.vacancies'/></h2>
                     <#if vacanciesPage?? && vacanciesPage.content?has_content>
                         <div class="row mt-4">
                             <#list vacanciesPage.content as vacancy>
@@ -159,30 +158,30 @@
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text">
-                                                <strong>Требуемый опыт:</strong>
+                                                <strong><@spring.message'profile.vacancy.exp'/></strong>
                                                 <#if vacancy.expFrom == vacancy.expTo>
                                                     <#if vacancy.expFrom % 10 == 1 && vacancy.expFrom % 100 != 11>
-                                                        ${vacancy.expFrom} год
+                                                        ${vacancy.expFrom} <@spring.message'profile.year'/>
                                                     <#elseif (vacancy.expFrom % 10 >= 2 && vacancy.expFrom % 10 <= 4) && (vacancy.expFrom % 100 < 10 || vacancy.expFrom % 100 >= 20)>
-                                                        ${vacancy.expFrom} года
+                                                        ${vacancy.expFrom} <@spring.message'profile.years'/>
                                                     <#else>
-                                                        ${vacancy.expFrom} лет
+                                                        ${vacancy.expFrom} <@spring.message'profile.years.old'/>
                                                     </#if>
                                                 <#else>
                                                     <#if vacancy.expFrom % 10 == 1 && vacancy.expFrom % 100 != 11>
-                                                        ${vacancy.expFrom} год
+                                                        ${vacancy.expFrom} <@spring.message'profile.year'/>
                                                     <#elseif (vacancy.expFrom % 10 >= 2 && vacancy.expFrom % 10 <= 4) && (vacancy.expFrom % 100 < 10 || vacancy.expFrom % 100 >= 20)>
-                                                        ${vacancy.expFrom} года
+                                                        ${vacancy.expFrom} <@spring.message'profile.years'/>
                                                     <#else>
-                                                        ${vacancy.expFrom} лет
+                                                        ${vacancy.expFrom} <@spring.message'profile.years.old'/>
                                                     </#if>
                                                     -
                                                     <#if vacancy.expTo % 10 == 1 && vacancy.expTo % 100 != 11>
-                                                        ${vacancy.expTo} год
+                                                        ${vacancy.expTo} <@spring.message'profile.year'/>
                                                     <#elseif (vacancy.expTo % 10 >= 2 && vacancy.expTo % 10 <= 4) && (vacancy.expTo % 100 < 10 || vacancy.expTo % 100 >= 20)>
-                                                        ${vacancy.expTo} года
+                                                        ${vacancy.expTo} <@spring.message'profile.years'/>
                                                     <#else>
-                                                        ${vacancy.expTo} лет
+                                                        ${vacancy.expTo} <@spring.message'profile.years.old'/>
                                                     </#if>
                                                 </#if>
                                             </p>
@@ -195,9 +194,9 @@
                                                                value="${(_csrf.token)!'csrf-token'}"/>
                                                     </#if>
                                                     <input type="hidden" name="id" value="${vacancy.id}">
-                                                    <button type="submit" class="btn btn-secondary">Обновить</button>
+                                                    <button type="submit" class="btn btn-secondary"><@spring.message'profile.vacancy.update'/></button>
                                                 </form>
-                                                <a href="/vacancy/edit/${vacancy.id}" class="btn btn-secondary">Редактировать</a>
+                                                <a href="/vacancy/edit/${vacancy.id}" class="btn btn-secondary"><@spring.message'profile.vacancy.edit'/></a>
                                             </div>
                                         </div>
                                     </div>
@@ -242,7 +241,7 @@
                             </ul>
                         </nav>
                     <#else>
-                        <p>У вас нет созданных вакансий.</p>
+                        <p><@spring.message'profile.vacancy.not.found'/></p>
                     </#if>
                 </#if>
             </div>

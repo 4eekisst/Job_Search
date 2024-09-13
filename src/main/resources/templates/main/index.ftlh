@@ -1,7 +1,7 @@
 <#import "../layout.ftlh" as main>
-<@main.layout>
+<@main.layout ; spring>
     <main class="container mt-4">
-        <form method="get" action="/vacancies" class="form-inline mb-3">
+        <form method="get" action="/" class="form-inline mb-3">
             <#if _csrf??>
                 <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
                        value="${(_csrf.token)!'csrf-token'}"/>
@@ -9,12 +9,14 @@
             <input type="hidden" name="page" value="0">
             <input type="hidden" name="size" value="${vacanciesPage.size}">
             <input type="hidden" name="previousSortBy" value="${sortBy}">
-            <label for="sortBy" class="mr-2">Сортировать:</label>
+            <input type="hidden" name="lang" value="${lang!''}">
+            <label for="sortBy" class="mr-2"><@spring.message'index.sort'/></label>
             <select class="custom-select" name="sortBy" id="sortBy" onchange="this.form.submit()">
-                <option value="date" <#if sortBy == "date">selected</#if>>По дате публикации</option>
-                <option value="responses" <#if sortBy == "responses">selected</#if>>По количеству откликов</option>
+                <option value="date" <#if sortBy == "date">selected</#if>><@spring.message'index.sort.date'/></option>
+                <option value="responses" <#if sortBy == "responses">selected</#if>><@spring.message'index.sort.responses'/></option>
             </select>
         </form>
+        
         <div class="row mt-4">
             <#list vacanciesPage.content as vacancy>
                 <div class="col-sm-6 mb-4">
@@ -24,36 +26,36 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">
-                                <strong>Требуемый опыт:</strong>
+                                <strong><@spring.message'index.experience'/></strong>
                                 <#if vacancy.expFrom == vacancy.expTo>
                                     <#if vacancy.expFrom % 10 == 1 && vacancy.expFrom % 100 != 11>
-                                        ${vacancy.expFrom} год
+                                        ${vacancy.expFrom} <@spring.message'index.year'/>
                                     <#elseif (vacancy.expFrom % 10 >= 2 && vacancy.expFrom % 10 <= 4) && (vacancy.expFrom % 100 < 10 || vacancy.expFrom % 100 >= 20)>
-                                        ${vacancy.expFrom} года
+                                        ${vacancy.expFrom}  <@spring.message'index.years'/>
                                     <#else>
-                                        ${vacancy.expFrom} лет
+                                        ${vacancy.expFrom}  <@spring.message'index.years.old'/>
                                     </#if>
                                 <#else>
                                     <#if vacancy.expFrom % 10 == 1 && vacancy.expFrom % 100 != 11>
-                                        ${vacancy.expFrom} год
+                                        ${vacancy.expFrom}  <@spring.message'index.year'/>
                                     <#elseif (vacancy.expFrom % 10 >= 2 && vacancy.expFrom % 10 <= 4) && (vacancy.expFrom % 100 < 10 || vacancy.expFrom % 100 >= 20)>
-                                        ${vacancy.expFrom} года
+                                        ${vacancy.expFrom}  <@spring.message'index.years'/>
                                     <#else>
-                                        ${vacancy.expFrom} лет
+                                        ${vacancy.expFrom}  <@spring.message'index.years.old'/>
                                     </#if>
                                     -
                                     <#if vacancy.expTo % 10 == 1 && vacancy.expTo % 100 != 11>
-                                        ${vacancy.expTo} год
+                                        ${vacancy.expTo}  <@spring.message'index.year'/>
                                     <#elseif (vacancy.expTo % 10 >= 2 && vacancy.expTo % 10 <= 4) && (vacancy.expTo % 100 < 10 || vacancy.expTo % 100 >= 20)>
-                                        ${vacancy.expTo} года
+                                        ${vacancy.expTo}  <@spring.message'index.years'/>
                                     <#else>
-                                        ${vacancy.expTo} лет
+                                        ${vacancy.expTo}  <@spring.message'index.years.old'/>
                                     </#if>
                                 </#if>
                             </p>
                             <p class="card-text">${vacancy.description}</p>
                             <div class="mt-auto">
-                                <a href="/vacancy/info/${vacancy.id}" class="btn btn-primary">Подробнее</a>
+                                <a href="/vacancy/info/${vacancy.id}" class="btn btn-primary"> <@spring.message'index.details'/></a>
                             </div>
                         </div>
                     </div>
@@ -65,7 +67,7 @@
                 <ul class="pagination">
                     <#if vacanciesPage.hasPrevious()>
                         <li class="page-item">
-                            <a class="page-link" href="?page=${vacanciesPage.number - 1}&size=${vacanciesPage.size}" aria-label="Previous">
+                            <a class="page-link" href="?page=${vacanciesPage.number - 1}&size=${vacanciesPage.size}&lang=${lang}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
@@ -77,13 +79,13 @@
 
                     <#list 0..(vacanciesPage.totalPages - 1) as i>
                         <li class="page-item <#if i == vacanciesPage.number>active</#if>">
-                            <a class="page-link" href="?page=${i}&size=${vacanciesPage.size}">${i + 1}</a>
+                            <a class="page-link" href="?page=${i}&size=${vacanciesPage.size}&lang=${lang}">${i + 1}</a>
                         </li>
                     </#list>
 
                     <#if vacanciesPage.hasNext()>
                         <li class="page-item">
-                            <a class="page-link" href="?page=${vacanciesPage.number + 1}&size=${vacanciesPage.size}" aria-label="Next">
+                            <a class="page-link" href="?page=${vacanciesPage.number + 1}&size=${vacanciesPage.size}&lang=${lang}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>

@@ -1,5 +1,5 @@
-<#import "../layout.ftlh" as profile>
-<@profile.layout>
+<#import "../layout.ftlh" as resumes>
+<@resumes.layout ; spring>
     <div class="container my-5 mx-auto" style="max-width: 1200px;">
         <#if resumesPage?? && resumesPage.content?has_content>
             <div class="row mt-4">
@@ -11,16 +11,16 @@
                             </div>
                             <div class="card-body">
                                 <p class="card-text">
-                                    <strong>Адрес электронной почты:</strong> ${resume.email}
+                                    <strong><@spring.message'resumes.email'/></strong> ${resume.email}
                                 </p>
                                 <p class="card-text">
-                                    <strong>Статус:</strong> <#if resume.isActive>Активно</#if><#if !resume.isActive>Неактивно</#if>
+                                    <strong><@spring.message'resumes.status'/></strong> <#if resume.isActive><@spring.message'resumes.status.active'/></#if><#if !resume.isActive><@spring.message'resumes.status.not.active'/></#if>
                                 </p>
                                 <p class="card-text">
-                                    <strong>Дата создания:</strong> ${resume.createdDateStr}
+                                    <strong><@spring.message'resumes.created.date'/></strong> ${resume.createdDateStr}
                                 </p>
                                 <div class="mt-auto">
-                                    <a href="/resume/info/${resume.id}" class="btn btn-primary">Подробнее</a>
+                                    <a href="/resume/info/${resume.id}" class="btn btn-primary"><@spring.message'resumes.details'/></a>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                 </ul>
             </nav>
         <#else>
-            <p>У вас нет созданных резюме.</p>
+            <p><@spring.message'resumes.not.found'/></p>
         </#if>
     </div>
-</@profile.layout>
+</@resumes.layout>

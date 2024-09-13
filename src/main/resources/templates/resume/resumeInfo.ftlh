@@ -1,5 +1,5 @@
 <#import "../layout.ftlh" as resumeInfo>
-<@resumeInfo.layout>
+<@resumeInfo.layout ; spring>
     <main class="container mt-4">
         <div class="row mt-4">
             <div class="col-12">
@@ -9,26 +9,26 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">
-                            <strong>Адрес электронной почты:</strong> ${resume.email}
+                            <strong><@spring.message'resume.info.email'/></strong> ${resume.email}
                         </p>
                         <p class="card-text">
-                            <strong>Ожидаемый оклад:</strong> $${resume.salary}
+                            <strong><@spring.message'resume.info.salary'/></strong> $${resume.salary}
                         </p>
                         <p class="card-text">
-                            <strong>Статус:</strong> <#if resume.isActive>Активно</#if><#if !resume.isActive>Неактивно</#if>
+                            <strong><@spring.message'resume.info.status'/></strong> <#if resume.isActive><@spring.message'resume.info.active'/></#if><#if !resume.isActive><@spring.message'resume.info.not.active'/></#if>
                         </p>
                         <p class="card-text">
-                            <strong>Дата создания:</strong> ${resume.createdDateStr}
+                            <strong><@spring.message'resume.info.created.date'/></strong> ${resume.createdDateStr}
                         </p>
                         <p class="card-text">
-                            <strong>Дата обновления:</strong> ${resume.updateTimeStr}
+                            <strong><@spring.message'resume.info.update'/></strong> ${resume.updateTimeStr}
                         </p>
 
                         <#if fromEditOrCreate>
-                            <a href="/resume/edit/${resume.id}" class="btn btn-primary">Редактировать</a>
-                            <a href="/profile" class="btn btn-primary">Вернуться в личный кабинет</a>
+                            <a href="/resume/edit/${resume.id}" class="btn btn-primary"><@spring.message'resume.info.edit'/></a>
+                            <a href="/profile" class="btn btn-primary"><@spring.message'resume.info.profile'/></a>
                         <#else>
-                            <a href="/resumes" class="btn btn-secondary">Вернуться к списку</a>
+                            <a href="/resumes" class="btn btn-secondary"><@spring.message'resume.info.list'/></a>
                         </#if>
                     </div>
                 </div>

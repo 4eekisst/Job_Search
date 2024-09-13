@@ -24,6 +24,7 @@ public class MainController {
                                   @RequestParam(defaultValue = "10") int size,
                                   @RequestParam(defaultValue = "date") String sortBy,
                                   @RequestParam(required = false) String previousSortBy,
+                                  @RequestParam(required = false) String lang,
                                   Model model) {
         if (previousSortBy != null && !previousSortBy.equals(sortBy)) {
             page = 0;
@@ -33,6 +34,7 @@ public class MainController {
         model.addAttribute("vacanciesPage", vacanciesPage);
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("previousSortBy", sortBy);
+        model.addAttribute("lang", lang != null ? lang : "");
         return "main/index";
     }
 }

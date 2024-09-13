@@ -1,7 +1,7 @@
 <#import "../layout.ftlh" as forgot_password>
-<@forgot_password.layout>
+<@forgot_password.layout ; spring>
 
-    <h2>Забыли пароль?</h2>
+    <h2><@spring.message'forgot_password'/></h2>
 
     <#if error??>
 
@@ -35,7 +35,7 @@
 
                         <div>
 
-                            <p>Мы отправим ссылку для сброса пароля на вашу электронную почту.</p>
+                            <p><@spring.message'forgot_password.text'/></p>
 
                         </div>
 
@@ -45,13 +45,13 @@
 
                                 <input type="email" name="email" class="form-control"
 
-                                       placeholder="Введите адрес электронной почты"required autofocus/>
+                                       placeholder="<@spring.message'forgot_password.email'/>"required autofocus/>
 
                             </p>
 
                             <p class="text-center">
 
-                                <input type="submit" value="Отправить" class="btn btn-primary"/>
+                                <input type="submit" value="<@spring.message'forgot_password.send'/>" class="btn btn-primary"/>
 
                             </p>
 

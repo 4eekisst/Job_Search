@@ -109,12 +109,18 @@ public class ProfileController {
     @PostMapping("/reset_password")
     public String processResetPassword(HttpServletRequest httpServletRequest, Model model){
         String token = httpServletRequest.getParameter("token");
-        String password= httpServletRequest.getParameter("password");
-        try{
+        String password = httpServletRequest.getParameter("password").trim();
+
+        if (password.isEmpty()) {
+            model.addAttribute("message", "Пароль не может быть пустым или содержать пробелы");
+            return "password_recovery/reset_password_form";
+        }
+
+        try {
             User userModel = userService.getByResetPasswordToken(token);
             userService.updatePassword(userModel, password);
-            model.addAttribute( "message", "Вы успешно сменили пароль");
-        } catch (UsernameNotFoundException e){
+            model.addAttribute("message", "Вы успешно сменили пароль");
+        } catch (UsernameNotFoundException e) {
             model.addAttribute("message", "Неверный токен");
         }
         return "password_recovery/message";

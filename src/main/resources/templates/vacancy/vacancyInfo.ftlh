@@ -1,5 +1,5 @@
 <#import "../layout.ftlh" as vacancyInfo>
-<@vacancyInfo.layout>
+<@vacancyInfo.layout ; spring>
 
 <main class="container mt-4">
     <div class="row mt-4">
@@ -10,47 +10,47 @@
                 </div>
                 <div class="card-body">
                     <p class="card-text">
-                        <strong>Требуемый опыт:</strong>
+                        <strong><@spring.message'vacancyInfo.exp'/></strong>
                         <#if vacancy.expFrom == vacancy.expTo>
                             <#if vacancy.expFrom % 10 == 1 && vacancy.expFrom % 100 != 11>
-                                ${vacancy.expFrom} год
+                                ${vacancy.expFrom} <@spring.message'vacancyInfo.year'/>
                             <#elseif (vacancy.expFrom % 10 >= 2 && vacancy.expFrom % 10 <= 4) && (vacancy.expFrom % 100 < 10 || vacancy.expFrom % 100 >= 20)>
-                                ${vacancy.expFrom} года
+                                ${vacancy.expFrom} <@spring.message'vacancyInfo.years'/>
                             <#else>
-                                ${vacancy.expFrom} лет
+                                ${vacancy.expFrom} <@spring.message'vacancyInfo.years.old'/>
                             </#if>
                         <#else>
                             <#if vacancy.expFrom % 10 == 1 && vacancy.expFrom % 100 != 11>
-                                ${vacancy.expFrom} год
+                                ${vacancy.expFrom} <@spring.message'vacancyInfo.year'/>
                             <#elseif (vacancy.expFrom % 10 >= 2 && vacancy.expFrom % 10 <= 4) && (vacancy.expFrom % 100 < 10 || vacancy.expFrom % 100 >= 20)>
-                                ${vacancy.expFrom} года
+                                ${vacancy.expFrom} <@spring.message'vacancyInfo.years'/>
                             <#else>
-                                ${vacancy.expFrom} лет
+                                ${vacancy.expFrom} <@spring.message'vacancyInfo.years.old'/>
                             </#if>
                             -
                             <#if vacancy.expTo % 10 == 1 && vacancy.expTo % 100 != 11>
-                                ${vacancy.expTo} год
+                                ${vacancy.expTo} <@spring.message'vacancyInfo.year'/>
                             <#elseif (vacancy.expTo % 10 >= 2 && vacancy.expTo % 10 <= 4) && (vacancy.expTo % 100 < 10 || vacancy.expTo % 100 >= 20)>
-                                ${vacancy.expTo} года
+                                ${vacancy.expTo} <@spring.message'vacancyInfo.years'/>
                             <#else>
-                                ${vacancy.expTo} лет
+                                ${vacancy.expTo} <@spring.message'vacancyInfo.years.old'/>
                             </#if>
                         </#if>
                     </p>
                     <p class="card-text">${vacancy.description}</p>
-                    <p class="card-text"><strong>Зарплата:</strong> $${vacancy.salary}</p>
+                    <p class="card-text"><strong><@spring.message'vacancyInfo.salary'/></strong> $${vacancy.salary}</p>
                     <#if fromEditOrCreate>
-                        <a href="/vacancy/edit/${vacancy.id}" class="btn btn-primary">Редактировать</a>
-                        <a href="/profile" class="btn btn-primary">Вернуться в личный кабинет</a>
+                        <a href="/vacancy/edit/${vacancy.id}" class="btn btn-primary"><@spring.message'vacancyInfo.edit'/></a>
+                        <a href="/profile" class="btn btn-primary"><@spring.message'vacancyInfo.profile'/></a>
                     <#else>
                         <#if isAuthenticated && isApplicant>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#respondModal">Оставить отклик</button>
-                            <a href="/vacancies" class="btn btn-secondary">Вернуться к списку</a>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#respondModal"><@spring.message'vacancyInfo.respond.button'/></button>
+                            <a href="/vacancies" class="btn btn-secondary"><@spring.message'vacancyInfo.back.to.list'/></a>
                         <#elseif isAuthenticated>
-                            <a href="/vacancies" class="btn btn-secondary">Вернуться к списку</a>
+                            <a href="/vacancies" class="btn btn-secondary"><@spring.message'vacancyInfo.back.to.list'/></a>
                         <#else>
-                            <a href="/auth/login" class="btn btn-primary">Оставить отклик</a>
-                            <a href="/vacancies" class="btn btn-secondary">Вернуться к списку</a>
+                            <a href="/auth/login" class="btn btn-primary"><@spring.message'vacancyInfo.respond.button'/></a>
+                            <a href="/vacancies" class="btn btn-secondary"><@spring.message'vacancyInfo.back.to.list'/></a>
                         </#if>
                     </#if>
                 </div>
@@ -63,7 +63,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="respondModalLabel">Оставить отклик</h5>
+                <h5 class="modal-title" id="respondModalLabel"><@spring.message'vacancyInfo.modal.respond.text'/></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -76,7 +76,7 @@
                 <input type="hidden" name="vacancyId" value="${vacancy.id}"/>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="resumeSelect">Выберите резюме:</label>
+                        <label for="resumeSelect"><@spring.message'vacancyInfo.choose.resume'/></label>
                         <select id="resumeSelect" name="resumeId" class="form-control">
                             <#list userResumes as resume>
                                 <option value="${resume.id}">${resume.name}</option>
@@ -84,13 +84,13 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="message">Оставьте сообщение работодателю:</label>
+                        <label for="message"><@spring.message'vacancyInfo.modal.text'/></label>
                         <textarea id="message" name="message" class="form-control" rows="4"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="submit" class="btn btn-primary">Отправить отклик</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><@spring.message'vacancyInfo.exit'/></button>
+                    <button type="submit" class="btn btn-primary"><@spring.message'vacancyInfo.respond'/></button>
                 </div>
             </form>
         </div>
