@@ -39,13 +39,13 @@
                             </#if>
                             <div data-mdb-input-init class="form-outline mb-4">
 
-                                <input type="email" id="form2Example1" class="form-control" name="username"/>
+                                <input type="email" id="form2Example1" class="form-control" name="username"required/>
 
                                 <label class="form-label" for="form2Example1"><@spring.message'login.email'/></label>
 
                             </div>
                             <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="password" id="form2Example2" class="form-control" name="password"/>
+                                <input type="password" id="form2Example2" class="form-control" name="password"required/>
                                 <label class="form-label" for="form2Example2"><@spring.message'login.password'/></label>
                             </div>
                             <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4"><@spring.message'login.submit'/></button>
