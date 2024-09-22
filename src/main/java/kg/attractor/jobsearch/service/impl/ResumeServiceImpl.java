@@ -78,24 +78,29 @@ public class ResumeServiceImpl implements ResumeService {
 
         if (educationInfoDtos != null) {
             for (EducationInfoDto educationInfoDto : educationInfoDtos) {
-                educationInfoDto.setResumeId(savedResume.getId());
-                try {
-                    educationInfoService.saveEducationInfo(educationInfoDto);
-                } catch (Exception e) {
-                    log.error("An error occurred while saving education info: {}", e.getMessage());
-                    throw new CanNotFindResumeException("Unable to save education info for resume ID " + savedResume.getId());
+                if (educationInfoDto.getDegree() != null && !educationInfoDto.getDegree().isEmpty() &&
+                        educationInfoDto.getInstitution() != null && !educationInfoDto.getInstitution().isEmpty()) {
+                    educationInfoDto.setResumeId(savedResume.getId());
+                    try {
+                        educationInfoService.saveEducationInfo(educationInfoDto);
+                    } catch (Exception e) {
+                        log.error("An error occurred while saving education info: {}", e.getMessage());
+                        throw new CanNotFindResumeException("Unable to save education info for resume ID " + savedResume.getId());
+                    }
                 }
             }
         }
 
         if (workExperienceInfoDtos != null) {
             for (WorkExperienceInfoDto workExperienceInfoDto : workExperienceInfoDtos) {
-                workExperienceInfoDto.setResumeId(savedResume.getId());
-                try {
-                    workExperienceInfoService.saveWorkExperienceInfo(workExperienceInfoDto);
-                } catch (Exception e) {
-                    log.error("An error occurred while saving work experience info: {}", e.getMessage());
-                    throw new CanNotFindResumeException("Unable to save work experience info for resume ID " + savedResume.getId());
+                if (workExperienceInfoDto.getYears() != null && workExperienceInfoDto.getCompanyName() != null && !workExperienceInfoDto.getCompanyName().isEmpty()) {
+                    workExperienceInfoDto.setResumeId(savedResume.getId());
+                    try {
+                        workExperienceInfoService.saveWorkExperienceInfo(workExperienceInfoDto);
+                    } catch (Exception e) {
+                        log.error("An error occurred while saving work experience info: {}", e.getMessage());
+                        throw new CanNotFindResumeException("Unable to save work experience info for resume ID " + savedResume.getId());
+                    }
                 }
             }
         }
