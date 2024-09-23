@@ -5,18 +5,22 @@
         <h2 class="mb-4 text-center">Ваши отклики</h2>
 
         <#if hasResponses>
-            <div class="list-group">
+            <div class="row">
                 <#list respondedApplicants as applicant>
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong>Резюме:</strong> <span class="fw-bold">${applicant.resumeName}</span> <br>
-                            <strong>Вакансия:</strong> <span class="fw-bold">${applicant.vacancyName}</span>
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">${applicant.resumeName}</h5>
+                                <p class="card-text">
+                                    <strong>Вакансия:</strong> ${applicant.vacancyName} <br>
+                                    <#if applicant.confirmation>
+                                        <span class="badge bg-success rounded-pill">Подтвержден</span>
+                                    <#else>
+                                        <span class="badge bg-danger rounded-pill">Не подтвержден</span>
+                                    </#if>
+                                </p>
+                            </div>
                         </div>
-                        <#if applicant.confirmation>
-                            <span class="badge bg-success rounded-pill">Подтвержден</span>
-                        <#else>
-                            <span class="badge bg-danger rounded-pill">Не подтвержден</span>
-                        </#if>
                     </div>
                 </#list>
             </div>
