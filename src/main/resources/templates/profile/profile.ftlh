@@ -58,11 +58,22 @@
                 </div>
             </div>
             <#if user.authorityId == 1>
+
+                <a href="/responses"
+                   class="btn btn-info position-absolute d-flex align-items-center justify-content-center"
+                   style="width: 70px; height: 70px; background-color: #2469ff; border: 2px solid #ffffff; top: 100px; right: 180px; color: white; font-size: 36px; border-radius: 5px;">
+                    🔍
+                    <span style="position: absolute; top: -10px; right: -10px; background-color: red; border-radius: 50%; padding: 3px 6px; font-size: 14px;">
+                    ${responseCount}
+                    </span>
+                </a>
+
                 <a href="/resume/create"
                    class="btn btn-success position-absolute d-flex align-items-center justify-content-center"
                    style="width: 70px; height: 70px; background-color: gray; border: 2px solid gray; top: 100px; right: 100px; color: white; font-size: 36px; border-radius: 5px;">
                     +
                 </a>
+
             <#else>
                 <a href="/vacancy/create"
                    class="btn btn-success position-absolute d-flex align-items-center justify-content-center"

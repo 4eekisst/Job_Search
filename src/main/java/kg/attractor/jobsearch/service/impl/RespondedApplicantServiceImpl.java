@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,6 +100,37 @@ public class RespondedApplicantServiceImpl implements RespondedApplicantService 
         } catch (Exception e) {
             log.error("An error occurred while fetching vacancies for applicant ID {}: {}", applicantId, e.getMessage());
             throw new CanNotFindRespondedApplicantException("Unable to fetch vacancies for applicant ID " + applicantId);
+        }
+    }
+
+    @Override
+    public List<RespondedApplicantDto> getRespondedApplicantsByUserId(Long userId) {
+        try {
+            List<RespondedApplicant> respondedApplicants = respondedApplicantRepository.findAll()
+                    .stream()
+                    .filter(applicant -> applicant.getResume().getApplicant().getId().equals(userId))
+                    .collect(Collectors.toList());
+
+            return respondedApplicants.stream()
+                    .map(this::mapToDto)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            log.error("An error occurred while fetching responded applicants for user ID {}: {}", userId, e.getMessage());
+
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public int getResponseCountByUserId(Long userId) {
+        try {
+            return (int) respondedApplicantRepository.findAll()
+                    .stream()
+                    .filter(applicant -> applicant.getResume().getApplicant().getId().equals(userId))
+                    .count();
+        } catch (Exception e) {
+            log.error("An error occurred while counting responses for user ID {}: {}", userId, e.getMessage());
+            throw new CanNotFindRespondedApplicantException("Unable to count responses for user ID " + userId);
         }
     }
 

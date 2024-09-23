@@ -2,15 +2,13 @@ package kg.attractor.jobsearch.controller;
 
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import kg.attractor.jobsearch.dto.RespondedApplicantDto;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.dto.customDto.UpdateUserProfileDto;
 import kg.attractor.jobsearch.model.User;
-import kg.attractor.jobsearch.service.ImageService;
-import kg.attractor.jobsearch.service.ResumeService;
-import kg.attractor.jobsearch.service.UserService;
-import kg.attractor.jobsearch.service.VacancyService;
+import kg.attractor.jobsearch.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -22,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.UnsupportedEncodingException;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,6 +31,7 @@ public class ProfileController {
     private final ImageService imageService;
     private final ResumeService resumeService;
     private final VacancyService vacancyService;
+    private final RespondedApplicantService respondedApplicantService;
 
     @GetMapping("/profile")
     public String profile(Model model, Authentication authentication,
@@ -51,6 +51,10 @@ public class ProfileController {
             Page<VacancyDto> vacanciesPage = vacancyService.getVacanciesByUserId(user.getId(), page, size);
             model.addAttribute("vacanciesPage", vacanciesPage);
         }
+
+        int responseCount = respondedApplicantService.getResponseCountByUserId(user.getId());
+        model.addAttribute("responseCount", responseCount);
+
         return "profile/profile";
     }
 
@@ -124,5 +128,26 @@ public class ProfileController {
             model.addAttribute("message", "Неверный токен");
         }
         return "password_recovery/message";
+    }
+
+    @GetMapping("/responses")
+    public String responses(Model model, Authentication authentication) {
+        String email = authentication.getName();
+        UserDto user = userService.getUserByEmail(email);
+
+        List<RespondedApplicantDto> respondedApplicants = respondedApplicantService.getRespondedApplicantsByUserId(user.getId());
+
+        for (RespondedApplicantDto applicant : respondedApplicants) {
+            ResumeDto resume = resumeService.getResumeById(applicant.getResumeId().longValue());
+            VacancyDto vacancy = vacancyService.getVacancyById(applicant.getVacancyId().longValue());
+            applicant.setResumeName(resume.getName());
+            applicant.setVacancyName(vacancy.getName());
+        }
+
+        model.addAttribute("respondedApplicants", respondedApplicants);
+        model.addAttribute("hasResponses", !respondedApplicants.isEmpty());
+
+
+        return "profile/responses";
     }
 }

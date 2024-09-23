@@ -26,4 +26,6 @@ public class RespondedApplicantDto {
 
     private Boolean confirmation;
     private String message;
+    private String resumeName;
+    private String vacancyName;
 }

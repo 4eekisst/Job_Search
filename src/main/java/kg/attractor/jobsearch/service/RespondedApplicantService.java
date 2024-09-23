@@ -12,4 +12,6 @@ public interface RespondedApplicantService {
     List<VacancyDto> getVacanciesByApplicantId(Integer applicantId);
     void respondToVacancy(Long resumeId, String messageText, Long vacancyId);
     void respondToVacancy(RespondedApplicantDto respondedApplicantDto);
+    List<RespondedApplicantDto> getRespondedApplicantsByUserId(Long userId);
+    int getResponseCountByUserId(Long userId);
 }
