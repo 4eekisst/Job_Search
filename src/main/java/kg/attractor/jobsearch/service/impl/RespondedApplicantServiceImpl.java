@@ -3,16 +3,19 @@ package kg.attractor.jobsearch.service.impl;
 import kg.attractor.jobsearch.dto.RespondedApplicantDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.errors.CanNotFindRespondedApplicantException;
+import kg.attractor.jobsearch.model.Message;
 import kg.attractor.jobsearch.model.RespondedApplicant;
 import kg.attractor.jobsearch.model.Vacancy;
 import kg.attractor.jobsearch.repository.RespondedApplicantRepository;
 import kg.attractor.jobsearch.repository.ResumeRepository;
 import kg.attractor.jobsearch.repository.VacancyRepository;
+import kg.attractor.jobsearch.service.MessageService;
 import kg.attractor.jobsearch.service.RespondedApplicantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,17 +27,34 @@ public class RespondedApplicantServiceImpl implements RespondedApplicantService 
     private final RespondedApplicantRepository respondedApplicantRepository;
     private final ResumeRepository resumeRepository;
     private final VacancyRepository vacancyRepository;
+    private final MessageService messageService;
 
     @Override
-    public void respondToVacancy(RespondedApplicantDto respondedApplicantDto) {
+    public void respondToVacancy(Long resumeId, String messageText, Long vacancyId) {
         try {
+            RespondedApplicantDto respondedApplicantDto = RespondedApplicantDto.builder()
+                    .resumeId(Math.toIntExact(resumeId))
+                    .vacancyId(Math.toIntExact(vacancyId))
+                    .confirmation(true)
+                    .build();
+
             RespondedApplicant respondedApplicant = mapToEntity(respondedApplicantDto);
             respondedApplicantRepository.save(respondedApplicant);
+
+            Message msg = Message.builder()
+                    .text(messageText)
+                    .timeStamp(LocalDate.now())
+                    .respondedApplicant(respondedApplicant)
+                    .build();
+            messageService.saveMessage(msg);
         } catch (Exception e) {
-            log.error("An error occurred while responding to vacancy: {}", e.getMessage());
-            throw new CanNotFindRespondedApplicantException("Unable to respond to vacancy");
+            log.error("An error occurred while responding to vacancy and sending message: {}", e.getMessage());
+            throw new CanNotFindRespondedApplicantException("Unable to respond to vacancy or send message");
         }
     }
+
+    @Override
+    public void respondToVacancy(RespondedApplicantDto respondedApplicantDto) {}
 
     @Override
     public RespondedApplicant findRespondedApplicant(RespondedApplicantDto respondedApplicantDto) {

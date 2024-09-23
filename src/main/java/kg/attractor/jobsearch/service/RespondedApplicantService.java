@@ -7,8 +7,9 @@ import kg.attractor.jobsearch.model.RespondedApplicant;
 import java.util.List;
 
 public interface RespondedApplicantService {
-    void respondToVacancy(RespondedApplicantDto respondedApplicant);
     RespondedApplicant findRespondedApplicant(RespondedApplicantDto respondedApplicantDto);
     List<RespondedApplicantDto> getApplicantsForVacancy(Long vacancyId);
     List<VacancyDto> getVacanciesByApplicantId(Integer applicantId);
+    void respondToVacancy(Long resumeId, String messageText, Long vacancyId);
+    void respondToVacancy(RespondedApplicantDto respondedApplicantDto);
 }
