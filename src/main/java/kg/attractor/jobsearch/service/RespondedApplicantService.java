@@ -14,4 +14,5 @@ public interface RespondedApplicantService {
     void respondToVacancy(RespondedApplicantDto respondedApplicantDto);
     List<RespondedApplicantDto> getRespondedApplicantsByUserId(Long userId);
     int getResponseCountByUserId(Long userId);
+    boolean hasUserRespondedToVacancy(Long userId, Long vacancyId);
 }

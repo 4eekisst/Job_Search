@@ -134,6 +134,21 @@ public class RespondedApplicantServiceImpl implements RespondedApplicantService 
         }
     }
 
+    @Override
+    public boolean hasUserRespondedToVacancy(Long userId, Long vacancyId) {
+        try {
+            return respondedApplicantRepository.findAll()
+                    .stream()
+                    .anyMatch(applicant ->
+                            applicant.getResume().getApplicant().getId().equals(userId) &&
+                                    applicant.getVacancy().getId().equals(vacancyId)
+                    );
+        } catch (Exception e) {
+            log.error("An error occurred while checking if user {} responded to vacancy {}: {}", userId, vacancyId, e.getMessage());
+            throw new CanNotFindRespondedApplicantException("Unable to check response for user ID " + userId + " and vacancy ID " + vacancyId);
+        }
+    }
+
     private RespondedApplicant mapToEntity(RespondedApplicantDto dto) {
         return RespondedApplicant.builder()
                 .id(dto.getId())

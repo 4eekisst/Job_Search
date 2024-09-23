@@ -5,10 +5,7 @@ import kg.attractor.jobsearch.dto.CategoryDto;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
-import kg.attractor.jobsearch.service.CategoryService;
-import kg.attractor.jobsearch.service.ResumeService;
-import kg.attractor.jobsearch.service.UserService;
-import kg.attractor.jobsearch.service.VacancyService;
+import kg.attractor.jobsearch.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -30,6 +27,7 @@ public class VacancyController {
     private final CategoryService categoryService;
     private final UserService userService;
     private final ResumeService resumeService;
+    private final RespondedApplicantService respondedApplicantService;
 
     @GetMapping("/vacancies")
     public String listVacancies(@RequestParam(defaultValue = "0") int page,
@@ -55,12 +53,15 @@ public class VacancyController {
         boolean isApplicant = false;
         boolean isAuthenticated = authentication != null;
         List<ResumeDto> userResumes = new ArrayList<>();
+        boolean hasResponded = false;
 
         if (isAuthenticated) {
             UserDto user = userService.getUserByEmail(authentication.getName());
             isEmployer = user.getAuthorityId() == 2;
             isApplicant = user.getAuthorityId() == 1;
             userResumes = resumeService.getResumesByUserId(user.getId(), 0, Integer.MAX_VALUE).getContent();
+
+            hasResponded = respondedApplicantService.hasUserRespondedToVacancy(user.getId(), id);
         }
 
         Boolean fromEditOrCreate = (Boolean) session.getAttribute("fromEditOrCreate");
@@ -72,6 +73,7 @@ public class VacancyController {
         model.addAttribute("isApplicant", isApplicant);
         model.addAttribute("fromEditOrCreate", fromEditOrCreate != null ? fromEditOrCreate : false);
         model.addAttribute("userResumes", userResumes);
+        model.addAttribute("hasResponded", hasResponded);
 
         return "vacancy/vacancyInfo";
     }

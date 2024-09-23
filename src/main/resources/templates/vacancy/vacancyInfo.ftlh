@@ -40,17 +40,21 @@
                     <p class="card-text">${vacancy.description}</p>
                     <p class="card-text"><strong><@spring.message'vacancyInfo.salary'/></strong> $${vacancy.salary}</p>
                     <#if fromEditOrCreate>
-                        <a href="/vacancy/edit/${vacancy.id}" class="btn btn-primary"><@spring.message'vacancyInfo.edit'/></a>
-                        <a href="/profile" class="btn btn-primary"><@spring.message'vacancyInfo.profile'/></a>
+                        <a href="/vacancy/edit/${vacancy.id}" class="btn btn-primary"><@spring.message 'vacancyInfo.edit'/></a>
+                        <a href="/profile" class="btn btn-primary"><@spring.message 'vacancyInfo.profile'/></a>
                     <#else>
                         <#if isAuthenticated && isApplicant>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#respondModal"><@spring.message'vacancyInfo.respond.button'/></button>
-                            <a href="/vacancies" class="btn btn-secondary"><@spring.message'vacancyInfo.back.to.list'/></a>
+                            <#if hasResponded>
+                                <p class="text-warning"><@spring.message'vacancyInfo.has.respond'/></p>
+                            <#else>
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#respondModal"><@spring.message 'vacancyInfo.respond.button'/></button>
+                            </#if>
+                            <a href="/vacancies" class="btn btn-secondary"><@spring.message 'vacancyInfo.back.to.list'/></a>
                         <#elseif isAuthenticated>
-                            <a href="/vacancies" class="btn btn-secondary"><@spring.message'vacancyInfo.back.to.list'/></a>
+                            <a href="/vacancies" class="btn btn-secondary"><@spring.message 'vacancyInfo.back.to.list'/></a>
                         <#else>
-                            <a href="/auth/login" class="btn btn-primary"><@spring.message'vacancyInfo.respond.button'/></a>
-                            <a href="/vacancies" class="btn btn-secondary"><@spring.message'vacancyInfo.back.to.list'/></a>
+                            <a href="/auth/login" class="btn btn-primary"><@spring.message 'vacancyInfo.respond.button'/></a>
+                            <a href="/vacancies" class="btn btn-secondary"><@spring.message 'vacancyInfo.back.to.list'/></a>
                         </#if>
                     </#if>
                 </div>

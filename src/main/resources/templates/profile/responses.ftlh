@@ -2,7 +2,7 @@
 <@responses.layout ; spring>
 
     <div class="container mt-4">
-        <h2 class="mb-4 text-center">Ваши отклики</h2>
+        <h2 class="mb-4 text-center"><@spring.message'responses'/></h2>
 
         <#if hasResponses>
             <div class="row">
@@ -12,11 +12,11 @@
                             <div class="card-body">
                                 <h5 class="card-title">${applicant.resumeName}</h5>
                                 <p class="card-text">
-                                    <strong>Вакансия:</strong> ${applicant.vacancyName} <br>
+                                    <strong><@spring.message'responses.vacancy'/>:</strong> ${applicant.vacancyName} <br>
                                     <#if applicant.confirmation>
-                                        <span class="badge bg-success rounded-pill">Подтвержден</span>
+                                        <span class="badge bg-success rounded-pill"><@spring.message'responses.confirm'/></span>
                                     <#else>
-                                        <span class="badge bg-danger rounded-pill">Не подтвержден</span>
+                                        <span class="badge bg-danger rounded-pill"><@spring.message'responses.not.confirm'/></span>
                                     </#if>
                                 </p>
                             </div>
@@ -26,7 +26,7 @@
             </div>
         <#else>
             <div class="alert alert-info text-center" role="alert">
-                <strong>Нет откликов</strong>
+                <strong><@spring.message'responses.not.responses'/></strong>
             </div>
         </#if>
     </div>
