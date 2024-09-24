@@ -38,6 +38,7 @@ public class SecurityConfig {
 //                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "/vacancies").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/chat").permitAll()
                         .requestMatchers(HttpMethod.GET, "/resumes").hasAuthority("employer")
                         .requestMatchers(HttpMethod.GET, "/resume/info/{id}").hasAnyAuthority("employer", "applicant")
                         .requestMatchers("/profile").authenticated()

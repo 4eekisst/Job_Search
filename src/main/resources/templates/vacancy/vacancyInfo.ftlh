@@ -46,6 +46,7 @@
                         <#if isAuthenticated && isApplicant>
                             <#if hasResponded>
                                 <p class="text-warning"><@spring.message'vacancyInfo.has.respond'/></p>
+                                <a href="/chat" class="btn btn-secondary">Начать чат с работодателем</a>
                             <#else>
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#respondModal"><@spring.message 'vacancyInfo.respond.button'/></button>
                             </#if>
