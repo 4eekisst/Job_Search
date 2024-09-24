@@ -129,7 +129,7 @@
             <button type="submit" class="btn btn-primary"><@spring.message'resumeCreate.submit'/></button>
         </form>
     </div>
-    <script src="/resumeCreate.js"></script>
+    <script src="/js/resumeCreate.js"></script>
     <script> window.messages = {
             resumeCreateYear: "<@spring.message 'resumeCreate.year.of.work'/>",
             resumeCreateCompanyName: "<@spring.message 'resumeCreate.company.name'/>",

@@ -1,6 +1,6 @@
 <#import "../layout.ftlh" as chat>
 <@chat.layout ; spring>
-    <link rel="stylesheet" href="/chat.css">
+    <link rel="stylesheet" href="/css/chat.css">
     <body>
     <div id="username-page">
         <div class="username-page-container">
@@ -42,5 +42,5 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script src="/chat.js"></script>
+    <script src="/js/chat.js"></script>
 </@chat.layout>

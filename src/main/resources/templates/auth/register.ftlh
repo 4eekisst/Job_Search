@@ -66,7 +66,7 @@
         </form>
     </div>
 
-    <script src="/register.js"></script>
+    <script src="/js/register.js"></script>
     <script> window.messages = {
             nameLabel: "<@spring.message 'register.name'/>",
             surnameLabel: "<@spring.message 'register.surname'/>",
