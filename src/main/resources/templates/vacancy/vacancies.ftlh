@@ -95,5 +95,6 @@
                 </ul>
             </nav>
         </div>
+        <script src="/js/vacancies.js"></script>
     </main>
 </@listOfVacancy.layout>

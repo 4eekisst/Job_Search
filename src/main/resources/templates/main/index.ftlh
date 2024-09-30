@@ -97,5 +97,6 @@
                 </ul>
             </nav>
         </div>
+        <script src="/js/vacancies.js"></script>
     </main>
 </@main.layout>
