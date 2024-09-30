@@ -5,7 +5,7 @@
             <div class="row mt-4">
                 <#list resumesPage.content as resume>
                     <div class="col-sm-6 mb-4">
-                        <div class="card border-0 p-4 bg-white rounded shadow-sm">
+                        <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title mb-0">${resume.name}</h5>
                             </div>
@@ -14,7 +14,12 @@
                                     <strong><@spring.message'resumes.email'/></strong> ${resume.email}
                                 </p>
                                 <p class="card-text">
-                                    <strong><@spring.message'resumes.status'/></strong> <#if resume.isActive><@spring.message'resumes.status.active'/></#if><#if !resume.isActive><@spring.message'resumes.status.not.active'/></#if>
+                                    <strong><@spring.message'resumes.status'/></strong>
+                                    <#if resume.isActive>
+                                        <@spring.message'resumes.status.active'/>
+                                    <#else>
+                                        <@spring.message'resumes.status.not.active'/>
+                                    </#if>
                                 </p>
                                 <p class="card-text">
                                     <strong><@spring.message'resumes.created.date'/></strong> ${resume.createdDateStr}
