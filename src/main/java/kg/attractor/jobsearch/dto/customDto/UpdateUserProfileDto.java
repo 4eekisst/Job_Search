@@ -29,4 +29,6 @@ public class UpdateUserProfileDto {
 
 //    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number should be valid")
     private String phoneNumber;
+
+    private String avatar;
 }

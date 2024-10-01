@@ -63,7 +63,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void uploadImage(MultipartFile avatar, Authentication authentication) {
+    public String uploadImage(MultipartFile avatar, Authentication authentication) {
         if (avatar == null || avatar.isEmpty()) {
             log.error("Attempted to upload an empty or null file");
             throw new IllegalArgumentException("File must not be empty or null");
@@ -100,5 +100,6 @@ public class ImageServiceImpl implements ImageService {
             log.error("An error occurred while updating the user with the new avatar: {}", e.getMessage());
             throw new CanNotFindUserException("Unable to update user with new avatar");
         }
+        return contentType;
     }
 }

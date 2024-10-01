@@ -58,5 +58,5 @@ public interface ImageService {
 
     ResponseEntity<InputStreamResource> downloadImage(String name);
 
-    void uploadImage(MultipartFile avatar, Authentication authentication);
+    String uploadImage(MultipartFile avatar, Authentication authentication);
 }

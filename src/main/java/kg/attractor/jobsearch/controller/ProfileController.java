@@ -74,7 +74,11 @@ public class ProfileController {
         UserDto user = userService.getUserByEmail(authentication.getName());
         updateUserProfileDto.setId(user.getId());
 
-        imageService.uploadImage(file, authentication);
+        if (!file.isEmpty()) {
+            String avatarUrl = imageService.uploadImage(file, authentication);
+            updateUserProfileDto.setAvatar(avatarUrl);
+        }
+
         userService.updateUserProfile(updateUserProfileDto);
 
         model.addAttribute("accType", user.getAuthorityId());
