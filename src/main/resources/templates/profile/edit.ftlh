@@ -10,6 +10,12 @@
                     </#if>
                     <div class="mb-3">
                         <label for="avatar-input" class="form-label"><@spring.message'edit.profile.image'/></label>
+
+                        <#if user.avatar?? && user.avatar?has_content>
+                            <img src="/api/images/image/${user.avatar}" alt="User Avatar" class="img-thumbnail mb-2" style="width: 150px; height: 150px;">
+                        <#else>
+                            <img src="/api/images/image/anon.jpeg" alt="Default Avatar" class="img-thumbnail mb-2" style="width: 150px; height: 150px;">
+                        </#if>
                         <input name="file" class="form-control" type="file" id="avatar-input">
                     </div>
 
