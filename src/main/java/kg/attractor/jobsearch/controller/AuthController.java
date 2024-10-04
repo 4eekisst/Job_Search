@@ -35,6 +35,7 @@ public class AuthController {
     public String register(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("isEmployer", userDto.getAuthorityId() != null && userDto.getAuthorityId() == 2);
+            model.addAttribute("bindingResult", bindingResult);
             return "auth/register";
         }
 
