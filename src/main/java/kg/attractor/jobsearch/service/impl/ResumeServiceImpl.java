@@ -5,6 +5,7 @@ import kg.attractor.jobsearch.dto.EducationInfoDto;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.WorkExperienceInfoDto;
 import kg.attractor.jobsearch.dto.customDto.ResumeCreatingDto;
+import kg.attractor.jobsearch.dto.customDto.ResumeEditDto;
 import kg.attractor.jobsearch.errors.CanNotFindResumeException;
 import kg.attractor.jobsearch.model.Category;
 import kg.attractor.jobsearch.model.Resume;
@@ -136,20 +137,38 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public void updateResume(ResumeDto resumeDto) {
+        if (resumeDto == null) {
+            log.error("ResumeDto cannot be null");
+            throw new IllegalArgumentException("ResumeDto cannot be null");
+        }
+
+        Long resumeId = resumeDto.getId();
+        Long categoryId = resumeDto.getCategoryId();
+
+        if (resumeId == null) {
+            log.error("Resume ID cannot be null");
+            throw new IllegalArgumentException("Resume ID cannot be null");
+        }
+        if (categoryId == null) {
+            log.error("Category ID cannot be null");
+            throw new IllegalArgumentException("Category ID cannot be null");
+        }
+
         try {
-            Resume existingResume = resumeRepository.findById(resumeDto.getId())
-                    .orElseThrow(() -> new CanNotFindResumeException("Resume not found with ID " + resumeDto.getId()));
+            Resume existingResume = resumeRepository.findById(resumeId)
+                    .orElseThrow(() -> new CanNotFindResumeException("Resume not found with ID " + resumeId));
 
             existingResume.setName(resumeDto.getName());
             existingResume.setSalary(resumeDto.getSalary());
             existingResume.setActive(resumeDto.getIsActive());
             existingResume.setUpdateTime(resumeDto.getUpdateTime().toLocalDate());
 
-            Category category = categoryRepository.findById(resumeDto.getCategoryId().longValue())
-                    .orElseThrow(() -> new CanNotFindResumeException("Category not found with ID " + resumeDto.getCategoryId()));
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new CanNotFindResumeException("Category not found with ID " + categoryId));
             existingResume.setCategory(category);
 
             resumeRepository.save(existingResume);
+            log.info("Successfully updated resume with ID: {}", existingResume.getId());
         } catch (Exception e) {
             log.error("An error occurred while updating resume: {}", e.getMessage());
             throw new CanNotFindResumeException("Unable to update resume");
@@ -157,7 +176,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public void updateFullResume(ResumeCreatingDto request) {
+    public void updateFullResume(ResumeEditDto request) {
         ResumeDto resumeDto = request.getResumeDto();
         List<EducationInfoDto> educationInfoDtos = request.getEducationInfoDtos();
         List<WorkExperienceInfoDto> workExperienceInfoDtos = request.getWorkExperienceInfoDtos();
@@ -301,7 +320,7 @@ public class ResumeServiceImpl implements ResumeService {
                 .applicantId(resume.getApplicant().getId().intValue())
                 .email(resume.getApplicant().getEmail())
                 .name(resume.getName())
-                .categoryId(resume.getCategory().getId().intValue())
+                .categoryId(resume.getCategory().getId())
                 .salary(resume.getSalary())
                 .isActive(resume.isActive())
                 .createdDate(resume.getCreatedDate().atStartOfDay())

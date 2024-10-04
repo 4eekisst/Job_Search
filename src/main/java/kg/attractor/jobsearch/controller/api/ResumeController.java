@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import kg.attractor.jobsearch.dto.*;
 import kg.attractor.jobsearch.dto.customDto.ResumeCreatingDto;
+import kg.attractor.jobsearch.dto.customDto.ResumeEditDto;
 import kg.attractor.jobsearch.errors.CanNotFindResumeException;
 import kg.attractor.jobsearch.service.ResumeService;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +40,8 @@ public class ResumeController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<String> updateResume(@RequestBody @Valid ResumeCreatingDto request) {
-        resumeService.updateFullResume(request);
+    public ResponseEntity<String> updateResume(@RequestBody @Valid ResumeEditDto resumeEditDto) {
+        resumeService.updateFullResume(resumeEditDto);
         return ResponseEntity.ok("Resume updated successfully");
     }
 

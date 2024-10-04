@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -28,6 +31,26 @@ public class EducationInfoServiceImpl implements EducationInfoService {
     public void updateEducationInfo(EducationInfoDto educationInfoDto) {
         EducationInfo educationInfo = mapToEducationInfo(educationInfoDto);
         educationInfoRepository.save(educationInfo);
+    }
+
+    @Override
+    public List<EducationInfoDto> getEducationByResumeId(Long resumeId) {
+        List<EducationInfo> education = educationInfoRepository.findByResumeId(resumeId);
+        return education.stream()
+                .map(this::mapToEducationInfoDto)
+                .collect(Collectors.toList());
+    }
+
+    private EducationInfoDto mapToEducationInfoDto(EducationInfo info) {
+        return EducationInfoDto.builder()
+                .id(info.getId())
+                .resumeId(info.getResume().getId())
+                .institution(info.getInstitution())
+                .program(info.getProgram())
+                .startDate(info.getStartDate())
+                .endDate(info.getEndDate())
+                .degree(info.getDegree())
+                .build();
     }
 
     private EducationInfo mapToEducationInfo(EducationInfoDto dto) {

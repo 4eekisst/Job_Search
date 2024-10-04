@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -30,6 +33,14 @@ public class WorkExperienceInfoServiceImpl implements WorkExperienceInfoService 
         workExperienceInfoRepository.save(workExperienceInfo);
     }
 
+    @Override
+    public List<WorkExperienceInfoDto> getWorkExperiencesByResumeId(Long resumeId) {
+        List<WorkExperienceInfo> experiences = workExperienceInfoRepository.findByResumeId(resumeId);
+        return experiences.stream()
+                .map(this::mapToWorkExperienceInfoDto)
+                .collect(Collectors.toList());
+    }
+
     private WorkExperienceInfo mapToWorkExperienceInfo(WorkExperienceInfoDto dto) {
         return WorkExperienceInfo.builder()
                 .id(dto.getId())
@@ -39,6 +50,17 @@ public class WorkExperienceInfoServiceImpl implements WorkExperienceInfoService 
                 .companyName(dto.getCompanyName())
                 .position(dto.getPosition())
                 .responsibilities(dto.getResponsibilities())
+                .build();
+    }
+
+    private WorkExperienceInfoDto mapToWorkExperienceInfoDto(WorkExperienceInfo info) {
+        return WorkExperienceInfoDto.builder()
+                .id(info.getId())
+                .resumeId(info.getResume().getId())
+                .years(info.getYears())
+                .companyName(info.getCompanyName())
+                .position(info.getPosition())
+                .responsibilities(info.getResponsibilities())
                 .build();
     }
 }

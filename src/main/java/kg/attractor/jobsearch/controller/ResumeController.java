@@ -3,6 +3,7 @@ package kg.attractor.jobsearch.controller;
 import jakarta.servlet.http.HttpSession;
 import kg.attractor.jobsearch.dto.*;
 import kg.attractor.jobsearch.dto.customDto.ResumeCreatingDto;
+import kg.attractor.jobsearch.dto.customDto.ResumeEditDto;
 import kg.attractor.jobsearch.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,9 @@ public class ResumeController {
     private final CategoryService categoryService;
     private final UserService userService;
     private final ContactTypeService contactTypeService;
+    private final EducationInfoService educationInfoService;
+    private final ContactInfoService contactInfoService;
+    private final WorkExperienceInfoService workExperienceInfoService;
 
     @GetMapping("/resumes")
     public String listResumes(@RequestParam(defaultValue = "0") int page, Model model) {
@@ -110,22 +114,37 @@ public class ResumeController {
         List<CategoryDto> categories = categoryService.getAllCategories();
         List<ContactTypeDto> contactTypes = contactTypeService.getAllContactTypes();
 
+        List<WorkExperienceInfoDto> workExperienceInfoDtos = workExperienceInfoService.getWorkExperiencesByResumeId(id);
+        List<EducationInfoDto> educationInfoDtos = educationInfoService.getEducationByResumeId(id);
+        List<ContactInfoDto> contactInfoDtos = contactInfoService.getContactsByResumeId(id);
+
         model.addAttribute("resumeDto", resume);
         model.addAttribute("categories", categories);
         model.addAttribute("contactTypes", contactTypes);
+        model.addAttribute("workExperienceInfoDtos", workExperienceInfoDtos);
+        model.addAttribute("educationInfoDtos", educationInfoDtos);
+        model.addAttribute("contactInfoDtos", contactInfoDtos);
+
         return "resume/resumeEdit";
     }
 
     @PostMapping("/resume/edit")
-    public String update(@ModelAttribute ResumeDto resumeDto) {
-        ResumeDto existingResume = resumeService.getResumeById(resumeDto.getId());
+    public String update(@ModelAttribute ResumeEditDto resumeEditDto, Model model) {
+        ResumeDto existingResume = resumeService.getResumeById(resumeEditDto.getResumeDto().getId());
 
-        resumeDto.setCreatedDate(existingResume.getCreatedDate());
-        resumeDto.setUpdateTime(LocalDateTime.now());
+        if (resumeEditDto.getResumeDto().getIsActive() == null) {
+            resumeEditDto.getResumeDto().setIsActive(false);
+        }
 
-        resumeService.updateResume(resumeDto);
+        resumeEditDto.getResumeDto().setName(existingResume.getName());
+        resumeEditDto.getResumeDto().setSalary(existingResume.getSalary());
+        resumeEditDto.getResumeDto().setCreatedDate(existingResume.getCreatedDate());
+        resumeEditDto.getResumeDto().setUpdateTime(LocalDateTime.now());
+        resumeEditDto.getResumeDto().setCategoryId(resumeEditDto.getResumeDto().getCategoryId());
 
-        return "redirect:/resume/info/" + resumeDto.getId();
+        resumeService.updateFullResume(resumeEditDto);
+
+        return "redirect:/resume/info/" + resumeEditDto.getResumeDto().getId();
     }
 
     @PostMapping("/resume/update-time")

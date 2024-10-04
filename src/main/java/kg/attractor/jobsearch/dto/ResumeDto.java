@@ -31,9 +31,8 @@ public class ResumeDto {
     @Size(min = 1, max = 100, message = "Name must be between 1 and 100 characters")
     private String name;
 
-    @NotNull(message = "Category ID cannot be null")
     @Positive(message = "Category ID must be positive")
-    private Integer categoryId;
+    private Long categoryId;
 
     @NotNull(message = "Salary cannot be null")
     @Positive(message = "Salary must be positive")

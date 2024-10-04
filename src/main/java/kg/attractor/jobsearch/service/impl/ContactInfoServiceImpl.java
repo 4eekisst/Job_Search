@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -30,6 +33,23 @@ public class ContactInfoServiceImpl implements ContactInfoService {
     public void updateContactInfo(ContactInfoDto contactInfoDto) {
         ContactInfo contactInfo = mapToContactInfo(contactInfoDto);
         contactInfoRepository.save(contactInfo);
+    }
+
+    @Override
+    public List<ContactInfoDto> getContactsByResumeId(Long resumeId) {
+        List<ContactInfo> contacts = contactInfoRepository.findByResumeId(resumeId);
+        return contacts.stream()
+                .map(this::mapToContactInfoDto)
+                .collect(Collectors.toList());
+    }
+
+    private ContactInfoDto mapToContactInfoDto(ContactInfo info) {
+        return ContactInfoDto.builder()
+                .id(info.getId())
+                .resumeId(info.getResume().getId())
+                .typeId(Math.toIntExact(info.getContactType().getId()))
+                .value(info.getValue())
+                .build();
     }
 
     private ContactInfo mapToContactInfo(ContactInfoDto dto) {
